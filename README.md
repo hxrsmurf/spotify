@@ -1,6 +1,8 @@
 # spotify
 
-This is a basic PowerShell to control Spotify's Player.
+This is a basic PowerShell to control Spotify's Player and get top track/artist report.
+
+The functions...don't work, so keep that in mind.
 
 Load PowerShell:
 
