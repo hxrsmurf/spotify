@@ -1,3 +1,4 @@
 .aws-sam/*
 samconfig.toml
 spotify.py
+manual_spotify.py

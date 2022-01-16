@@ -22,8 +22,7 @@ Outputs:
   Table:
     Value: !Ref DynamoDB
   Topic:
-    Value: !Ref Topic
-  
+    Value: !Ref Topic  
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
@@ -33,11 +32,22 @@ Resources:
       CodeUri: python
       Timeout: 15
       Events:
-        EventBridge:
+        EventBridge1:
             Type: Schedule
             Properties:
-              Schedule: rate(5 minutes)
+              Schedule: rate(3 minutes)
               Enabled: true
+              Name: 'EventBridge'
+        PostAPI:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: POST
+        GetAPI:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: GET
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
@@ -56,6 +66,11 @@ Resources:
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
+          - Effect: Allow
+            Action:
+              - 'events:PutRule'
+            Resource:
+              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
   Topic:
     Type: 'AWS::SNS::Topic'
   Subscription:  
