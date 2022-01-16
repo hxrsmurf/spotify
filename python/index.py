@@ -43,7 +43,7 @@ def handler(event, context):
     
         access_token = authorization.get_refresh_token(refresh_token, client_id, client_secret, refresh_token_parameter)['access_token']
     
-        now_playing = (player.get(access_token))
+        now_playing = (player.get(access_token, topic, client_id, redirect_uri))
     
         if now_playing == 204:
             print('Nothing playing')
