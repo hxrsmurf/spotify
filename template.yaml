@@ -32,7 +32,7 @@ Resources:
       CodeUri: python
       Timeout: 15
       Events:
-        EventBridge1:
+        EventBridge:
             Type: Schedule
             Properties:
               Schedule: rate(3 minutes)

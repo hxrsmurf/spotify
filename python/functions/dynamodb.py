@@ -46,6 +46,21 @@ def put(now_playing, table, current_track_parameter):
                     'Value': {
                         'S': now_playing['albumID']
                     }
+                },
+                'deviceID': {
+                    'Value': {
+                        'S': now_playing['deviceID']
+                    }
+                },
+                'device': {
+                    'Value': {
+                        'S': now_playing['device']
+                    }
+                },
+                'deviceType': {
+                    'Value': {
+                        'S': now_playing['deviceType']
+                    }
                 }
             }
         )

@@ -20,13 +20,18 @@ def get(access_token, topic, client_id, redirect_uri):
             result = requests.get(spotifyUrl, headers=headers)
             result = json.loads(result.content)
             
+            print(result['item']['album']['name'])
+            
             result = {
                 'songID': result['item']['id'],
                 'song' : result['item']['name'],
                 'artist' : result['item']['artists'][0]['name'],
                 'playing' : result['is_playing'],
                 'album' : result['item']['album']['name'],
-                'albumID' : result['item']['album']['id']
+                'albumID' : result['item']['album']['id'],
+                'deviceID': result['device']['id'],
+                'device': result['device']['name'],
+                'deviceType': result['device']['type']
             }
             return(result)
         except:
