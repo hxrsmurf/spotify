@@ -1,6 +1,25 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: This template deploys a basic Spotify Now Playing tracker to DynamoDB.
+Parameters:
+  Email:
+    Type: String
+    Description: Enter the e-mail for error notifications.
+  CallbackURL:
+    Type: String
+    Description: Enter the callback URL
+Outputs:
+  ClientID:
+    Value: !Ref ParameterSpotifyClientID
+  ClientSecret:
+    Value: !Ref ParameterSpotifyClientSecret
+  RefreshToken:
+    Value: !Ref ParameterSpotifyRefreshToken
+  RedirectUri:
+    Value: !Ref ParameterRedirectUri
+  CurrentTrack:
+    Value: !Ref ParameterCurrentTrack
+  
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
@@ -9,5 +28,72 @@ Resources:
       Runtime: python3.7
       CodeUri: python
       Timeout: 15
+      Events:
+        EventBridge:
+            Type: Schedule
+            Properties:
+              Schedule: rate(5 minutes)
+              Enabled: false
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDB
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt Topic.TopicName
+        - CloudFormationDescribeStacksPolicy: {}
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'              
+            Resource:
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientID}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterRedirectUri}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
   Topic:
     Type: 'AWS::SNS::Topic'
+  Subscription:  
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref Email
+      Protocol: email
+      TopicArn: !Ref Topic
+  DynamoDB:
+    Type: 'AWS::Serverless::SimpleTable'
+  ParameterSpotifyClientID:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Client ID
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterSpotifyClientSecret:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Secret
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterSpotifyRefreshToken:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Refresh Token
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterRedirectUri:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Redirect Uri
+      Tier: Standard
+      Type: String
+      Value: !Ref CallbackURL
+  ParameterCurrentTrack:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Current Track ID
+      Tier: Standard
+      Type: String
+      Value: None
