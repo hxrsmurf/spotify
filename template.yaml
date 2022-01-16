@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: This template deploys a basic Spotify Now Playing tracker to DynamoDB.
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.7
+      CodeUri: python
+      Timeout: 15
+  Topic:
+    Type: 'AWS::SNS::Topic'
