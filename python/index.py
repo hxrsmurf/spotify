@@ -13,8 +13,6 @@ import functions.eventbridge as eventbridge
 import base64
 
 def handler(event, context):
-    print(event)
-     
     # Not sure why I have to do this, but whatever.
     event = json.dumps(event)
     event = json.loads(event)
@@ -27,9 +25,7 @@ def handler(event, context):
         
     if api_method == 'POST /':
         event_body = str((base64.b64decode(event['body'])), "utf-8")
-
-        eventbridge.update(event_body)
-        
+        eventbridge.update(event_body)        
         return {
             'statusCode' : 200,
             'body' : event_body

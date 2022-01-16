@@ -7,30 +7,36 @@ def put(now_playing, table, current_track_parameter):
     dt = datetime.now()
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
 
-    client = boto3.client('dynamodb')
-    response = client.update_item(
-        TableName=table,
-        Key={
-            'id': {
-                'S': timestamp
-            }
-        },
-        AttributeUpdates={
-            'songID': {
-                'Value': {
-                    'S': now_playing['songID']
+    recent_track = ssm.get(current_track_parameter)
+    
+    # This obviously doesn't track if a song is on repeat. But oh well.
+    if recent_track == now_playing['songID']:
+        print('Already in SSM/DynamoDB')
+    else:
+        client = boto3.client('dynamodb')
+        response = client.update_item(
+            TableName=table,
+            Key={
+                'id': {
+                    'S': timestamp
                 }
             },
-            'song': {
-                'Value': {
-                    'S': now_playing['song']
-                }
-            },
-            'artist': {
-                'Value': {
-                    'S': now_playing['artist']
+            AttributeUpdates={
+                'songID': {
+                    'Value': {
+                        'S': now_playing['songID']
+                    }
+                },
+                'song': {
+                    'Value': {
+                        'S': now_playing['song']
+                    }
+                },
+                'artist': {
+                    'Value': {
+                        'S': now_playing['artist']
+                    }
                 }
             }
-        }
-    )
-    ssm.put(current_track_parameter, now_playing['songID'])
+        )
+        ssm.put(current_track_parameter, now_playing['songID'])

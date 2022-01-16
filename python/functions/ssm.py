@@ -2,19 +2,15 @@ import boto3
 # This updates the SSM Parameter for Refresh Token. Spotify says we might get a new one.
 
 def put(parameter, value):
-    ssm_client = boto3.client('ssm')
-
-    if get(parameter) == value:
-        print('Already in SSM')
-        return
-    else: 
-        ssm_client.put_parameter(
-            Name=parameter,
-            Value=value,
-            Tier='Standard',
-            Overwrite=True
-        )
-        
+    ssm_client = boto3.client('ssm')    
+    
+    ssm_client.put_parameter(
+        Name=parameter,
+        Value=value,
+        Tier='Standard',
+        Overwrite=True
+    )
+    
     print('Successfully saved to SSM')
     return('Successfully saved to SSM')
     
