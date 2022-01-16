@@ -222,7 +222,6 @@ Resources:
                       return(message)                      
                 else:
                       notify('There was an error')
-                      notify(message)
   LogGroup:
     Type: 'AWS::Logs::LogGroup'    
     Properties:

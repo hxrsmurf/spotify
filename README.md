@@ -24,7 +24,7 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 3. Confirm your e-mail (SNS Subscription)
 4. Complete
 
-# Guides I used:
+## Guides I used:
 - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html
 - https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
 - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
