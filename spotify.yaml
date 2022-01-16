@@ -1,0 +1,407 @@
+Description: This template deploys a basic Spotify Now Playing tracker to DynamoDB.
+Parameters:
+  Email:
+    Type: String
+    Description: Enter the e-mail for error notifications.
+Resources:
+  Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: SpotifyNowPlaying
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+                - events.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+  Lambda:
+    Type: 'AWS::Lambda::Function'
+    DependsOn:
+      - DynamoDB
+      - Role
+      - Topic
+    Properties:
+      Runtime: python3.9
+      Role: !GetAtt 
+        - Role
+        - Arn
+      Handler: index.handler
+      Timeout: 15
+      Code:
+        ZipFile: !Sub |
+            import os
+            import boto3
+            from datetime import datetime
+            import json
+            from requests.auth import HTTPBasicAuth
+            import requests
+
+            def handler(event, context):               
+                
+                # This updates the SSM Parameter for Refresh Token. Spotify says we might get a new one.
+                def putSSMParameter(parameter, value):
+                    ssm_client = boto3.client('ssm')
+                    put_parameter = ssm_client.put_parameter(
+                        Name=parameter,
+                        Value=value,
+                        Tier='Standard',
+                        Overwrite=True
+                        )
+                    
+                # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html
+                def getSSMParameter(parameter):
+                    ssm_client = boto3.client('ssm')
+                    result = ssm_client.get_parameter(
+                        Name=parameter
+                    )['Parameter']['Value']
+                    
+                    return(result)
+                
+                # This gets the URL the user has to input and returns a code.
+                def getAuthorization(client_id):
+                    baseSpotifyURL = 'https://accounts.spotify.com/authorize?'
+                    response_type = "response_type=code"
+                    
+                    scope = 'scope=' + 'user-read-private user-read-email playlist-read-private user-top-read playlist-modify-public user-read-currently-playing user-read-recently-played playlist-read-collaborative playlist-modify-private user-read-playback-position user-library-read user-follow-read user-follow-modify user-modify-playback-state user-read-playback-state'
+                    state = 'state=state'                    
+
+                    client_id_string = 'client_id=' + client_id
+                    redirect_string = 'redirect_uri=' + redirect_uri
+                    
+                    spotifyURL = baseSpotifyURL + response_type + '&' + client_id_string + '&' + scope + '&' + redirect_string + '&' + state
+                
+                    return(spotifyURL)
+                
+                # This accepts the user's code and gives an access token and refresh token.
+                def getAccessToken(code):
+                    baseSpotifyURL = 'https://accounts.spotify.com/api/token'
+                
+                    basic = HTTPBasicAuth(client_id, client_secret)
+                
+                    data = {
+                        'code': code,
+                        'redirect_uri': redirect_uri,
+                        'grant_type': 'authorization_code'
+                    }
+                    
+                    result = requests.post(baseSpotifyURL, auth=basic, data=data)
+                    print(result.content)
+                
+                # This accepts a refresh token and gives another access token and refresh token (if available).
+                # https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
+                def getRefreshToken(refresh_token):
+                    baseSpotifyURL = 'https://accounts.spotify.com/api/token'
+                    basic = HTTPBasicAuth(client_id, client_secret)
+                
+                    data = {        
+                        'refresh_token': refresh_token,
+                        'grant_type': 'refresh_token'
+                    }
+                
+                    result = requests.post(baseSpotifyURL, auth=basic, data=data)
+                    result = json.loads(result.content)
+                
+                    access_token = result['access_token']
+                    token_type = result['token_type']
+                
+                    try:
+                        refresh_token = result['refresh_token']
+                        putSSMParameter('${ParameterSpotifyRefreshToken}', refresh_token)
+                        
+                    except:
+                        refresh_token = refresh_token
+                        print('No refresh token')
+                        
+                    result = {
+                        'access_token' : access_token,
+                        'refresh_token' : refresh_token,
+                        'token_type': token_type
+                    }
+                    
+                    return(result)
+                
+                # https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
+                def getPlayer(access_token):
+                    spotifyUrl =  'https://api.spotify.com/v1/me/player'    
+                    headers = {"Authorization": "Bearer " + str(access_token)}
+                    try:
+                        result = requests.get(spotifyUrl, headers=headers)
+                        result = json.loads(result.content)
+                        
+                        result = {
+                            'songID': result['item']['id'],
+                            'song' : result['item']['name'],
+                            'artist' : result['item']['artists'][0]['name'],
+                            'playing' : result['is_playing']
+                        }
+                        return(result)
+                    except:
+                        print('Nothing playing')
+                        return(None)
+                
+                # Notifies me via SNS if something goes bad.
+                def notify(message):
+                    sns_client = boto3.client('sns')
+                    sns_arn = '${Topic}'
+                    
+                    authURL = getAuthorization(client_id)
+                    body = str(message) + authURL
+                    
+                    snsPublish = sns_client.publish(
+                                    TargetArn=sns_arn,
+                                    Message=body,
+                                    Subject="AWS Spotify Tracker"
+                                )
+                
+                # getAuthorization()
+                # getAccessToken(code)
+                    
+                # Set Authentication Variables
+                client_id = getSSMParameter('${ParameterSpotifyClientID}')
+                client_secret = getSSMParameter('${ParameterSpotifyClientSecret}')
+                refresh_token = getSSMParameter('${ParameterSpotifyRefreshToken}')
+                redirect_uri = getSSMParameter('${ParameterRedirectUri}')
+                
+                # Set timestamp as 2022-01-10 18:59:00:00
+                dt = datetime.now()
+                timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
+                
+                try:
+                    access_token = getRefreshToken(refresh_token)['access_token']
+                except:
+                    notify('The tracker is not running. You may need to click: ')
+                    message = 'No access token'
+                    print(message)
+                    return(message)
+                
+                nowPlaying = getPlayer(access_token)
+
+                currentTrack = getSSMParameter('${ParameterCurrentTrack}')
+                
+                if nowPlaying:
+                    if currentTrack == nowPlaying['songID']:
+                      print('We already recorded this. ' + currentTrack)
+                    else:
+                      client = boto3.client('dynamodb')
+                      response = client.update_item(
+                          TableName='${DynamoDB}',
+                          Key={
+                              'Timestamp': {
+                                  'S': timestamp
+                              }
+                          },
+                          AttributeUpdates={
+                              'songID': {
+                                  'Value': {
+                                      'S': nowPlaying['songID']
+                                  }
+                              },
+                              'song': {
+                                  'Value': {
+                                      'S': nowPlaying['song']
+                                  }
+                              },
+                              'artist': {
+                                  'Value': {
+                                      'S': nowPlaying['artist']
+                                  }
+                              }
+                          }
+                      )
+                      
+                      # Record the currently / recent track. Obviously doesn't detect if a song is on repeat.
+                      putSSMParameter('${ParameterCurrentTrack}', nowPlaying['songID'])
+
+                      message = nowPlaying
+                      # notify(message)
+                      print(message)
+                      return(message)                      
+                else:
+                      notify('There was an error')
+                      notify(message)
+  LogGroup:
+    Type: 'AWS::Logs::LogGroup'    
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${Lambda}'
+      RetentionInDays: 3
+    DependsOn:
+      - Lambda
+  PolicyCloudWatch:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: !Join 
+        - ''
+        - - CloudWatch-
+          - !Ref Lambda
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'logs:*'
+            Resource: !GetAtt 
+              - LogGroup
+              - Arn
+      Roles:
+        - !Ref Role
+    DependsOn:
+      - Role
+  PolicyDynamoDB:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: !Join 
+        - ''
+        - - dynamoDB-
+          - !Ref Lambda
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'dynamodb:*'
+            Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoDB}
+      Roles:
+        - !Ref Role
+    DependsOn:
+      - Role
+  PolicyParameterStore:
+    Type: 'AWS::IAM::Policy'
+    DependsOn:
+      - ParameterSpotifyClientID
+      - ParameterSpotifyClientSecret
+      - ParameterSpotifyRefreshToken
+      - ParameterRedirectUri
+      - ParameterCurrentTrack
+    Properties:
+      PolicyName: !Join 
+        - ''
+        - - ParameterStore-
+          - !Ref Lambda
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - 'ssm:PutParameter'
+              - 'ssm:GetParameters'              
+              - 'ssm:GetParameter'
+            Resource: 
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientID}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterRedirectUri}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
+      Roles:
+        - !Ref Role
+    DependsOn:
+      - Role
+  PolicySNSTopic:
+    Type: 'AWS::IAM::Policy'
+    DependsOn:
+      - Topic
+    Properties:
+      PolicyName: !Join 
+        - ''
+        - - PublishSNS
+          - !Ref Lambda
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'sns:*'
+            Resource: !Ref Topic
+      Roles:
+        - !Ref Role
+  PolicyInvokeLambda:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: !Join 
+        - ''
+        - - EventBridge
+          - !Ref Lambda
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'lambda:InvokeFunction'
+            Resource: !GetAtt Lambda.Arn
+      Roles:
+        - !Ref Role
+  DynamoDB:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: Timestamp
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Timestamp
+          KeyType: HASH
+  ParameterSpotifyClientID:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Client ID
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterSpotifyClientSecret:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Secret
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterSpotifyRefreshToken:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Refresh Token
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterRedirectUri:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Redirect Uri
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterCurrentTrack:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Current Track ID
+      Tier: Standard
+      Type: String
+      Value: None
+  Topic:
+    Type: 'AWS::SNS::Topic'
+    Properties: {}
+  Subscription:  
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref Email
+      Protocol: email
+      TopicArn: !Ref Topic
+    DependsOn:
+      - Topic
+  EventRule:
+    Type: AWS::Events::Rule
+    DependsOn:
+      - Lambda
+    Properties: 
+      Description: This triggers the Lambda to check Spotify Web Player.
+      ScheduleExpression: rate(5 minutes)
+      RoleArn: !GetAtt Role.Arn
+      State: ENABLED
+      Targets: 
+        - Arn: !GetAtt Lambda.Arn
+          Id: EventRule
