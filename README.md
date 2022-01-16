@@ -12,20 +12,19 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 - IAM Role and relevant Policies so this can function (Lambda, CloudWatch, SSM, and SNS)
 - SNS Topic/Subscription for any issues (haven't had my refresh token expire yet, so who knows)
 
-You'll need to get a the Refresh Token manually for now.
-Manual Steps Required:
+## Manual Steps Required:
 
 1. Get Spotify Refresh Token (get the URL w/ client id, get the token, get your first auth token)
 2. Upload Requests Lambda Layer
 
-Procedure for CFT Deployment:
+## Procedure for CFT Deployment:
 
 1. Update the Systems Manager Parameters with the appropriate client ID, client secret, and refresh token
 2. Launch the Stack in AWS CloudFormation
 3. Confirm your e-mail (SNS Subscription)
 4. Complete
 
-Guides I used:
+# Guides I used:
 - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html
 - https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
 - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
