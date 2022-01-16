@@ -128,20 +128,24 @@ Resources:
                 def getPlayer(access_token):
                     spotifyUrl =  'https://api.spotify.com/v1/me/player'    
                     headers = {"Authorization": "Bearer " + str(access_token)}
-                    try:
-                        result = requests.get(spotifyUrl, headers=headers)
-                        result = json.loads(result.content)
-                        
-                        result = {
-                            'songID': result['item']['id'],
-                            'song' : result['item']['name'],
-                            'artist' : result['item']['artists'][0]['name'],
-                            'playing' : result['is_playing']
-                        }
-                        return(result)
-                    except:
-                        print('Nothing playing')
-                        return(None)
+                    result = requests.get(spotifyUrl, headers=headers)
+
+                    if result.status_code == 204:
+                        return(204)
+                    elif result.status_code == 200:
+                        try:
+                            result = requests.get(spotifyUrl, headers=headers)
+                            result = json.loads(result.content)
+                            
+                            result = {
+                                'songID': result['item']['id'],
+                                'song' : result['item']['name'],
+                                'artist' : result['item']['artists'][0]['name'],
+                                'playing' : result['is_playing']
+                            }
+                            return(result)
+                        except:
+                            return(None)
                 
                 # Notifies me via SNS if something goes bad.
                 def notify(message):
@@ -221,7 +225,9 @@ Resources:
                       print(message)
                       return(message)                      
                 else:
-                      notify('There was an error')
+                      message = 'There is a huge error.'
+                      print(message)
+                      notify(message)
   LogGroup:
     Type: 'AWS::Logs::LogGroup'    
     Properties:
