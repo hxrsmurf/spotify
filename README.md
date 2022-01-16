@@ -17,17 +17,22 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 1. Get Spotify Refresh Token (get the URL w/ client id, get the token, get your first auth token)
 2. Upload Requests Lambda Layer
 
-## Procedure for CFT Deployment:
+## Procedure for CFT Deployment (switched to AWS SAM):
 
 1. Update the Systems Manager Parameters with the appropriate client ID, client secret, and refresh token
 2. Launch the Stack in AWS CloudFormation
 3. Confirm your e-mail (SNS Subscription)
 4. Complete
 
+## Procedure for SAM
+- Install AWS SAM
+- sam build && sam deploy --guided
+
 ## Guides I used:
 - https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html
 - https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
 - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
+- https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
 
 # spotify (PowerShell)
 
