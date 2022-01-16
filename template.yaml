@@ -16,9 +16,13 @@ Outputs:
   RefreshToken:
     Value: !Ref ParameterSpotifyRefreshToken
   RedirectUri:
-    Value: !Ref ParameterRedirectUri
+    Value: !Ref CallbackURL
   CurrentTrack:
     Value: !Ref ParameterCurrentTrack
+  Table:
+    Value: !Ref DynamoDB
+  Topic:
+    Value: !Ref Topic
   
 Resources:
   Lambda:
@@ -33,7 +37,7 @@ Resources:
             Type: Schedule
             Properties:
               Schedule: rate(5 minutes)
-              Enabled: false
+              Enabled: true
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
@@ -45,12 +49,12 @@ Resources:
             Action:
               - 'ssm:DescribeParameters'
               - 'ssm:GetParameters'
-              - 'ssm:GetParameter'              
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
             Resource:
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientID}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterRedirectUri}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
   Topic:
     Type: 'AWS::SNS::Topic'
@@ -83,13 +87,6 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
-  ParameterRedirectUri:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Redirect Uri
-      Tier: Standard
-      Type: String
-      Value: !Ref CallbackURL
   ParameterCurrentTrack:
     Type: AWS::SSM::Parameter
     Properties:
