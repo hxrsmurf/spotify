@@ -4,3 +4,4 @@ spotify.py
 manual_spotify.py
 *.json
 *.txt
+*.ods
