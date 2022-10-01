@@ -2,6 +2,7 @@ import boto3
 import os
 
 def handler(event, context):
+    list_of_tracks = []
     table = os.environ['DynamoDBTable']
     print(f'Accessing {table}')
 
@@ -25,6 +26,9 @@ def handler(event, context):
             device = result['device']['S']
             id = result['id']['S']
             album_id = result['albumID']['S']
-            print (album, artist, song_id, device_id, device_type, device, id, album_id)
+            total_result = album, artist, song_id, device_id, device_type, device, id, album_id
+            list_of_tracks.append(total_result)
+            print(total_result)
         except:
             print(result)
+    #print(list_of_tracks)
