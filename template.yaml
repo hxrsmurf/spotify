@@ -117,6 +117,9 @@ Resources:
       Runtime: python3.9
       CodeUri: dynamodb-report
       Timeout: 5
+      Environment:
+        Variables:
+          DynamoDBTable: !Ref DynamoDB
       Events:
         EventBridge:
             Type: Schedule

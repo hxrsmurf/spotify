@@ -1,4 +1,6 @@
 import boto3
+import os
 
 def handler(event, context):
-    print('Hello World')
+    table = os.environ['DynamoDBTable']
+    print(f'Accessing {table}')
