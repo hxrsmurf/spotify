@@ -2,3 +2,5 @@
 samconfig.toml
 spotify.py
 manual_spotify.py
+*.json
+*.txt
