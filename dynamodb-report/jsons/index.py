@@ -22,9 +22,9 @@ for file in files:
                             device = result['Item']['device']['S']
                             id = result['Item']['id']['S']
                             album_id = result['Item']['albumID']['S']
-                            total_result = album, artist, song_id, device_id, device_type, device, id, album_id
+                            total_result = f'{album}; {artist}; {song_id}; {device_id}; {device_type}; {device}; {id}; {album_id}'
                             print(total_result)
-                            with open('output.txt', 'a') as output:
+                            with open('output2.txt', 'a') as output:
                                 output.write(f'{total_result}\n')
 
                         except Exception as e:
