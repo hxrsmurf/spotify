@@ -7,7 +7,6 @@ def put(now_playing, table, current_track_parameter):
     dt = datetime.now()
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
     epoch_time = dt.timestamp()
-    print(epoch_time)
 
     recent_track = ssm.get(current_track_parameter)
 
@@ -63,6 +62,11 @@ def put(now_playing, table, current_track_parameter):
                 'deviceType': {
                     'Value': {
                         'S': now_playing['deviceType']
+                    }
+                },
+                'epochTime': {
+                    'Value': {
+                        'N': str(epoch_time)
                     }
                 }
             }
