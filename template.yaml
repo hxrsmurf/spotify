@@ -22,13 +22,13 @@ Outputs:
   Table:
     Value: !Ref DynamoDB
   Topic:
-    Value: !Ref Topic  
+    Value: !Ref Topic
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
-      Runtime: python3.7
+      Runtime: python3.9
       CodeUri: python
       Timeout: 15
       Events:
@@ -73,7 +73,7 @@ Resources:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
   Topic:
     Type: 'AWS::SNS::Topic'
-  Subscription:  
+  Subscription:
     Type: AWS::SNS::Subscription
     Properties:
       Endpoint: !Ref Email
