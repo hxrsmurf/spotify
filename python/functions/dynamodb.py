@@ -11,7 +11,6 @@ def put(now_playing, table, current_track_parameter):
 
     play_state = now_playing['playing']
 
-    # This obviously doesn't track if a song is on repeat. But oh well.
     if not play_state:
         print(f'Play state is {play_state}')
     else:
