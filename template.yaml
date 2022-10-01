@@ -109,3 +109,21 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
+  LambdaReport:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: dynamodb-report
+      Timeout: 5
+      Events:
+        EventBridge:
+            Type: Schedule
+            Properties:
+              Schedule: rate(3 minutes)
+              Enabled: false
+              Name: 'EventBridgeReport'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDB
