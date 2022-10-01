@@ -22,7 +22,7 @@ Outputs:
   Table:
     Value: !Ref DynamoDB
   Topic:
-    Value: !Ref Topic  
+    Value: !Ref Topic
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
@@ -73,7 +73,7 @@ Resources:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
   Topic:
     Type: 'AWS::SNS::Topic'
-  Subscription:  
+  Subscription:
     Type: AWS::SNS::Subscription
     Properties:
       Endpoint: !Ref Email
@@ -109,3 +109,24 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
+  LambdaReport:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: dynamodb-report
+      Timeout: 5
+      Environment:
+        Variables:
+          DynamoDBTable: !Ref DynamoDB
+      Events:
+        EventBridge:
+            Type: Schedule
+            Properties:
+              Schedule: rate(3 minutes)
+              Enabled: false
+              Name: 'EventBridgeReport'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDB
