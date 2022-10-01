@@ -7,10 +7,13 @@ def handler(event, context):
 
     client = boto3.client('dynamodb')
     response = client.scan(
-        TableName=table,
-        Limit=1
+        TableName=table
     )
     results = response['Items']
+    if 'LastEvaluatedKey' in response:
+        last_key = response['LastEvaluatedKey']
+        print(last_key)
+
     print ('album', 'artist', 'song_id', 'device_id', 'device_type', 'device', 'id', 'album_id')
     for result in results:
         album = result['album']['S']
