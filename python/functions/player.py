@@ -5,7 +5,7 @@ import functions.notify as notify
 
 # https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
 def get(access_token, topic, client_id, redirect_uri):
-    spotifyUrl =  'https://api.spotify.com/v1/me/player'    
+    spotifyUrl =  'https://api.spotify.com/v1/me/player'
     headers = {"Authorization": "Bearer " + str(access_token)}
     result = requests.get(spotifyUrl, headers=headers)
 
@@ -19,9 +19,9 @@ def get(access_token, topic, client_id, redirect_uri):
         try:
             result = requests.get(spotifyUrl, headers=headers)
             result = json.loads(result.content)
-            
+
             print(result['item']['album']['name'])
-            
+
             result = {
                 'songID': result['item']['id'],
                 'song' : result['item']['name'],

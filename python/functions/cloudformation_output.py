@@ -18,13 +18,13 @@ def parameters(output_keys):
             table = output['OutputValue']
         elif output['OutputKey'] == 'Topic':
             topic = output['OutputValue']
-    
+
     # This returns the CFT's Output, which can contain the SSM Parameter ARN or the actual Resource ARN.
     return refresh_token, client_secret, client_id, redirect_uri, current_track, table, topic
 
 def get(output_keys):
     refresh_token_parameter, client_secret_parameter, client_id_parameter, redirect_uri, current_track_parameter, table, topic = parameters(output_keys)
-    
+
     refresh_token = ssm.get(refresh_token_parameter)
     refresh_token_parameter = refresh_token_parameter
     client_secret = ssm.get(client_secret_parameter)
