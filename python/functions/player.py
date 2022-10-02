@@ -45,7 +45,8 @@ def get(access_token, topic, client_id, redirect_uri):
                 'device': result['device']['name'],
                 'deviceType': result['device']['type'],
                 'contextType' : result_context_type,
-                'contextUri' : result_context_uri
+                'contextUri' : result_context_uri,
+                'trackDuration' : track_total_duration
             }
             return(result)
         except:
