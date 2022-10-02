@@ -22,6 +22,12 @@ def get(access_token, topic, client_id, redirect_uri):
 
             print(result['item']['album']['name'])
 
+            try:
+                result_context_type = result['context']['type']
+                result_context_uri = result['context']['uri']
+            except:
+                pass
+
             result = {
                 'songID': result['item']['id'],
                 'song' : result['item']['name'],
@@ -31,7 +37,9 @@ def get(access_token, topic, client_id, redirect_uri):
                 'albumID' : result['item']['album']['id'],
                 'deviceID': result['device']['id'],
                 'device': result['device']['name'],
-                'deviceType': result['device']['type']
+                'deviceType': result['device']['type'],
+                'contextType' : result_context_type,
+                'contextUri' : result_context_uri
             }
             return(result)
         except:
