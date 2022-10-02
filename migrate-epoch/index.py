@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 from functions.dynamodb import put
+from functions.sns import send_notfication
 
 def handler(event, context):
     table = os.environ['DynamoDBTable']
@@ -23,3 +24,5 @@ def handler(event, context):
             epoch_time = (datetime_object).timestamp()
 
             put(id, epoch_time)
+
+    send_notfication()
