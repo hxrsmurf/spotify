@@ -130,3 +130,30 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
+
+  LambdaMigrateEpoch:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: migrate-epoch
+      Timeout: 840
+      Environment:
+        Variables:
+          DynamoDBTable: !Ref DynamoDB
+          Topic: !Ref TopicMigrateEpoch
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDB
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt TopicMigrateEpoch.TopicName
+
+  TopicMigrateEpoch:
+    Type: 'AWS::SNS::Topic'
+
+  SubscriptionMigrateEpoch:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref Email
+      Protocol: email
+      TopicArn: !Ref TopicMigrateEpoch
