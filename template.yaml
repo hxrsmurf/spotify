@@ -137,7 +137,7 @@ Resources:
       Handler: index.handler
       Runtime: python3.9
       CodeUri: migrate-epoch
-      Timeout: 5
+      Timeout: 300
       Environment:
         Variables:
           DynamoDBTable: !Ref DynamoDB
