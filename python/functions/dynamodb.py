@@ -72,6 +72,16 @@ def put(now_playing, table, current_track_parameter):
                     'Value': {
                         'N': str(epoch_time)
                     }
+                },
+                'contextType': {
+                    'Value': {
+                        'S': now_playing['contextType']
+                    }
+                },
+                'contextUri': {
+                    'Value': {
+                        'S': now_playing['contextUri']
+                    }
                 }
             }
         )
