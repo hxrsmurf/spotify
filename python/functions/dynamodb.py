@@ -85,7 +85,7 @@ def put(now_playing, table, current_track_parameter):
                 },
                 'trackDurationMS': {
                     'Value': {
-                        'N': now_playing['trackDuration']
+                        'N': str(now_playing['trackDuration'])
                     }
                 }
             }
