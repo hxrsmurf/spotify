@@ -83,7 +83,7 @@ def put(now_playing, table, current_track_parameter):
                         'S': now_playing['contextUri']
                     }
                 },
-                'trackDuration': {
+                'trackDurationMS': {
                     'Value': {
                         'N': now_playing['trackDuration']
                     }
