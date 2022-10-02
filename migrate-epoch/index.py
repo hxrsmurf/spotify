@@ -1,15 +1,15 @@
 import boto3
 import os
+from datetime import datetime
 
 def handler(event, context):
-    list_of_tracks = []
     table = os.environ['DynamoDBTable']
     print(f'Accessing {table}')
 
     client = boto3.client('dynamodb')
     response = client.scan(
         TableName=table,
-        Limit=5
+        Limit=1
     )
     results = response['Items']
     if 'LastEvaluatedKey' in response:
@@ -18,6 +18,11 @@ def handler(event, context):
 
     print ('album', 'artist', 'song_id', 'device_id', 'device_type', 'device', 'id', 'album_id')
     for result in results:
+        if 'id' in result:
+            id = result['id']['S']
+            datetime_object = datetime.strptime(id, '%Y-%m-%d, %H:%M:%S:%f')
+            epoch_time = (datetime_object).timestamp()
+
         try:
             album = result['album']['S']
             artist = result['artist']['S']
@@ -32,4 +37,3 @@ def handler(event, context):
             print(total_result)
         except:
             print(result)
-    #print(list_of_tracks)
