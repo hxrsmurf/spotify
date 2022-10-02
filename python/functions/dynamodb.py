@@ -8,6 +8,10 @@ def put(now_playing, table, current_track_parameter):
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
     epoch_time = dt.timestamp()
 
+    # Allows for cleaning up the database
+    print(f'Timestamp: {timestamp}')
+    print(f'epoch_time: {epoch_time}')
+
     recent_track = ssm.get(current_track_parameter)
 
     play_state = now_playing['playing']
