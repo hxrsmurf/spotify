@@ -3,8 +3,8 @@ from datetime import datetime
 import functions.ssm as ssm
 
 def put(now_playing, table, current_track_parameter):
-    # Set timestamp as 2022-01-10 18:59:00:00
-    dt = datetime.now()
+    # Some ids will be eastern and some will be UTC
+    dt = datetime.utcnow()
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
     epoch_time = dt.timestamp()
 
