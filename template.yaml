@@ -130,3 +130,17 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
+
+  LambdaMigrateEpoch:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: migrate-epoch
+      Timeout: 5
+      Environment:
+        Variables:
+          DynamoDBTable: !Ref DynamoDB
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDB
