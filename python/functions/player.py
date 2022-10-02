@@ -28,6 +28,12 @@ def get(access_token, topic, client_id, redirect_uri):
             except:
                 pass
 
+            track_progress = result['progress_ms']
+            track_total_duration = result['item']['duration_ms']
+
+            # If track was paused, don't re-record
+            track_percentage_played = round((track_progress / track_total_duration) * 100)
+
             result = {
                 'songID': result['item']['id'],
                 'song' : result['item']['name'],
