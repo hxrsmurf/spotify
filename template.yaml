@@ -141,6 +141,19 @@ Resources:
       Environment:
         Variables:
           DynamoDBTable: !Ref DynamoDB
+          Topic: !Ref TopicMigrateEpoch
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt TopicMigrateEpoch.TopicName
+
+  TopicMigrateEpoch:
+    Type: 'AWS::SNS::Topic'
+
+  SubscriptionMigrateEpoch:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref Email
+      Protocol: email
+      TopicArn: !Ref Topic
