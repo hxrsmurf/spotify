@@ -20,12 +20,20 @@ def plotty(group, type):
     f.set_figwidth(20)
     f.set_figheight(10)
 
-    group.plot.bar(x=type, y='file', title=f'Top 2022 {type}', rot=0, width=.5)
+    if type == 'artist_name':
+        title_label = 'Artists'
+    elif type == 'track_name':
+        title_label = 'Tracks'
+    else:
+        title_label = 'Something'
+
+    group.plot.bar(x=type, y='file', title=f'Top 10 {title_label} of 2022 (Updated)', rot=0, width=.5)
 
     for i in range(10):
         plot.text(x=i - .1, y=group[i] + 2, s=group[i], color='black', fontweight='bold')
 
     plot.show()
+    f.savefig(f'{type}.png')
 
 df = pd.read_csv(r'output7.csv', sep=';')
 df = df[df['year'] == 2022]
