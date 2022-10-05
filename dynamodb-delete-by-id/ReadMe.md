@@ -1,7 +1,7 @@
 # Procedure
 
 1. Create new Exports to S3
-2. Download the file
+2. Download the file and open in Excel/LibreCalc
 3. Look for the duration in milliseconds between previous entry to current entry. Divide that by the current entry's `trackDurationMS`.
 4. Do a `=` of that duration between current entry vs. previous entry. If True, highlight
 5. Do a `=` of current entry vs. previous entry `songID` and/or `song`. If True, highlight
