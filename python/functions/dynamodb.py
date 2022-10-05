@@ -10,13 +10,14 @@ def put(now_playing, table, current_track_parameter):
     dt = datetime.utcnow()
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
     epoch_time = dt.timestamp()
+    PreviousEntryEpochTime = os.environ['PreviousEntryEpochTime']
 
     # Allows for cleaning up the database
     print(f'Timestamp: {timestamp}')
     print(f'epoch_time: {epoch_time}')
 
     recent_track = ssm.get(current_track_parameter)
-    recent_entry = ssm.get(os.environ['PreviousEntryEpochTime'])
+    recent_entry = ssm.get(PreviousEntryEpochTime)
     print(f'Recent Epoch_Time {recent_entry}')
 
     play_state = now_playing['playing']
@@ -24,6 +25,9 @@ def put(now_playing, table, current_track_parameter):
     if not play_state:
         print(f'Play state is {play_state}')
     else:
+        ssm.put(parameter=current_track_parameter, value=now_playing['songID'])
+        ssm.put(parameter=PreviousEntryEpochTime,value=epoch_time)
+
         client = boto3.client('dynamodb')
         response = client.update_item(
             TableName=table,
@@ -95,4 +99,3 @@ def put(now_playing, table, current_track_parameter):
                 }
             }
         )
-        ssm.put(current_track_parameter, now_playing['songID'])
