@@ -11,8 +11,9 @@ def put(parameter, value):
         Overwrite=True
     )
 
-    print('Successfully saved to SSM')
-    return('Successfully saved to SSM')
+    message = f'Successfully {value} saved to SSM'
+    print(message)
+    return(message)
 
 # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html
 def get(parameter):
