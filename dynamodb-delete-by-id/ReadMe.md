@@ -8,7 +8,9 @@
 
 # Duplicate and Not Repeating Track
 
-That procedure *generally* detects if the track was on repeat or it was resumed. I've updated the EventBridge to run every minute. So, there will for sure be more duplicates.
+That procedure *generally* detects if the track was on repeat or it was resumed.
+
+I've updated the EventBridge to run every minute. So, there will for sure be more duplicates.
 
 From what I've seen, the % elapsed (duration since last entry vs. the total track's duration) is lower than the previous, then there was probably a repeat. Otherwise, it was a resume or re-scanned and re-entered too quickly.
 
@@ -27,3 +29,8 @@ For example, since the `Duration Elapsed` is the same, this is *most likely* a r
 |------------------|------------------------|-------|-----------------|
 | 71.8             | 1x80xTzSL7pok3M5JC3oJz | human | Christina Perri |
 | 71.8             | 1x80xTzSL7pok3M5JC3oJz | human | Christina Perri |
+
+# To Do
+
+1. Figure out how to do this in Pandas
+2. Figure out how to detect this better -- Automatic may not be the greatest because we *could* lose data if the logic isn't `100%`
