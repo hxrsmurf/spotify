@@ -13,6 +13,7 @@ def put(now_playing, table, current_track_parameter):
     PreviousEntryEpochTime = os.environ['PreviousEntryEpochTime']
     now_playing_track = now_playing['songID']
     now_playing_track_duration = now_playing['trackDuration']
+    possible_duplicate = False
 
     # Allows for cleaning up the database
     print(f'Timestamp: {timestamp}')
@@ -27,6 +28,7 @@ def put(now_playing, table, current_track_parameter):
     if now_playing_track == recent_track:
         print(f'This track may already be recorded: {now_playing["songID"]}')
         difference_between_last_and_track_duration = (duration_since_last_entry_ms / now_playing_track_duration) * 100
+        possible_duplicate = True
 
     play_state = now_playing['playing']
 
@@ -103,6 +105,11 @@ def put(now_playing, table, current_track_parameter):
                 'trackDurationMS': {
                     'Value': {
                         'N': str(now_playing['trackDuration'])
+                    }
+                },
+                'possibleDuplicate': {
+                    'Value': {
+                        'BOOL': possible_duplicate
                     }
                 }
             }
