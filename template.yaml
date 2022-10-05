@@ -31,6 +31,10 @@ Resources:
       Runtime: python3.9
       CodeUri: python
       Timeout: 15
+      Environment:
+        Variables:
+          PreviousEntryEpochTime: !Ref ParameterPreviousEntryEpochTime
+
       Events:
         EventBridge:
             Type: Schedule
@@ -66,6 +70,7 @@ Resources:
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterPreviousEntryEpochTime}
           - Effect: Allow
             Action:
               - 'events:PutRule'
@@ -106,6 +111,13 @@ Resources:
     Type: AWS::SSM::Parameter
     Properties:
       Description: Spotify Current Track ID
+      Tier: Standard
+      Type: String
+      Value: None
+  ParameterPreviousEntryEpochTime:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: DynamoDB Previous Entry's EpochTime
       Tier: Standard
       Type: String
       Value: None
