@@ -1,6 +1,9 @@
 import boto3
+import os
+
 from datetime import datetime
 import functions.ssm as ssm
+from functions.utils import calculate_duration_between_last_entry
 
 def put(now_playing, table, current_track_parameter):
     # Some ids will be eastern and some will be UTC
@@ -13,6 +16,8 @@ def put(now_playing, table, current_track_parameter):
     print(f'epoch_time: {epoch_time}')
 
     recent_track = ssm.get(current_track_parameter)
+    recent_entry = ssm.get(os.environ['PreviousEntryEpochTime'])
+    print(f'Recent Epoch_Time {recent_entry}')
 
     play_state = now_playing['playing']
 
