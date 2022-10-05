@@ -11,6 +11,8 @@ def put(now_playing, table, current_track_parameter):
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
     epoch_time = dt.timestamp()
     PreviousEntryEpochTime = os.environ['PreviousEntryEpochTime']
+    now_playing_track = now_playing['songID']
+    now_playing_track_duration = now_playing['trackDuration']
 
     # Allows for cleaning up the database
     print(f'Timestamp: {timestamp}')
@@ -19,8 +21,12 @@ def put(now_playing, table, current_track_parameter):
     recent_track = ssm.get(current_track_parameter)
     recent_entry = ssm.get(PreviousEntryEpochTime)
 
-    duration_since_last_entry = calculate_duration_since_last_entry(previous=recent_entry, current=epoch_time)
-    print(f'Duration since last: {duration_since_last_entry / 1000} seconds')
+    duration_since_last_entry_ms = calculate_duration_since_last_entry(previous=recent_entry, current=epoch_time)
+    print(f'Duration since last: {duration_since_last_entry_ms / 1000} seconds')
+
+    if now_playing_track == recent_track:
+        print(f'This track may already be recorded: {now_playing["songID"]}')
+        difference_between_last_and_track_duration = (duration_since_last_entry_ms / now_playing_track_duration) * 100
 
     play_state = now_playing['playing']
 
