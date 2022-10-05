@@ -27,10 +27,24 @@ def plotty(group, type):
     else:
         title_label = 'Something'
 
-    group.plot.bar(x=type, y='file', title=f'Top 10 {title_label} of 2022 (Updated)', rot=0, width=.5)
+    horizontal = False
 
-    for i in range(10):
-        plot.text(x=i - .1, y=group[i] + 2, s=group[i], color='black', fontweight='bold')
+    if horizontal:
+        group.plot.barh(x=type, y='file', title=f'Top 10 {title_label} of 2022 (Updated)', rot=0, width=.5)
+
+        plot.ylabel(title_label)
+        plot.xlabel('Play Count')
+
+        for i in range(10):
+            plot.text(x=group[i] + .5, y=i, s=group[i], color='black', fontweight='bold')
+    else:
+        group.plot.bar(x=type, y='file', title=f'Top 10 {title_label} of 2022 (Updated)', rot=0, width=.5)
+
+        plot.xlabel(title_label)
+        plot.ylabel('Play Count')
+
+        for i in range(10):
+            plot.text(x=i - .1, y=group[i] + 2, s=group[i], color='black', fontweight='bold')
 
     plot.show()
     f.savefig(f'{type}.png')
