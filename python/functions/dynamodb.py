@@ -3,7 +3,7 @@ import os
 
 from datetime import datetime
 import functions.ssm as ssm
-from functions.utils import calculate_duration_between_last_entry
+from functions.utils import calculate_duration_since_last_entry
 
 def put(now_playing, table, current_track_parameter):
     # Some ids will be eastern and some will be UTC
@@ -18,7 +18,9 @@ def put(now_playing, table, current_track_parameter):
 
     recent_track = ssm.get(current_track_parameter)
     recent_entry = ssm.get(PreviousEntryEpochTime)
-    print(f'Recent Epoch_Time {recent_entry}')
+
+    duration_since_last_entry = calculate_duration_since_last_entry(previous=recent_entry, current=epoch_time)
+    print(f'Duration since last: {duration_since_last_entry / 1000} seconds')
 
     play_state = now_playing['playing']
 
@@ -26,7 +28,7 @@ def put(now_playing, table, current_track_parameter):
         print(f'Play state is {play_state}')
     else:
         ssm.put(parameter=current_track_parameter, value=now_playing['songID'])
-        ssm.put(parameter=PreviousEntryEpochTime,value=epoch_time)
+        ssm.put(parameter=PreviousEntryEpochTime,value=str(epoch_time))
 
         client = boto3.client('dynamodb')
         response = client.update_item(
