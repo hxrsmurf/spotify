@@ -7,3 +7,5 @@ manual_spotify.py
 *.ods
 *.csv
 .~lock*
+*.xlsx
+*.pyc
