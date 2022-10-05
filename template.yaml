@@ -35,7 +35,7 @@ Resources:
         EventBridge:
             Type: Schedule
             Properties:
-              Schedule: rate(1 minute)
+              Schedule: rate(2 minutes)
               Enabled: true
               Name: 'EventBridge'
         PostAPI:
