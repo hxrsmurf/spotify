@@ -44,21 +44,20 @@ def handler(event, context):
 
             refresh_token_parameter, refresh_token, client_secret, client_id, redirect_uri, current_track_parameter, current_track, table, topic = cloudformation_output.get(output_keys)
 
-        v_spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
-        v_spotify_refresh_token_parameter_value = ssm.get(v_spotify_refresh_token_parameter)
+        spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
+        spotify_refresh_token_parameter_value = ssm.get(spotify_refresh_token_parameter)
 
-        v_spotify_client_id = ssm.get(os.environ['ParameterSpotifyClientID'])
-        v_spotfiy_client_secret = ssm.get(os.environ['ParameterSpotifyClientSecret'])
+        client_id = ssm.get(os.environ['ParameterSpotifyClientID'])
+        client_secret = ssm.get(os.environ['ParameterSpotifyClientSecret'])
 
-        v_redirect_uri = os.environ['RedirectUri']
+        redirect_uri = os.environ['RedirectUri']
 
-        v_current_track_parameter = os.environ['ParameterCurrentTrack']
-        v_current_track_parameter_value = ssm.get(v_current_track_parameter)
+        current_track_parameter = os.environ['ParameterCurrentTrack']
 
-        v_table = os.environ['Table']
-        v_topic = os.environ['Topic']
+        table = os.environ['Table']
+        topic = os.environ['Topic']
 
-        access_token = authorization.get_refresh_token(refresh_token, client_id, client_secret, refresh_token_parameter)['access_token']
+        access_token = authorization.get_refresh_token(spotify_refresh_token_parameter_value, client_id, client_secret, spotify_refresh_token_parameter)['access_token']
 
         now_playing = (player.get(access_token, topic, client_id, redirect_uri))
 
