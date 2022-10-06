@@ -39,6 +39,8 @@ Resources:
           ParameterSpotifyRefreshToken: !Ref ParameterSpotifyRefreshToken
           CallbackURL: !Ref CallbackURL
           ParameterCurrentTrack: !Ref ParameterCurrentTrack
+          Table: !Ref DynamoDB
+          Topic: !Ref Topic
       Events:
         EventBridge:
             Type: Schedule
