@@ -9,14 +9,10 @@ def handler(event, context):
     response = client.query(
         TableName = table,
         IndexName = global_secondary_index,
-        KeyConditions={
-            'year_month' : {
-                'AttributeValueList' : [
-                    {
-                        'S' : '2022-10'
-                    }
-                ],
-                'ComparisonOperator' : 'EQ'
+        KeyConditionExpression = 'year_month = :value',
+        ExpressionAttributeValues = {
+            ':value' : {
+                'S' : '2022-10'
             }
         }
     )
