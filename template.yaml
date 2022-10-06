@@ -34,7 +34,11 @@ Resources:
       Environment:
         Variables:
           PreviousEntryEpochTime: !Ref ParameterPreviousEntryEpochTime
-
+          ParameterSpotifyClientID: !Ref ParameterSpotifyClientID
+          ParameterSpotifyClientSecret: !Ref ParameterSpotifyClientSecret
+          ParameterSpotifyRefreshToken: !Ref ParameterSpotifyRefreshToken
+          CallbackURL: !Ref CallbackURL
+          ParameterCurrentTrack: !Ref ParameterCurrentTrack
       Events:
         EventBridge:
             Type: Schedule
