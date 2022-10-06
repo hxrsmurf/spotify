@@ -10,6 +10,7 @@ import functions.player as player
 import functions.dynamodb as dynamodb
 import functions.notify as notify
 import functions.eventbridge as eventbridge
+import functions.ssm as ssm
 import base64
 
 def handler(event, context):
@@ -40,6 +41,20 @@ def handler(event, context):
         output_keys = response['Stacks'][0]['Outputs']
 
         refresh_token_parameter, refresh_token, client_secret, client_id, redirect_uri, current_track_parameter, current_track, table, topic = cloudformation_output.get(output_keys)
+
+        v_spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
+        v_spotify_refresh_token_parameter_value = ssm.get(v_spotify_refresh_token_parameter)
+
+        v_spotify_client_id = ssm.get(os.environ['ParameterSpotifyClientID'])
+        v_spotfiy_client_secret = ssm.get(os.environ['ParameterSpotifyClientSecret'])
+
+        v_redirect_uri = os.environ['RedirectUri']
+
+        v_current_track_parameter = os.environ['ParameterCurrentTrack']
+        v_current_track_parameter_value = ssm.get(v_current_track_parameter)
+
+        v_table = os.environ['Table']
+        v_topic = os.environ['Topic']
 
         access_token = authorization.get_refresh_token(refresh_token, client_id, client_secret, refresh_token_parameter)['access_token']
 
