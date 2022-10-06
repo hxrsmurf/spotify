@@ -38,9 +38,11 @@ def handler(event, context):
             StackName='spotify-tracker-sam'
         )
 
-        output_keys = response['Stacks'][0]['Outputs']
+        feature_scan_cft = False
+        if feature_scan_cft:
+            output_keys = response['Stacks'][0]['Outputs']
 
-        refresh_token_parameter, refresh_token, client_secret, client_id, redirect_uri, current_track_parameter, current_track, table, topic = cloudformation_output.get(output_keys)
+            refresh_token_parameter, refresh_token, client_secret, client_id, redirect_uri, current_track_parameter, current_track, table, topic = cloudformation_output.get(output_keys)
 
         v_spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
         v_spotify_refresh_token_parameter_value = ssm.get(v_spotify_refresh_token_parameter)
