@@ -1,6 +1,8 @@
 import boto3
 import os
 
+from .utils import current_year_month
+
 def db_query():
     client = boto3.client('dynamodb')
     table = os.environ['DynamoDBTable']
@@ -12,7 +14,7 @@ def db_query():
         KeyConditionExpression = 'year_month = :value',
         ExpressionAttributeValues = {
             ':value' : {
-                'S' : '2022-10'
+                'S' : current_year_month()
             }
         }
     )
