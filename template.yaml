@@ -41,6 +41,7 @@ Resources:
           ParameterCurrentTrack: !Ref ParameterCurrentTrack
           Table: !Ref DynamoDB
           Topic: !Ref Topic
+          RedirectUri: !Ref CallbackURL
       Events:
         EventBridge:
             Type: Schedule
