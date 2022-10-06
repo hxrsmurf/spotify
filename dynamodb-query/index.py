@@ -17,5 +17,5 @@ def handler(event, context):
         }
     )
 
-    for results in response:
-        print(results)
+    for results in response['Items']:
+        print(results['song']['S'])
