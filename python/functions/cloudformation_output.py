@@ -6,16 +6,22 @@ def parameters(output_keys):
     for output in output_keys:
         if output['OutputKey'] == 'RefreshToken':
             refresh_token = output['OutputValue']
+
         elif output['OutputKey'] == 'ClientSecret':
             client_secret = output['OutputValue']
+
         elif output['OutputKey'] == 'ClientID':
             client_id = output['OutputValue']
+
         elif output['OutputKey'] == 'RedirectUri':
             redirect_uri = output['OutputValue']
+
         elif output['OutputKey'] == 'CurrentTrack':
             current_track = output['OutputValue']
+
         elif output['OutputKey'] == 'Table':
             table = output['OutputValue']
+
         elif output['OutputKey'] == 'Topic':
             topic = output['OutputValue']
 
