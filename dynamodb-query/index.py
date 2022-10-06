@@ -4,7 +4,7 @@ import os
 def handler(event, context):
     client = boto3.client('dynamodb')
     table = os.environ['DynamoDBTable']
-    global_secondary_index = 'year_month-index'
+    global_secondary_index = 'year_month-id-index'
 
     response = client.query(
         TableName = table,
@@ -18,4 +18,4 @@ def handler(event, context):
     )
 
     for results in response['Items']:
-        print(results['song']['S'])
+        print(results['id']['S'])
