@@ -204,3 +204,17 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
+
+  LambdaDynamoDBScan:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: dynamodb-query
+      Timeout: 120 # 14 minutes
+      Environment:
+        Variables:
+          DynamoDBTable: !Ref DynamoDB
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDB
