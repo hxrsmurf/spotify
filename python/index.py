@@ -10,6 +10,7 @@ import functions.player as player
 import functions.dynamodb as dynamodb
 import functions.notify as notify
 import functions.eventbridge as eventbridge
+import functions.ssm as ssm
 import base64
 
 def handler(event, context):
@@ -37,11 +38,26 @@ def handler(event, context):
             StackName='spotify-tracker-sam'
         )
 
-        output_keys = response['Stacks'][0]['Outputs']
+        feature_scan_cft = False
+        if feature_scan_cft:
+            output_keys = response['Stacks'][0]['Outputs']
 
-        refresh_token_parameter, refresh_token, client_secret, client_id, redirect_uri, current_track_parameter, current_track, table, topic = cloudformation_output.get(output_keys)
+            refresh_token_parameter, refresh_token, client_secret, client_id, redirect_uri, current_track_parameter, current_track, table, topic = cloudformation_output.get(output_keys)
 
-        access_token = authorization.get_refresh_token(refresh_token, client_id, client_secret, refresh_token_parameter)['access_token']
+        spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
+        spotify_refresh_token_parameter_value = ssm.get(spotify_refresh_token_parameter)
+
+        client_id = ssm.get(os.environ['ParameterSpotifyClientID'])
+        client_secret = ssm.get(os.environ['ParameterSpotifyClientSecret'])
+
+        redirect_uri = os.environ['RedirectUri']
+
+        current_track_parameter = os.environ['ParameterCurrentTrack']
+
+        table = os.environ['Table']
+        topic = os.environ['Topic']
+
+        access_token = authorization.get_refresh_token(spotify_refresh_token_parameter_value, client_id, client_secret, spotify_refresh_token_parameter)['access_token']
 
         now_playing = (player.get(access_token, topic, client_id, redirect_uri))
 

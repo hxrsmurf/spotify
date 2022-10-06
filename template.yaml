@@ -34,7 +34,14 @@ Resources:
       Environment:
         Variables:
           PreviousEntryEpochTime: !Ref ParameterPreviousEntryEpochTime
-
+          ParameterSpotifyClientID: !Ref ParameterSpotifyClientID
+          ParameterSpotifyClientSecret: !Ref ParameterSpotifyClientSecret
+          ParameterSpotifyRefreshToken: !Ref ParameterSpotifyRefreshToken
+          CallbackURL: !Ref CallbackURL
+          ParameterCurrentTrack: !Ref ParameterCurrentTrack
+          Table: !Ref DynamoDB
+          Topic: !Ref Topic
+          RedirectUri: !Ref CallbackURL
       Events:
         EventBridge:
             Type: Schedule
