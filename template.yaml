@@ -251,3 +251,10 @@ Resources:
         RestrictPublicBuckets: True
       VersioningConfiguration:
         Status: Enabled
+
+  StackTopics:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        Email : !Ref Email
+      TemplateURL: https://spotify-tracker-sam-bucketnestedstacks-1clqq5498a87y.s3.amazonaws.com/topics.yaml
