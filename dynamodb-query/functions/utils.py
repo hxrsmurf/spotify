@@ -6,7 +6,6 @@ def current_year_month():
 def parse_db(results_db_query):
     list_of_results = []
     for result in results_db_query:
-        print(result)
         list_of_results.append(
             {
                 "album": result['album']['S'],
