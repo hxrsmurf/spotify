@@ -13,7 +13,7 @@ def handler(event, context):
         TableName=table,
         ExclusiveStartKey= {
             'id' : {
-                'S' :'2022-06-22, 21:22:26:467377'
+                'S' :'00-00-00, 00:00:00:000000'
                 }
         }
     )
@@ -28,4 +28,11 @@ def handler(event, context):
             result_db_put = db_put(id, year_month)
             print(id, result_db_put)
 
-    return('Last Key', response['LastEvaluatedKey'])
+    try:
+        message = 'LastKey', response['LastEvaluatedKey']
+        print(message)
+        return(message)
+    except:
+        message = 'No last key!'
+        print(message)
+        return(message)
