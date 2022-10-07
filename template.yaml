@@ -23,6 +23,11 @@ Outputs:
     Value: !Ref DynamoDB
   Topic:
     Value: !Ref Topic
+  TopicNested:
+    Value:
+      Fn::GetAtt:
+        - StackTopics
+        - Outputs.TopicARN
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
