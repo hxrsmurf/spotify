@@ -3,6 +3,9 @@ from datetime import datetime
 def current_year_month():
     return datetime.utcnow().strftime('%Y-%m')
 
+def current_day():
+    return datetime.utcnow().strftime('%Y-%m-%d-%H%M%SS')
+
 def parse_db(results_db_query):
     list_of_results = []
     for result in results_db_query:
