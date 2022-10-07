@@ -218,6 +218,8 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
+        - S3CrudPolicy:
+            BucketName: !Ref Bucket
 
   Bucket:
     Type: 'AWS::S3::Bucket'
