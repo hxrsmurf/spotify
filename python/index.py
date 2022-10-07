@@ -3,7 +3,6 @@ import boto3
 import json
 from requests.auth import HTTPBasicAuth
 import requests
-import functions.cloudformation_output as cloudformation_output
 import functions.ssm as ssm
 import functions.authorization as authorization
 import functions.player as player
