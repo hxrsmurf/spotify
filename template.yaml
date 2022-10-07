@@ -215,6 +215,7 @@ Resources:
       Environment:
         Variables:
           DynamoDBTable: !Ref DynamoDB
+          Bucket: !Ref Bucket
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
