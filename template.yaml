@@ -23,6 +23,11 @@ Outputs:
     Value: !Ref DynamoDB
   Topic:
     Value: !Ref Topic
+  TopicNested:
+    Value:
+      Fn::GetAtt:
+        - StackTopics
+        - Outputs.TopicARN
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
@@ -40,7 +45,10 @@ Resources:
           CallbackURL: !Ref CallbackURL
           ParameterCurrentTrack: !Ref ParameterCurrentTrack
           Table: !Ref DynamoDB
-          Topic: !Ref Topic
+          Topic:
+            Fn::GetAtt:
+              - StackTopics
+              - Outputs.TopicARN
           RedirectUri: !Ref CallbackURL
       Events:
         EventBridge:
@@ -63,7 +71,10 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
         - SNSPublishMessagePolicy:
-            TopicName: !GetAtt Topic.TopicName
+            TopicName:
+              Fn::GetAtt:
+                - StackTopics
+                - Outputs.TopicARN
         - CloudFormationDescribeStacksPolicy: {}
         - Statement:
           - Effect: Allow
@@ -160,12 +171,18 @@ Resources:
       Environment:
         Variables:
           DynamoDBTable: !Ref DynamoDB
-          Topic: !Ref TopicMigrateEpoch
+          Topic:
+            Fn::GetAtt:
+              - StackTopics
+              - Outputs.TopicARN
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
         - SNSPublishMessagePolicy:
-            TopicName: !GetAtt TopicMigrateEpoch.TopicName
+            TopicName:
+              Fn::GetAtt:
+                - StackTopics
+                - Outputs.TopicARN
 
   TopicMigrateEpoch:
     Type: 'AWS::SNS::Topic'
@@ -236,3 +253,25 @@ Resources:
         RestrictPublicBuckets: True
       VersioningConfiguration:
         Status: Enabled
+
+  BucketNestedStacks:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      VersioningConfiguration:
+        Status: Enabled
+
+  StackTopics:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        Email : !Ref Email
+      TemplateURL: https://spotify-tracker-sam-bucketnestedstacks-1clqq5498a87y.s3.amazonaws.com/topics.yaml

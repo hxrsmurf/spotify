@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Topics for Spotify SAM
+
+Parameters:
+  Email:
+    Type: String
+    Description: Enter the e-mail for error notifications.
+
+Outputs:
+  TopicARN:
+    Value: !Ref Topic
+
+Resources:
+  Topic:
+    Type: 'AWS::SNS::Topic'
+  Subscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref Email
+      Protocol: email
+      TopicArn: !Ref Topic
+
+  MigrateEpochTopic:
+    Type: 'AWS::SNS::Topic'
+  MigrateEpochSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !Ref Email
+      Protocol: email
+      TopicArn: !Ref MigrateEpochTopic
