@@ -71,7 +71,10 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
         - SNSPublishMessagePolicy:
-            TopicName: !GetAtt Topic.TopicName
+            TopicName:
+              Fn::GetAtt:
+                - StackTopics
+                - Outputs.TopicARN
         - CloudFormationDescribeStacksPolicy: {}
         - Statement:
           - Effect: Allow
@@ -176,7 +179,10 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
         - SNSPublishMessagePolicy:
-            TopicName: !GetAtt TopicMigrateEpoch.TopicName
+            TopicName:
+              Fn::GetAtt:
+                - StackTopics
+                - Outputs.TopicARN
 
   TopicMigrateEpoch:
     Type: 'AWS::SNS::Topic'
