@@ -20,4 +20,10 @@ def db_query():
         }
     )
 
+    items_counted = response['Count']
+    items_scanned = response['ScannedCount']
+
+    print(f'Count: {items_counted}')
+    print(f'Scanned: {items_scanned}')
+
     return response['Items']
