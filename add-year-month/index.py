@@ -10,7 +10,12 @@ def handler(event, context):
 
     client = boto3.client('dynamodb')
     response = client.scan(
-        TableName=table
+        TableName=table,
+        ExclusiveStartKey= {
+            'id' : {
+                'S' :'2022-06-22, 21:22:26:467377'
+                }
+        }
     )
 
     results = response['Items']
@@ -22,3 +27,5 @@ def handler(event, context):
             year_month = datetime_object.strftime('%Y-%m')
             result_db_put = db_put(id, year_month)
             print(id, result_db_put)
+
+    return('Last Key', response['LastEvaluatedKey'])
