@@ -45,7 +45,10 @@ Resources:
           CallbackURL: !Ref CallbackURL
           ParameterCurrentTrack: !Ref ParameterCurrentTrack
           Table: !Ref DynamoDB
-          Topic: !Ref Topic
+          Topic:
+            Fn::GetAtt:
+              - StackTopics
+              - Outputs.TopicARN
           RedirectUri: !Ref CallbackURL
       Events:
         EventBridge:
@@ -165,7 +168,10 @@ Resources:
       Environment:
         Variables:
           DynamoDBTable: !Ref DynamoDB
-          Topic: !Ref TopicMigrateEpoch
+          Topic:
+            Fn::GetAtt:
+              - StackTopics
+              - Outputs.TopicARN
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
