@@ -1,13 +1,16 @@
 import boto3
 import os
+import pandas as pd
 
 from functions.dynamodb import db_query
 from functions.utils import parse_db
-import pandas as pd
+from functions.s3 import s3_upload
 
 def handler(event, context):
     results_db_query = db_query()
     results_parse_db = parse_db(results_db_query)
     df = pd.DataFrame(results_parse_db)
-    df.to_csv('/tmp/file.csv', index=False, header=True, sep=';')
+    temp_file = '/tmp/file.csv'
+    df.to_csv(temp_file, index=False, header=True, sep=';')
+    s3_upload(temp_file)
     return('kevin')
