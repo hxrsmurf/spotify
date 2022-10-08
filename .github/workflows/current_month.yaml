@@ -10,8 +10,8 @@ on:
     workflows: [1-Main-Template]
     types:
       - completed
-  push:
-    branches: '*'
+  #push:
+  #  branches: '*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -29,10 +29,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      #- uses: actions/setup-python@v3
-      #  with:
-      #    python-version: "3.9"
-      #- uses: aws-actions/setup-sam@v2
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
