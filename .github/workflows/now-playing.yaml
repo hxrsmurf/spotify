@@ -50,7 +50,7 @@ jobs:
 
       - name: Get Output
         working-directory: ./1_NowPlaying
-        run: echo ${{ needs.md5.outputs.md5 }}
+        run: echo ${{needs.md5.outputs}}
 
       #- name: Upload to S3
       #  working-directory: ./1_NowPlaying/
