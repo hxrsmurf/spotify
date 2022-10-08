@@ -32,18 +32,21 @@ def handler(event, context):
         }
 
     elif api_method == 'GET /':
-        spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
+        spotify_refresh_token_parameter = os.environ['SpotifyRefreshToken']
         spotify_refresh_token_parameter_value = ssm.get(spotify_refresh_token_parameter)
 
-        client_id = ssm.get(os.environ['ParameterSpotifyClientID'])
-        client_secret = ssm.get(os.environ['ParameterSpotifyClientSecret'])
+        client_id = ssm.get(os.environ['SpotifyClientID'])
+        client_secret = ssm.get(os.environ['SpotifyClientSecret'])
 
         redirect_uri = os.environ['RedirectUri']
 
-        current_track_parameter = os.environ['ParameterCurrentTrack']
+        current_track_parameter = os.environ['CurrentTrack']
 
         table = os.environ['Table']
         topic = os.environ['Topic']
+
+        notify.send_notfication(message, topic, client_id, redirect_uri)
+        return
 
         access_token = authorization.get_refresh_token(spotify_refresh_token_parameter_value, client_id, client_secret, spotify_refresh_token_parameter)['access_token']
 
