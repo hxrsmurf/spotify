@@ -49,10 +49,7 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        ZipFile: |
-          import boto3
-          def handler(event, context):
-            print('Zip and Upload Lambda')
+        ZipFile: code.zip
 
       Handler: index.handler
       Role: !GetAtt Role.Arn
