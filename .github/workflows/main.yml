@@ -5,8 +5,8 @@ name: Workflow
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  #push:
-    #branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   #pull_request:
     #branches: [ "main" ]
 
@@ -36,8 +36,17 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: sam build
-        run: sam build
+      - name: SAM Build & Deploy main template
+        run: sam build && sam deploy
 
-      - name: sam deploy
-        run: sam deploy
+      - name: SAM Build & Deploy Reports/Current_Month
+        working-directory: ./2_Reports/current_month
+        run: sam build && sam deploy
+
+      - name: SAM Build & Deploy migrations/add-year-month
+        working-directory: ./3_Utilities/migrations/add-year-month
+        run: sam build && sam deploy
+
+      - name: SAM Build & Deploy migrations/epochTime/
+        working-directory: ./3_Utilities/migrations/epochTime
+        run: sam build && sam deploy
