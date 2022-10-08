@@ -3,6 +3,8 @@ Description: Parameters
 Outputs:
   SpotifyClientID:
     Value: !Ref SpotifyClientID
+  SpotifyClientSecret:
+    Values: !Ref SpotifyClientSecret
   SpotifyRefreshToken:
     Value: !Ref SpotifyRefreshToken
   CurrentTrack:
