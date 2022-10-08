@@ -36,8 +36,5 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: sam build
-        run: sam build
-
-      - name: sam deploy
-        run: sam deploy
+      - name: SAM Build & Deploy main template
+        run: sam build && sam deploy
