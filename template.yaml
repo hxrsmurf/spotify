@@ -96,27 +96,6 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
 
-  LambdaDynamoDBScan:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: index.handler
-      Runtime: python3.9
-      CodeUri: dynamodb-query
-      Timeout: 120 # 14 minutes
-      Environment:
-        Variables:
-          DynamoDBTable: !Ref DynamoDB
-          Bucket: !GetAtt
-            - StackBucket
-            - Outputs.Bucket
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref DynamoDB
-        - S3CrudPolicy:
-            BucketName: !GetAtt
-              - StackBucket
-              - Outputs.Bucket
-
   StackTopics:
     Type: AWS::CloudFormation::Stack
     Properties:
