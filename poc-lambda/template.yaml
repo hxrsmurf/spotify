@@ -1,0 +1,12 @@
+Description: Lambda Function POC
+
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  LambdaDynamoDBScan:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: code
+      Timeout: 300
