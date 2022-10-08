@@ -9,6 +9,7 @@ manual_spotify.py
 .~lock*
 *.xlsx
 *.pyc
+*.zip
 */.aws-sam/*
 2_Reports/current_month/.aws-sam/*
 3_Utilities/migrations/epochTime/.aws-sam/*
