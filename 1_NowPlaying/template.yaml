@@ -48,7 +48,7 @@ Resources:
             Properties:
               Schedule: rate(2 minutes)
               Enabled: true
-              Name: 'EventBridge'
+              Name: 'EventBridge1'
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
@@ -59,7 +59,7 @@ Resources:
             Action:
               - 'events:PutRule'
             Resource:
-              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
+              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge1'
           - Effect: Allow
             Action:
               - 'ssm:DescribeParameters'
