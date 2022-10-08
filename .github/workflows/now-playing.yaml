@@ -31,6 +31,6 @@ jobs:
           aws-region: us-east-1
 
       - name: List Directory
-        working-directory: ./1_NowPlaying/template.yaml
+        working-directory: ./1_NowPlaying/
         run: ls
         #run: aws cloudformation deploy --template-file template.yaml --stack-name spotify-tracker-sam-LambdaNowPlaying-1IUKZPQTGVSC0NESTED
