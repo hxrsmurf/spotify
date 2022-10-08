@@ -22,9 +22,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    outputs:
-      md5sum: ${{ steps.md5.md5 }}
-
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
       id-token: write
@@ -43,11 +40,14 @@ jobs:
       - name: Zip Code
         working-directory: ./1_NowPlaying/code
         run: zip -r ../code.zip *
+
       - id: md5
         name: md5 zip
         working-directory: ./1_NowPlaying
         run: |
           echo "::set-output name=md5::testing"
+          echoo "kevin"
+
       - name: Get Output
         working-directory: ./1_NowPlaying
         run: echo ${{ needs.md5.outputs }}
