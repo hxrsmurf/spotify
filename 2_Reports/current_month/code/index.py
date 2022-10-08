@@ -11,4 +11,3 @@ def handler(event, context):
     temp_file = '/tmp/file.csv'
     df.to_csv(temp_file, index=False, header=True, sep=';')
     s3_upload(temp_file)
-    # Example change
