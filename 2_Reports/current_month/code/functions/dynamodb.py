@@ -23,6 +23,12 @@ def db_query():
     items_counted = response['Count']
     items_scanned = response['ScannedCount']
 
+    try:
+        last_key = response['LastEvaluatedKey']
+        print(f'Last Key: {last_key}')
+    except:
+        pass
+
     print(f'Count: {items_counted}')
     print(f'Scanned: {items_scanned}')
 
