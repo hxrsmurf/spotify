@@ -1,0 +1,48 @@
+Description: Parameters
+
+Outputs:
+  SpotifyClientID:
+    Value: !Ref SpotifyClientID
+  SpotifyRefreshToken:
+    Value: !Ref SpotifyRefreshToken
+  CurrentTrack:
+    Value: !Ref CurrentTrack
+  PreviousEntryEpochTime:
+    Value: !Ref PreviousEntryEpochTime
+
+Resources:
+  SpotifyClientID:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Client ID
+      Tier: Standard
+      Type: String
+      Value: None
+  SpotifyClientSecret:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Secret
+      Tier: Standard
+      Type: String
+      Value: None
+  SpotifyRefreshToken:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Refresh Token
+      Tier: Standard
+      Type: String
+      Value: None
+  CurrentTrack:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: Spotify Current Track ID
+      Tier: Standard
+      Type: String
+      Value: None
+  PreviousEntryEpochTime:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: DynamoDB Previous Entry's EpochTime
+      Tier: Standard
+      Type: String
+      Value: None
