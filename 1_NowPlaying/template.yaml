@@ -49,3 +49,6 @@ Resources:
               Schedule: rate(2 minutes)
               Enabled: true
               Name: 'EventBridge'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Table
