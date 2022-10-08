@@ -7,6 +7,9 @@ Parameters:
   Bucket:
     Type: String
     Default: None
+  PandasLayer:
+    Type: String
+    Default: arn:aws:lambda:us-east-1:336392948345:layer:AWSSDKPandas-Python39:1
   Table:
     Type: String
     Default: None
@@ -22,6 +25,8 @@ Resources:
       Runtime: python3.9
       CodeUri: code
       Timeout: 120
+      Layers:
+        - !Ref PandasLayer
       Environment:
         Variables:
           Bucket: !Ref Bucket
