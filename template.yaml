@@ -96,41 +96,6 @@ Resources:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
   DynamoDB:
     Type: 'AWS::Serverless::SimpleTable'
-  ParameterSpotifyClientID:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Client ID
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterSpotifyClientSecret:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Secret
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterSpotifyRefreshToken:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Refresh Token
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterCurrentTrack:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Current Track ID
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterPreviousEntryEpochTime:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: DynamoDB Previous Entry's EpochTime
-      Tier: Standard
-      Type: String
-      Value: None
 
   LambdaReport:
     Type: 'AWS::Serverless::Function'
