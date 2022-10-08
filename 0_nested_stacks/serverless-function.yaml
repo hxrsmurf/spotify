@@ -1,5 +1,8 @@
 Description: Serverless Lambda Function
 Parameters:
+  Bucket:
+    Type: String
+    Default: None
   CallbackURL:
     Type: String
     Default: None
