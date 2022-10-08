@@ -10,8 +10,10 @@ manual_spotify.py
 *.xlsx
 *.pyc
 */.aws-sam/*
+2_Reports/current_month/.aws-sam/*
 
 # Include some samconfig.toml
 !poc-lambda/samconfig.toml
 !1_NowPlaying/samconfig.toml
 !requirements.txt
+!2_Reports/current_month/samconfig.toml
