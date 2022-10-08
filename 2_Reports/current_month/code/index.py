@@ -10,4 +10,4 @@ def handler(event, context):
     df = pd.DataFrame(results_parse_db)
     temp_file = '/tmp/file.csv'
     df.to_csv(temp_file, index=False, header=True, sep=';')
-    s3_upload(temp_file)
+    #s3_upload(temp_file)

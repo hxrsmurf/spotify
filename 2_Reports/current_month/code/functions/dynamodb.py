@@ -11,7 +11,7 @@ def db_query():
     response = client.query(
         TableName = table,
         IndexName = global_secondary_index,
-        #Limit = 10,
+        Limit = 1,
         KeyConditionExpression = 'year_month = :value',
         ExpressionAttributeValues = {
             ':value' : {
