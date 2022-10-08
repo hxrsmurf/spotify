@@ -52,3 +52,5 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
+        - SNSPublishMessagePolicy:
+            TopicName: !Sub {StackTopics.Outputs.TopicARN}
