@@ -52,14 +52,17 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
-        - SNSPublishMessagePolicy:
-            TopicName: !Ref Topic
         - Statement:
           - Effect: Allow
             Action:
               - 'events:PutRule'
             Resource:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge1'
+          - Effect: Allow
+            Action:
+              - 'sns:publish'
+            Resource:
+              - !Ref Topic
           - Effect: Allow
             Action:
               - 'ssm:DescribeParameters'
