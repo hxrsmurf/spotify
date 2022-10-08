@@ -5,6 +5,10 @@ Parameters:
     Type: String
     Default: None
 
+  Key:
+    Type: String
+    Default: code/code.zip
+
   CallbackURL:
     Type: String
     Default: None
@@ -54,7 +58,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: !Ref Bucket
-        S3Key: now_playing.zip
+        S3Key: !Ref Key
 
       Handler: index.handler
       Role: !GetAtt Role.Arn
