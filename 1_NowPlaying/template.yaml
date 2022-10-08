@@ -53,9 +53,22 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
         - SNSPublishMessagePolicy:
-            TopicName: !Sub {StackTopics.Outputs.TopicARN}
+            TopicName: !Ref Topic
         - Effect: Allow
             Action:
               - 'events:PutRule'
             Resource:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
+            Resource:
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
