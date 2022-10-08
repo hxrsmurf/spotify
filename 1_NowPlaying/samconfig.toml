@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "spotify-tracker-sam-StackLambdaTrackNowPlaying-1LI7B5AI8R4HK"
+stack_name = "spotify-tracker-NowPlaying"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-148nh4a4hjibx"
-s3_prefix = "spotify-tracker-sam-StackLambdaTrackNowPlaying-1LI7B5AI8R4HK"
+s3_prefix = "spotify-tracker-NowPlaying"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
