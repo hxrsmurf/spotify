@@ -275,3 +275,8 @@ Resources:
       Parameters:
         Email : !Ref Email
       TemplateURL: https://spotify-tracker-sam-bucketnestedstacks-1clqq5498a87y.s3.amazonaws.com/topics.yaml
+
+  StackParameters:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://spotify-tracker-sam-bucketnestedstacks-1clqq5498a87y.s3.amazonaws.com/parameters.yaml
