@@ -1,6 +1,10 @@
 Description: Spotify - Now Playing
 
 Parameters:
+  Bucket:
+    Type: String
+    Default: None
+
   CallbackURL:
     Type: String
     Default: None
@@ -49,10 +53,8 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        ZipFile: |
-          import boto3
-          def handler(event, context):
-            print('Zip and Upload Lambda')
+        S3Bucket: !Ref Bucket
+        S3Key: now_playing.zip
 
       Handler: index.handler
       Role: !GetAtt Role.Arn
@@ -73,6 +75,11 @@ Resources:
           Topic: !Ref Topic
 
   LogGroup:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      RetentionInDays: 90
+
+  LogGroup1:
     Type: 'AWS::Logs::LogGroup'
     Properties:
       RetentionInDays: 90
