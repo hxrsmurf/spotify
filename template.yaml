@@ -262,3 +262,8 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: https://spotify-tracker-sam-bucketnestedstacks-1clqq5498a87y.s3.amazonaws.com/parameters.yaml
+
+  StackBucket:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://spotify-tracker-sam-bucketnestedstacks-1clqq5498a87y.s3.amazonaws.com/bucket.yaml
