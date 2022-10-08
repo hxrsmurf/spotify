@@ -6,10 +6,13 @@ Description: Serverless Lambda Function
 Parameters:
   Bucket:
     Type: String
+    Default: None
   Table:
     Type: String
+    Default: None
   Topic:
     Type: String
+    Default: None
 
 Resources:
   Lambda:
