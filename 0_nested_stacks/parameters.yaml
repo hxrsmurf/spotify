@@ -3,12 +3,16 @@ Description: Parameters
 Outputs:
   SpotifyClientID:
     Value: !Ref SpotifyClientID
+
   SpotifyClientSecret:
     Values: !Ref SpotifyClientSecret
+
   SpotifyRefreshToken:
     Value: !Ref SpotifyRefreshToken
+
   CurrentTrack:
     Value: !Ref CurrentTrack
+
   PreviousEntryEpochTime:
     Value: !Ref PreviousEntryEpochTime
 
@@ -20,6 +24,7 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
   SpotifyClientSecret:
     Type: AWS::SSM::Parameter
     Properties:
@@ -27,6 +32,7 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
   SpotifyRefreshToken:
     Type: AWS::SSM::Parameter
     Properties:
@@ -34,6 +40,7 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
   CurrentTrack:
     Type: AWS::SSM::Parameter
     Properties:
@@ -41,6 +48,7 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
   PreviousEntryEpochTime:
     Type: AWS::SSM::Parameter
     Properties:
