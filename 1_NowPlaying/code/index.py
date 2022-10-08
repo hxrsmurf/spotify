@@ -32,11 +32,6 @@ def handler(event, context):
         }
 
     elif api_method == 'GET /':
-        client = boto3.client('cloudformation')
-        response = client.describe_stacks(
-            StackName='spotify-tracker-sam'
-        )
-
         spotify_refresh_token_parameter = os.environ['ParameterSpotifyRefreshToken']
         spotify_refresh_token_parameter_value = ssm.get(spotify_refresh_token_parameter)
 
