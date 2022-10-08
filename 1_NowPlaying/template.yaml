@@ -54,12 +54,12 @@ Resources:
             TableName: !Ref Table
         - SNSPublishMessagePolicy:
             TopicName: !Ref Topic
-        - Effect: Allow
+        - Statement:
+          - Effect: Allow
             Action:
               - 'events:PutRule'
             Resource:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
-        - Statement:
           - Effect: Allow
             Action:
               - 'ssm:DescribeParameters'
