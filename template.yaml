@@ -59,20 +59,6 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
 
-  LambdaAddYearMonth:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: index.handler
-      Runtime: python3.9
-      CodeUri: add-year-month
-      Timeout: 840 # 14 minutes
-      Environment:
-        Variables:
-          DynamoDBTable: !Ref DynamoDB
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref DynamoDB
-
   StackTopics:
     Type: AWS::CloudFormation::Stack
     Properties:
