@@ -46,3 +46,7 @@ jobs:
       - name: SAM Build & Deploy migrations/add-year-month
         working-directory: ./3_Utilities/migrations/add-year-month
         run: sam build && sam deploy
+
+      - name: SAM Build & Deploy migrations/epochTime/
+        working-directory: ./3_Utilities/migrations/epochTime
+        run: sam build && sam deploy
