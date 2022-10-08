@@ -11,16 +11,8 @@ Parameters:
     Description: Enter the callback URL
 
 Outputs:
-  ClientID:
-    Value: !Ref ParameterSpotifyClientID
-  ClientSecret:
-    Value: !Ref ParameterSpotifyClientSecret
-  RefreshToken:
-    Value: !Ref ParameterSpotifyRefreshToken
   RedirectUri:
     Value: !Ref CallbackURL
-  CurrentTrack:
-    Value: !Ref ParameterCurrentTrack
   Table:
     Value: !Ref DynamoDB
   TopicNested:
@@ -38,12 +30,12 @@ Resources:
       Timeout: 15
       Environment:
         Variables:
-          PreviousEntryEpochTime: !Ref ParameterPreviousEntryEpochTime
-          ParameterSpotifyClientID: !Ref ParameterSpotifyClientID
-          ParameterSpotifyClientSecret: !Ref ParameterSpotifyClientSecret
-          ParameterSpotifyRefreshToken: !Ref ParameterSpotifyRefreshToken
+          PreviousEntryEpochTime: !Sub ${StackParameters.Outputs.PreviousEntryEpochTime}
+          ParameterSpotifyClientID: !Sub ${StackParameters.Outputs.SpotifyClientID}
+          ParameterSpotifyClientSecret: !Sub ${StackParameters.Outputs.SpotifyClientSecret}
+          ParameterSpotifyRefreshToken: !Sub ${StackParameters.Outputs.SpotifyRefreshToken}
           CallbackURL: !Ref CallbackURL
-          ParameterCurrentTrack: !Ref ParameterCurrentTrack
+          ParameterCurrentTrack: !Sub ${StackParameters.Outputs.CurrentTrack}
           Table: !Ref DynamoDB
           Topic:
             Fn::GetAtt:
@@ -84,11 +76,11 @@ Resources:
               - 'ssm:GetParameter'
               - 'ssm:PutParameter'
             Resource:
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientID}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterPreviousEntryEpochTime}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.SpotifyClientID}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.SpotifyClientSecret}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.SpotifyRefreshToken}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.CurrentTrack}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.PreviousEntryEpochTime}
           - Effect: Allow
             Action:
               - 'events:PutRule'
@@ -96,41 +88,6 @@ Resources:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
   DynamoDB:
     Type: 'AWS::Serverless::SimpleTable'
-  ParameterSpotifyClientID:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Client ID
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterSpotifyClientSecret:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Secret
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterSpotifyRefreshToken:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Refresh Token
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterCurrentTrack:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: Spotify Current Track ID
-      Tier: Standard
-      Type: String
-      Value: None
-  ParameterPreviousEntryEpochTime:
-    Type: AWS::SSM::Parameter
-    Properties:
-      Description: DynamoDB Previous Entry's EpochTime
-      Tier: Standard
-      Type: String
-      Value: None
 
   LambdaReport:
     Type: 'AWS::Serverless::Function'
