@@ -14,6 +14,7 @@ manual_spotify.py
 2_Reports/current_month/.aws-sam/*
 3_Utilities/migrations/epochTime/.aws-sam/*
 3_Utilities/migrations/add-year-month/.aws-sam/*
+3_Utilities/delete-by-id/.aws-sam/*
 
 # Include some samconfig.toml
 !poc-lambda/samconfig.toml
