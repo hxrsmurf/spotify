@@ -1,6 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: This template deploys a basic Spotify Now Playing tracker to DynamoDB.
+
 Parameters:
   Email:
     Type: String
@@ -8,6 +9,7 @@ Parameters:
   CallbackURL:
     Type: String
     Description: Enter the callback URL
+
 Outputs:
   ClientID:
     Value: !Ref ParameterSpotifyClientID
@@ -21,8 +23,6 @@ Outputs:
     Value: !Ref ParameterCurrentTrack
   Table:
     Value: !Ref DynamoDB
-  Topic:
-    Value: !Ref Topic
   TopicNested:
     Value:
       Fn::GetAtt:
@@ -94,14 +94,6 @@ Resources:
               - 'events:PutRule'
             Resource:
               - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
-  Topic:
-    Type: 'AWS::SNS::Topic'
-  Subscription:
-    Type: AWS::SNS::Subscription
-    Properties:
-      Endpoint: !Ref Email
-      Protocol: email
-      TopicArn: !Ref Topic
   DynamoDB:
     Type: 'AWS::Serverless::SimpleTable'
   ParameterSpotifyClientID:
@@ -183,16 +175,6 @@ Resources:
               Fn::GetAtt:
                 - StackTopics
                 - Outputs.TopicARN
-
-  TopicMigrateEpoch:
-    Type: 'AWS::SNS::Topic'
-
-  SubscriptionMigrateEpoch:
-    Type: AWS::SNS::Subscription
-    Properties:
-      Endpoint: !Ref Email
-      Protocol: email
-      TopicArn: !Ref TopicMigrateEpoch
 
   LambdaDeleteById:
     Type: 'AWS::Serverless::Function'
