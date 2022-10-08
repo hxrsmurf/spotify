@@ -47,7 +47,11 @@ jobs:
         name: md5 zip
         working-directory: ./1_NowPlaying
         run: |
-          echo "::set-output name=md5::kevin"
+          echo "::set-output name=md5::(md5sum code.zip)"
+      - name: Get Output
+        working-directory: ./1_NowPlaying
+        run: |
+          echo ${{md5.outputs}}
 
       #- name: Upload to S3
       #  working-directory: ./1_NowPlaying/
