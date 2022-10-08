@@ -48,7 +48,7 @@ Resources:
             Properties:
               Schedule: rate(2 minutes)
               Enabled: true
-              Name: 'EventBridge1'
+              Name: 'SpotifyNowPlaying'
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
@@ -57,7 +57,7 @@ Resources:
             Action:
               - 'events:PutRule'
             Resource:
-              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge1'
+              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/SpotifyNowPlaying'
           - Effect: Allow
             Action:
               - 'sns:publish'
