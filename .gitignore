@@ -10,3 +10,6 @@ manual_spotify.py
 *.xlsx
 *.pyc
 */.aws-sam/*
+
+# Include some samconfig.toml
+!poc-lambda/samconfig.toml
