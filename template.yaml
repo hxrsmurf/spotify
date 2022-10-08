@@ -214,12 +214,16 @@ Resources:
       Environment:
         Variables:
           DynamoDBTable: !Ref DynamoDB
-          Bucket: !Ref Bucket
+          Bucket: !GetAtt
+            - StackBucket
+            - Outputs.Bucket
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DynamoDB
         - S3CrudPolicy:
-            BucketName: !Ref Bucket
+            BucketName: !GetAtt
+              - StackBucket
+              - Outputs.Bucket
 
   Bucket:
     Type: 'AWS::S3::Bucket'
