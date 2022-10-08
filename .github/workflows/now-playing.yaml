@@ -46,7 +46,7 @@ jobs:
         working-directory: ./1_NowPlaying
         run: |
           echo "::set-output name=md5::testing"
-          echoo "kevin"
+          echo "kevin"
 
       - name: Get Output
         working-directory: ./1_NowPlaying
