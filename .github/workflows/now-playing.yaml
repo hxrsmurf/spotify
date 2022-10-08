@@ -33,7 +33,7 @@ jobs:
           aws-region: us-east-1
       - name: Zip Code
         working-directory: ./1_NowPlaying/
-        run: zip code && ls
+        run: zip -r code.zip code && ls
 
       #- name: Deploy CFT
       #  working-directory: ./1_NowPlaying/
