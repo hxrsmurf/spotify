@@ -11,7 +11,7 @@ def db_query():
     response = client.query(
         TableName = table,
         IndexName = global_secondary_index,
-        #Limit = 10,
+        #Limit = 1,
         KeyConditionExpression = 'year_month = :value',
         ExpressionAttributeValues = {
             ':value' : {
@@ -22,6 +22,12 @@ def db_query():
 
     items_counted = response['Count']
     items_scanned = response['ScannedCount']
+
+    try:
+        last_key = response['LastEvaluatedKey']
+        print(f'Last Key: {last_key}')
+    except:
+        pass
 
     print(f'Count: {items_counted}')
     print(f'Scanned: {items_scanned}')
