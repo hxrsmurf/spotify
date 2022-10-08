@@ -6,7 +6,7 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 
 - DynamoDB (to store the Spotify track ID, track name, and artist name)
 - EventBridge Rule (to Invoke the Lambda every 5-minutes)
-- Lambda (basic Python code to get refresh token and get player) 
+- Lambda (basic Python code to get refresh token and get player)
 - Log Group (for Lambda to write to, 3 day retention)
 - Systems Manager Parameters (Spotify Client ID, Spotify Client Secret, and Refresh Token)
 - IAM Role and relevant Policies so this can function (Lambda, CloudWatch, SSM, and SNS)
@@ -53,4 +53,15 @@ Load PowerShell:
 	- MYTOKEN
 4. player MYTOKEN 100
 	- 100 is the volume
- 
+
+# Spotify Dashboard and PowerShell
+1. Login to https://developer.spotify.com/dashboard/applications
+2. Create a new app or select existing app
+3. Copy the `Client ID`
+4. Select `Show Client Secret`
+5. Copy the `Client Secret`
+6. Update the respective variables in `getRefreshToken` of `spotify.ps1`
+7. `. .\spotify.ps1` to import the functions
+8. `$result = getRefreshToken`
+9. Copy the `$result.refreshToken`
+10. Update AWS SSM Parameter with the value from step 9
