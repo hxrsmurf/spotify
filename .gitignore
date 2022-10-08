@@ -13,3 +13,4 @@ manual_spotify.py
 
 # Include some samconfig.toml
 !poc-lambda/samconfig.toml
+!1_NowPlaying/samconfig.toml
