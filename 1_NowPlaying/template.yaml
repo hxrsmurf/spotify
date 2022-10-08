@@ -54,3 +54,8 @@ Resources:
             TableName: !Ref Table
         - SNSPublishMessagePolicy:
             TopicName: !Sub {StackTopics.Outputs.TopicARN}
+        - Effect: Allow
+            Action:
+              - 'events:PutRule'
+            Resource:
+              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge'
