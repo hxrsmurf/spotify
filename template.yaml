@@ -38,12 +38,12 @@ Resources:
       Timeout: 15
       Environment:
         Variables:
-          PreviousEntryEpochTime: !Ref ParameterPreviousEntryEpochTime
-          ParameterSpotifyClientID: !Ref ParameterSpotifyClientID
-          ParameterSpotifyClientSecret: !Ref ParameterSpotifyClientSecret
-          ParameterSpotifyRefreshToken: !Ref ParameterSpotifyRefreshToken
+          PreviousEntryEpochTime: !Sub ${StackParameters.Outputs.PreviousEntryEpochTime}
+          ParameterSpotifyClientID: !Sub ${StackParameters.Outputs.SpotifyClientID}
+          ParameterSpotifyClientSecret: !Sub ${StackParameters.Outputs.SpotifyClientSecret}
+          ParameterSpotifyRefreshToken: !Sub ${StackParameters.Outputs.SpotifyRefreshToken}
           CallbackURL: !Ref CallbackURL
-          ParameterCurrentTrack: !Ref ParameterCurrentTrack
+          ParameterCurrentTrack: !Sub ${StackParameters.Outputs.CurrentTrack}
           Table: !Ref DynamoDB
           Topic:
             Fn::GetAtt:
