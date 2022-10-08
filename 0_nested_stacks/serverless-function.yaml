@@ -2,22 +2,31 @@ Description: Serverless Lambda Function
 Parameters:
   CallbackURL:
     Type: String
+    Default: None
   CurrentTrack:
     Type: String
+    Default: None
   PreviousEntryEpochTime:
     Type: String
+    Default: None
   RedirectUri:
     Type: String
+    Default: None
   SpotifyClientID:
     Type: String
+    Default: None
   SpotifyClientSecret:
     Type: String
+    Default: None
   SpotifyRefreshToken:
     Type: String
+    Default: None
   Table:
     Type: String
+    Default: None
   Topic:
     Type: String
+    Default: None
 
 Resources:
   WaitConditionHandle:
