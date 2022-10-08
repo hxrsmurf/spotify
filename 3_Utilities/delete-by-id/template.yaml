@@ -6,8 +6,10 @@ Description: Serverless Lambda Function
 Parameters:
   Table:
     Type: String
+    Default: None
   Topic:
     Type: String
+    Default: None
 
 Resources:
   Lambda:
