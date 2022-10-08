@@ -30,6 +30,7 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: Deploy CFT
+      - name: List Directory
         working-directory: ./1_NowPlaying/template.yaml
-        run: aws cloudformation deploy --template-file template.yaml --stack-name spotify-tracker-sam-LambdaNowPlaying-1IUKZPQTGVSC0NESTED
+        run: ls
+        #run: aws cloudformation deploy --template-file template.yaml --stack-name spotify-tracker-sam-LambdaNowPlaying-1IUKZPQTGVSC0NESTED
