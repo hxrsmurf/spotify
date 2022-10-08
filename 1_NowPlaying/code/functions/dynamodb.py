@@ -9,6 +9,7 @@ def put(now_playing, table, current_track_parameter):
     # Some ids will be eastern and some will be UTC
     dt = datetime.utcnow()
     timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
+    year_month = dt.strftime('%Y-%m')
     epoch_time = dt.timestamp()
     PreviousEntryEpochTime = os.environ['PreviousEntryEpochTime']
     now_playing_track = now_playing['songID']
@@ -110,6 +111,11 @@ def put(now_playing, table, current_track_parameter):
                 'possibleDuplicate': {
                     'Value': {
                         'BOOL': possible_duplicate
+                    }
+                },
+                'year_month': {
+                    'Value': {
+                        'S': year_month
                     }
                 }
             }

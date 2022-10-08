@@ -13,3 +13,6 @@ def convert_to_milliseconds(string, type):
         return float(string) * 1000
     elif type == 'minutes':
         return float(string) * 60000
+
+def current_year_month():
+    return datetime.utcnow().strftime('%Y-%m')
