@@ -7,7 +7,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   workflow_run:
-    workflows: [Workflow]
+    workflows: [1-Main-Template]
     types:
       - completed
 
