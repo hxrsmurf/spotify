@@ -60,4 +60,4 @@ jobs:
 
       - name: Deploy CFT
         working-directory: ./1_NowPlaying/
-        run: aws cloudformation deploy --template-file template.yaml --stack-name spotify-tracker-sam-LambdaNowPlaying-1IUKZPQTGVSC0 --capabilities CAPABILITY_IAM --force-upload --parameter-overrides Key=${{steps.md5.outputs.md5}}
+        run: aws cloudformation deploy --template-file template.yaml --stack-name spotify-tracker-sam-LambdaNowPlaying-1IUKZPQTGVSC0 --capabilities CAPABILITY_IAM --force-upload --parameter-overrides Key=code/${{steps.md5.outputs.md5}}
