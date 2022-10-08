@@ -84,12 +84,6 @@ Resources:
               - 'ssm:GetParameter'
               - 'ssm:PutParameter'
             Resource:
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientID}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyClientSecret}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterSpotifyRefreshToken}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterCurrentTrack}
-              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ParameterPreviousEntryEpochTime}
-
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.SpotifyClientID}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.SpotifyClientSecret}
               - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${StackParameters.Outputs.SpotifyRefreshToken}
