@@ -1,6 +1,27 @@
 Description: Lambda Function POC
 
 Transform: 'AWS::Serverless-2016-10-31'
+Description: Serverless Lambda Function
+
+Parameters:
+  CallbackURL:
+    Type: String
+  CurrentTrack:
+    Type: String
+  PreviousEntryEpochTime:
+    Type: String
+  RedirectUri:
+    Type: String
+  SpotifyClientID:
+    Type: String
+  SpotifyClientSecret:
+    Type: String
+  SpotifyRefreshToken:
+    Type: String
+  Table:
+    Type: String
+  Topic:
+    Type: String
 
 Resources:
   LambdaDynamoDBScan:
@@ -10,3 +31,14 @@ Resources:
       Runtime: python3.9
       CodeUri: code
       Timeout: 300
+      Environment:
+        Variables:
+          CallbackURL: !Ref CallbackURL
+          CurrentTrack: !Ref CurrentTrack
+          PreviousEntryEpochTime: !Ref PreviousEntryEpochTime
+          RedirectUri: !Ref CallbackURL
+          SpotifyClientID: !Ref SpotifyClientID
+          SpotifyClientSecret: !Ref SpotifyClientSecret
+          SpotifyRefreshToken: !Ref SpotifyRefreshToken
+          Table: !Ref Table
+          Topic: !Ref Topic
