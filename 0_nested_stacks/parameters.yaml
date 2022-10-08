@@ -5,7 +5,7 @@ Outputs:
     Value: !Ref SpotifyClientID
 
   SpotifyClientSecret:
-    Values: !Ref SpotifyClientSecret
+    Value: !Ref SpotifyClientSecret
 
   SpotifyRefreshToken:
     Value: !Ref SpotifyRefreshToken
