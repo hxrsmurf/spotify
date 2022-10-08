@@ -1,0 +1,31 @@
+Description: Lambda Function POC
+
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Serverless Lambda Function
+
+Parameters:
+  Table:
+    Type: String
+  Topic:
+    Type: String
+
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: code
+      Timeout: 840 # 14 minutes
+      Environment:
+        Variables:
+          Table: !Ref Table
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Table
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'sns:publish'
+            Resource:
+              - !Ref Topic
