@@ -2,9 +2,9 @@ version = 0.1
 [default]
 [default.deploy]
 [default.deploy.parameters]
-stack_name = "spotify-tracker-sam-StackLambdaReportCurrentMonth-G9VWC74498T4"
+stack_name = "spotify-tracker-sam-LambdaReportCurrentMonth-R8A75XL6ZTOX"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-148nh4a4hjibx"
-s3_prefix = "spotify-tracker-sam-StackLambdaReportCurrentMonth-G9VWC74498T4"
+s3_prefix = "spotify-tracker-sam-LambdaReportCurrentMonth-R8A75XL6ZTOX"
 region = "us-east-1"
 confirm_changeset = false
 capabilities = "CAPABILITY_IAM"
