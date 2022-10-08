@@ -112,6 +112,11 @@ def put(now_playing, table, current_track_parameter):
                     'Value': {
                         'BOOL': possible_duplicate
                     }
+                },
+                'year_month': {
+                    'Value': {
+                        'S': year_month
+                    }
                 }
             }
         )
