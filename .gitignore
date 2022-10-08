@@ -11,9 +11,11 @@ manual_spotify.py
 *.pyc
 */.aws-sam/*
 2_Reports/current_month/.aws-sam/*
+3_Utilities/migrations/epochTime/.aws-sam/*
 
 # Include some samconfig.toml
 !poc-lambda/samconfig.toml
 !1_NowPlaying/samconfig.toml
 !requirements.txt
 !2_Reports/current_month/samconfig.toml
+!3_Utilities/migrations/epochTime/samconfig.toml
