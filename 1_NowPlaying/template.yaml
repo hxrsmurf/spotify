@@ -77,6 +77,11 @@ Resources:
     Properties:
       RetentionInDays: 90
 
+  LogGroup1:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      RetentionInDays: 90
+
   Role:
     Type: 'AWS::IAM::Role'
     Properties:
