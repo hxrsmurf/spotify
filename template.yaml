@@ -11,16 +11,8 @@ Parameters:
     Description: Enter the callback URL
 
 Outputs:
-  ClientID:
-    Value: !Ref ParameterSpotifyClientID
-  ClientSecret:
-    Value: !Ref ParameterSpotifyClientSecret
-  RefreshToken:
-    Value: !Ref ParameterSpotifyRefreshToken
   RedirectUri:
     Value: !Ref CallbackURL
-  CurrentTrack:
-    Value: !Ref ParameterCurrentTrack
   Table:
     Value: !Ref DynamoDB
   TopicNested:
