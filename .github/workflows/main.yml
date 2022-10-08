@@ -37,10 +37,6 @@ jobs:
       - name: SAM Build & Deploy main template
         run: sam build && sam deploy
 
-      - name: SAM Build & Deploy Reports/Current_Month
-        working-directory: ./2_Reports/current_month
-        run: sam build && sam deploy
-
       - name: SAM Build & Deploy migrations/add-year-month
         working-directory: ./3_Utilities/migrations/add-year-month
         run: sam build && sam deploy
