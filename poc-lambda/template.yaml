@@ -42,3 +42,36 @@ Resources:
           SpotifyRefreshToken: !Ref SpotifyRefreshToken
           Table: !Ref Table
           Topic: !Ref Topic
+      Events:
+        EventBridge:
+            Type: Schedule
+            Properties:
+              Schedule: rate(2 minutes)
+              Enabled: true
+              Name: 'EventBridge'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Table
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'events:PutRule'
+            Resource:
+              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/SpotifyNowPlaying'
+          - Effect: Allow
+            Action:
+              - 'sns:publish'
+            Resource:
+              - !Ref Topic
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
+            Resource:
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
