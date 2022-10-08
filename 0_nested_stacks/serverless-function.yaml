@@ -1,0 +1,25 @@
+Description: Serverless Lambda Function
+Parameters:
+  CallbackURL:
+    Type: String
+  CurrentTrack:
+    Type: String
+  PreviousEntryEpochTime:
+    Type: String
+  RedirectUri:
+    Type: String
+  SpotifyClientID:
+    Type: String
+  SpotifyClientSecret:
+    Type: String
+  SpotifyRefreshToken:
+    Type: String
+  Table:
+    Type: String
+  Topic:
+    Type: String
+
+Resources:
+  WaitConditionHandle:
+    Type: 'AWS::CloudFormation::WaitConditionHandle'
+    Properties: {}

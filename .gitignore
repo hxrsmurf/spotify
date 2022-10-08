@@ -9,3 +9,7 @@ manual_spotify.py
 .~lock*
 *.xlsx
 *.pyc
+*/.aws-sam/*
+
+# Include some samconfig.toml
+!poc-lambda/samconfig.toml
