@@ -1,0 +1,77 @@
+Description: Lambda Function POC
+
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Serverless Lambda Function
+
+Parameters:
+  CallbackURL:
+    Type: String
+  CurrentTrack:
+    Type: String
+  PreviousEntryEpochTime:
+    Type: String
+  RedirectUri:
+    Type: String
+  SpotifyClientID:
+    Type: String
+  SpotifyClientSecret:
+    Type: String
+  SpotifyRefreshToken:
+    Type: String
+  Table:
+    Type: String
+  Topic:
+    Type: String
+
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: code
+      Timeout: 300
+      Environment:
+        Variables:
+          CallbackURL: !Ref CallbackURL
+          CurrentTrack: !Ref CurrentTrack
+          PreviousEntryEpochTime: !Ref PreviousEntryEpochTime
+          RedirectUri: !Ref CallbackURL
+          SpotifyClientID: !Ref SpotifyClientID
+          SpotifyClientSecret: !Ref SpotifyClientSecret
+          SpotifyRefreshToken: !Ref SpotifyRefreshToken
+          Table: !Ref Table
+          Topic: !Ref Topic
+      Events:
+        EventBridge:
+            Type: Schedule
+            Properties:
+              Schedule: rate(2 minutes)
+              Enabled: true
+              Name: 'EventBridge1'
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Table
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'events:PutRule'
+            Resource:
+              - !Sub 'arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/EventBridge1'
+          - Effect: Allow
+            Action:
+              - 'sns:publish'
+            Resource:
+              - !Ref Topic
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
+            Resource:
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
