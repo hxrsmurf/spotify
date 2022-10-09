@@ -10,7 +10,7 @@ Outputs:
   TopicARN:
     Value: !Ref Topic
     Export:
-      Name: !Sub ${AWS::StackName}-TopicArn
+      Name: spotify-tracker-sam-TopicArn
 
 Resources:
   Topic:
