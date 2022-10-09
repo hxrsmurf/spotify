@@ -43,6 +43,11 @@ Resources:
         - Statement:
           - Effect: Allow
             Action:
+              - 'dynamodb:dynamodb:DescribeExport'
+            Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}/export/*
+        - Statement:
+          - Effect: Allow
+            Action:
               - 'sns:publish'
             Resource:
               - !Ref Topic
