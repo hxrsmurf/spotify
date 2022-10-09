@@ -1,7 +1,7 @@
 import boto3
 import os 
 
-def put(value):
+def ssm_put(value):
     ssm_client = boto3.client('ssm')
     parameter = os.environ['ExportArn']
 
@@ -17,7 +17,7 @@ def put(value):
     return(message)
 
 # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ssm.html
-def get():
+def ssm_get():
     ssm_client = boto3.client('ssm')
     parameter = os.environ['ExportArn']
     result = ssm_client.get_parameter(
