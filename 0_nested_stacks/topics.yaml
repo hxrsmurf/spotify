@@ -9,6 +9,8 @@ Parameters:
 Outputs:
   TopicARN:
     Value: !Ref Topic
+    Export:
+      Name: !Sub ${AWS::StackName}-Topic
 
 Resources:
   Topic:
