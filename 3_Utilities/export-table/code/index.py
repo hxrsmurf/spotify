@@ -12,7 +12,7 @@ def handler(event, context):
     
     ssm_put(result_export)
 
-    message = f'Started DB Export: {result_export['ExportArn']}'    
+    message = f'Started DB Export: {result_export}'    
     send_notfication(message)
 
     print(message)

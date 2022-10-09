@@ -17,7 +17,7 @@ def db_export():
         S3Prefix = f'output/{outut_file}'
     )
 
-    return response['ExportDescription']
+    return response['ExportDescription']['ExportArn']
 
 def db_describe_export(ExportArn):
     client = boto3.client('dynamodb')
