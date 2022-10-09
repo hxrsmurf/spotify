@@ -107,17 +107,6 @@ Resources:
         Table: !Ref DynamoDB
         Topic: !Sub ${StackTopics.Outputs.TopicARN}
 
-  LambdaUtilityExportTable:
-    DeletionPolicy: Retain
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: https://spotify-tracker-sam-stackbucket-t9la7txytz-bucket-17ayxd8l3bm8f.s3.amazonaws.com/serverless-function.yaml
-      Parameters:
-        Bucket: !Sub ${StackBucket.Outputs.Bucket}
-        Table: !Ref DynamoDB
-        Topic: !Sub ${StackTopics.Outputs.TopicARN}
-        ExportTableArn: !Sub ${StackParameters.Outputs.ExportTableArn}
-
   AutoScalingGroup:
     Type: AWS::CloudFormation::Stack
     Properties:
