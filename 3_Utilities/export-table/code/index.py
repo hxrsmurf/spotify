@@ -9,3 +9,5 @@ def handler(event, context):
 
     result_export = db_export()
     print(result_export['ExportArn'])
+
+    status_export = db_describe_export()

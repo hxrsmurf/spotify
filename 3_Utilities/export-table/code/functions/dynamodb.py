@@ -25,4 +25,4 @@ def db_describe_export(ExportArn):
         ExportArn = ExportArn
     )
 
-    print(response)
+    return (response['ExportDescription']['ExportStatus'])
