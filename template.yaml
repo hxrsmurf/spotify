@@ -37,6 +37,9 @@ Outputs:
       Fn::GetAtt:
         - StackTopics
         - Outputs.TopicARN
+    Export:
+      Name: TopicNested
+      
 Resources:
   DynamoDB:
     Type: 'AWS::Serverless::SimpleTable'
