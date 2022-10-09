@@ -76,8 +76,7 @@ Resources:
           SpotifyClientSecret: !Ref SpotifyClientSecret
           SpotifyRefreshToken: !Ref SpotifyRefreshToken
           Table: !Ref Table
-          TableArnStack: Fn::ImportValue: 
-            !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${TableStack-Table}
+          TableArnStack: !ImportValue ${TableStack-Table}
           Topic: !Ref Topic
 
   LogGroup:
