@@ -26,6 +26,8 @@ Parameters:
 Outputs:
   RedirectUri:
     Value: !Ref CallbackURL
+    Export:
+      Name: RedirectUri
   Table:
     Value: !Ref DynamoDB
   TopicNested:
