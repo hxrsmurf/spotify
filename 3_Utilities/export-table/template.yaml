@@ -22,6 +22,7 @@ Resources:
       Environment:
         Variables:
           Table: !Ref Table
+          Bucket: !Ref Bucket
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
