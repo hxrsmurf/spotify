@@ -6,9 +6,11 @@ Parameters:
     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2'
   VpcId:
     Type: AWS::EC2::VPC::Id
+    Default: None
   Subnets:
     Type: 'List<AWS::EC2::Subnet::Id>'
     Description: A list of subnets for the Auto Scaling group
+    Default: None
 
 Resources:
   LaunchTemplate:
