@@ -3,7 +3,7 @@ import os
 
 from .utils import current_day_time
 
-def db_export(id):
+def db_export():
     table = os.environ['Table']
     bucket = os.environ['Bucket']
     client = boto3.client('dynamodb')
@@ -14,3 +14,5 @@ def db_export(id):
         S3Bucket = bucket,
         S3Prefix = f'output/{outut_file}'
     )
+
+    print(response)

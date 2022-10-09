@@ -1,12 +1,9 @@
 import os
 
-from functions.dynamodb import db_delete
+from functions.dynamodb import db_export
 
 def handler(event, context):
     table = os.environ['Table']
-    print(f'Accessing {table}')
+    print(f'Exporting {table}')
 
-    with open('ids.txt', 'r') as ids_to_delete:
-        for id in ids_to_delete:
-            print(f'Deleting {id}...')
-            db_delete(id.strip())
+    db_export()
