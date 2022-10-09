@@ -106,4 +106,5 @@ Resources:
     Properties:
       TemplateURL: https://spotify-tracker-sam-stackbucket-t9la7txytz-bucket-17ayxd8l3bm8f.s3.amazonaws.com/serverless-function.yaml
       Parameters:
+        Bucket: !Sub ${StackBucket.Outputs.Bucket}
         Table: !Ref DynamoDB
