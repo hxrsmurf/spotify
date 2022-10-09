@@ -3,21 +3,33 @@ Description: Parameters
 Outputs:
   SpotifyClientID:
     Value: !Ref SpotifyClientID
+    Export:
+      Name: !Sub ${AWS::StackName}-SpotifyClientID
 
   SpotifyClientSecret:
     Value: !Ref SpotifyClientSecret
+    Export:
+      Name: !Sub ${AWS::StackName}-SpotifyClientSecret
 
   SpotifyRefreshToken:
     Value: !Ref SpotifyRefreshToken
+    Export:
+      Name: !Sub ${AWS::StackName}-SpotifyRefreshToken
 
   CurrentTrack:
     Value: !Ref CurrentTrack
+    Export:
+      Name: !Sub ${AWS::StackName}-CurrentTrack
 
   PreviousEntryEpochTime:
     Value: !Ref PreviousEntryEpochTime
+    Export:
+      Name: !Sub ${AWS::StackName}-PreviousEntryEpochTime
 
   ExportTableArn:
     Value: !Ref ExportTableArn
+    Export:
+      Name: !Sub ${AWS::StackName}-ExportTableArn
 
 Resources:
   SpotifyClientID:
