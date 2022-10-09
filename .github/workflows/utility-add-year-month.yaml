@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: utility-add-year-month
+name: Utility - Add Year/Month
 
 # Controls when the workflow will run
 on:
