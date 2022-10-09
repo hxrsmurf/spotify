@@ -10,6 +10,9 @@ Parameters:
   Bucket:
     Type: String
     Default: None
+  Topic:
+    Type: String
+    Default: None
 
 Resources:
   Lambda:
@@ -33,3 +36,9 @@ Resources:
             Action:
               - 'dynamodb:ExportTableToPointInTime'
             Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'sns:publish'
+            Resource:
+              - !Ref Topic
