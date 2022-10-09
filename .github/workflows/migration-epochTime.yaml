@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: delete-by-id
+name: Migration - Epoch Time
 
 # Controls when the workflow will run
 on:
@@ -34,6 +34,6 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: SAM Build & Deploy 3_Utilities/delete-by-id
-        working-directory: ./3_Utilities/delete-by-id
+      - name: SAM Build & Deploy migrations/epochTime/
+        working-directory: ./3_Utilities/migrations/epochTime
         run: sam build && sam deploy
