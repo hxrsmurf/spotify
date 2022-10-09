@@ -3,6 +3,8 @@ import os
 
 from .utils import current_day_time
 
+# https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html
+
 def db_export():
     table_arn = os.environ['TableArn']
     bucket = os.environ['Bucket']
@@ -16,3 +18,11 @@ def db_export():
     )
 
     return response['ExportDescription']
+
+def db_describe_export(ExportArn):
+    client = boto3.client('dynamodb')
+    response = client.describe_export(
+        ExportArn = ExportArn
+    )
+
+    print(response)

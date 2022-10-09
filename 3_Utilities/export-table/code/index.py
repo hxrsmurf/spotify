@@ -1,6 +1,6 @@
 import os
 
-from functions.dynamodb import db_export
+from functions.dynamodb import db_export, db_describe_export
 from functions.ssm import ssm_put
 
 def handler(event, context):
