@@ -9,6 +9,10 @@ def handler(event, context):
     print(f'Exporting {table}')
 
     result_export = db_export()
-    message = f'Started DB Export: {result_export['ExportArn']}'
-    print(message)
+    
+    ssm_put(result_export)
+
+    message = f'Started DB Export: {result_export['ExportArn']}'    
     send_notfication(message)
+
+    print(message)
