@@ -19,7 +19,7 @@ Resources:
       LaunchTemplateName: Github-Actions-CFT
       LaunchTemplateData:
         ImageId: !Ref LatestAmiId
-        InstanceType: t2.nano
+        InstanceType: t2.micro
         NetworkInterfaces:
           - DeviceIndex: 0
             DeleteOnTermination: true
