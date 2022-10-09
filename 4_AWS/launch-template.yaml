@@ -33,7 +33,7 @@ Resources:
     Properties:
       # Non-Mixed Instance Policy
       #LaunchTemplate:
-      #  LaunchTemplateId: !Ref MyLaunchTemplate
+      #  LaunchTemplateId: !Ref LaunchTemplate
       #  Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
       CapacityRebalance: false
       Cooldown: 60
@@ -45,8 +45,8 @@ Resources:
       MixedInstancesPolicy:
         LaunchTemplate:
           LaunchTemplateSpecification:
-            LaunchTemplateId: !Ref MyLaunchTemplate
-            Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+            LaunchTemplateId: !Ref LaunchTemplate
+            Version: !GetAtt LaunchTemplate.LatestVersionNumber
         InstancesDistribution:
           OnDemandAllocationStrategy: lowest-price
           OnDemandBaseCapacity: 0
