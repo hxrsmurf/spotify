@@ -14,7 +14,7 @@ def db_export():
     response = client.export_table_to_point_in_time(
         TableArn  = table_arn,
         S3Bucket = bucket,
-        S3Prefix = f'output/{output_file}'
+        S3Prefix = f'outputs/AWSDynamoDB/{output_file}'
     )
 
     return response['ExportDescription']['ExportArn']
