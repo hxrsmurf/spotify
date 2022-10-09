@@ -30,6 +30,8 @@ Outputs:
       Name: RedirectUri
   Table:
     Value: !Ref DynamoDB
+    Export:
+      Name: Table
   TopicNested:
     Value:
       Fn::GetAtt:
