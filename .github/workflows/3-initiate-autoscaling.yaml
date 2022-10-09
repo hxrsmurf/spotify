@@ -7,8 +7,8 @@ name: 3-Initiate-AutoScaling
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
 
-  #push:
-  #  branches: '**'
+  push:
+    branches: '**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,6 +36,6 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: Sync Nested Stacks
+      - name: Initiate AutoScaling
         working-directory: ./0_nested_stacks
-        run: aws autoscaling set-desired-capacity --auto-scaling-group-name spotify-tracker-sam-LaunchTemplate-1V1WP9YNL2K27-AutoScalingGroup-1GGRR1H2FCZLK --desired-capacity 1
+        run: aws autoscaling set-desired-capacity --auto-scaling-group-name ${{ secrets.AUTOSCALINGGROUPNAME }} --desired-capacity 1
