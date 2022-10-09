@@ -9,6 +9,8 @@ Parameters:
 Outputs:
   TopicARN:
     Value: !Ref Topic
+    Export:
+      Name: spotify-tracker-sam-TopicArn
 
 Resources:
   Topic:

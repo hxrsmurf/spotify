@@ -3,6 +3,8 @@ Description: S3 Bucket
 Outputs:
   Bucket:
     Value: !Ref Bucket
+    Export:
+      Name: spotify-tracker-sam-Bucket
 
 Resources:
   Bucket:

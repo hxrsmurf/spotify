@@ -6,9 +6,9 @@ name: 2-Now-Playing
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+  
   #push:
-  #  branches: [feature/*, hotfix/*]
+  #  branches: '**'
 
   #workflow_run:
   # workflows: [1-Main-Template]

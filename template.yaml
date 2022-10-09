@@ -26,13 +26,27 @@ Parameters:
 Outputs:
   RedirectUri:
     Value: !Ref CallbackURL
+    Export:
+      Name: !Sub ${AWS::StackName}-RedirectUri
+
   Table:
     Value: !Ref DynamoDB
+    Export:
+      Name: !Sub ${AWS::StackName}-Table
+
+  TableArn:
+    Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoDB}
+    Export:
+      Name: !Sub ${AWS::StackName}-TableArn
+      
   TopicNested:
     Value:
       Fn::GetAtt:
         - StackTopics
         - Outputs.TopicARN
+    Export:
+      Name: !Sub ${AWS::StackName}-TopicNested
+      
 Resources:
   DynamoDB:
     Type: 'AWS::Serverless::SimpleTable'
