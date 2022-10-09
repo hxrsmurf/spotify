@@ -9,6 +9,9 @@ Parameters:
   CurrentTrack:
     Type: String
     Default: None
+  ExportTableArn:
+    Type: String
+    Default: None
   PreviousEntryEpochTime:
     Type: String
     Default: None

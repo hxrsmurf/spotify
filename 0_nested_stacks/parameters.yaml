@@ -16,6 +16,9 @@ Outputs:
   PreviousEntryEpochTime:
     Value: !Ref PreviousEntryEpochTime
 
+  ExportTableArn:
+    Value: !Ref ExportTableArn
+
 Resources:
   SpotifyClientID:
     Type: AWS::SSM::Parameter
@@ -53,6 +56,14 @@ Resources:
     Type: AWS::SSM::Parameter
     Properties:
       Description: DynamoDB Previous Entry's EpochTime
+      Tier: Standard
+      Type: String
+      Value: None
+
+  ExportTableArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: DynamoDB Current Export Arn
       Tier: Standard
       Type: String
       Value: None
