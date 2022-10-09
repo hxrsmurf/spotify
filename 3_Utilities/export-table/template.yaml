@@ -13,7 +13,6 @@ Parameters:
   Topic:
     Type: String
     Default: None
-
   ExportTableArn:
     Type: String
     Default: None
@@ -46,7 +45,8 @@ Resources:
               - 'sns:publish'
             Resource:
               - !Ref Topic
-          - Effect: Allow
+          - PolicyName:  SSM
+            Effect: Allow
             Action:
               - 'ssm:DescribeParameters'
               - 'ssm:GetParameters'
