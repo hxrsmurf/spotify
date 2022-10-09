@@ -38,6 +38,6 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: SAM Build & Deploy migrations/delete-by-id
+      - name: SAM Build & Deploy 3_Utilities/delete-by-id
         working-directory: ./3_Utilities/delete-by-id
         run: sam build && sam deploy
