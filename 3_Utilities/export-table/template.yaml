@@ -45,8 +45,7 @@ Resources:
               - 'dynamodb:ExportTableToPointInTime'
             Resource: 
               - !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}
-              - Fn::ImportValue:
-                  !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${spotify-tracker-sam-Table}
+              - !ImportValue spotify-tracker-sam-Table
 
         - Statement:
           - Effect: Allow

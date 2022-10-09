@@ -30,7 +30,7 @@ Outputs:
       Name: !Sub ${AWS::StackName}-RedirectUri
 
   Table:
-    Value: !Ref DynamoDB
+    Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoDB}
     Export:
       Name: !Sub ${AWS::StackName}-Table
       
