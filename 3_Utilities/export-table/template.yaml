@@ -28,3 +28,8 @@ Resources:
             TableName: !Ref Table
         - S3CrudPolicy:
             BucketName: !Ref Bucket
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'dynamodb:ExportTableToPointInTime'
+            Resource: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}
