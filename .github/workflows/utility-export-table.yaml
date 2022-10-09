@@ -6,10 +6,6 @@ name: Utility - Export DynamoDB Table
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-  push:
-    branches: '**'
-
   workflow_run:
     workflows: 4-Initiate-Backend-Builds
     types:
