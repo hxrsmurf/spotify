@@ -6,6 +6,9 @@ Parameters:
     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2'
   VpcId:
     Type: AWS::EC2::VPC::Id
+  Subnets:
+    Type: 'List<AWS::EC2::Subnet::Id>'
+    Description: A list of subnets for the Auto Scaling group
 
 Resources:
   MyLaunchTemplate:
@@ -15,8 +18,6 @@ Resources:
       LaunchTemplateData:
         ImageId: !Ref LatestAmiId
         InstanceType: t2.nano
-        SecurityGroupIds:
-          - !Ref SecurityGroup
         NetworkInterfaces:
           - DeviceIndex: 0
             DeleteOnTermination: true
@@ -26,8 +27,29 @@ Resources:
     Properties:
       GroupDescription: GithubActionsCFT
       VpcId: !Ref VpcId
-      SecurityGroupEgress:
-        - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
-          CidrIp: 0.0.0.0/0
+
+  AutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      # Non-Mixed Instance Policy
+      #LaunchTemplate:
+      #  LaunchTemplateId: !Ref MyLaunchTemplate
+      #  Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+      CapacityRebalance: false
+      Cooldown: 60
+      HealthCheckGracePeriod: 30
+      MaxSize: '10'
+      MinSize: '0'
+      DesiredCapacity: '0'
+      VPCZoneIdentifier: !Ref Subnets
+      MixedInstancesPolicy:
+        LaunchTemplate:
+          LaunchTemplateSpecification:
+            LaunchTemplateId: !Ref MyLaunchTemplate
+            Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+        InstancesDistribution:
+          OnDemandAllocationStrategy: lowest-price
+          OnDemandBaseCapacity: 0
+          OnDemandPercentageAboveBaseCapacity: 0
+          SpotAllocationStrategy: lowest-price
+          SpotInstancePools: 20
