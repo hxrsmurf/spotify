@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: EC2 Launch Template for Github Actions
+Parameters:
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2'
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+
+Resources:
+  MyLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: Github-Actions-CFT
+      LaunchTemplateData:
+        ImageId: !Ref LatestAmiId
+        InstanceType: t2.nano
+        SecurityGroupIds:
+          - !Ref SecurityGroup
+        NetworkInterfaces:
+          - DeviceIndex: 0
+            DeleteOnTermination: true
+
+  SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: GithubActionsCFT
+      VpcId: !Ref VpcId
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
