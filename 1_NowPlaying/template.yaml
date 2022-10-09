@@ -76,7 +76,7 @@ Resources:
           SpotifyClientSecret: !Ref SpotifyClientSecret
           SpotifyRefreshToken: !Ref SpotifyRefreshToken
           Table: !Ref Table
-          TableArnStack: !ImportValue ${TableStack-Table}
+          TableArnStack: !ImportValue spotify-tracker-sam-Table
           Topic: !Ref Topic
 
   LogGroup:
