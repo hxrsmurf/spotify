@@ -115,6 +115,7 @@ Resources:
         Bucket: !Sub ${StackBucket.Outputs.Bucket}
         Table: !Ref DynamoDB
         Topic: !Sub ${StackTopics.Outputs.TopicARN}
+        ExportTableArn: !Sub ${StackParameters.Outputs.ExportTableArn}
 
   AutoScalingGroup:
     Type: AWS::CloudFormation::Stack

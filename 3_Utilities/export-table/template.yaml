@@ -14,6 +14,10 @@ Parameters:
     Type: String
     Default: None
 
+  ExportTableArn:
+    Type: String
+    Default: None
+
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
@@ -42,3 +46,11 @@ Resources:
               - 'sns:publish'
             Resource:
               - !Ref Topic
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
+            Resource:
+              - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${ExportTableArn}

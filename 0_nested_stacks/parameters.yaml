@@ -16,6 +16,9 @@ Outputs:
   PreviousEntryEpochTime:
     Value: !Ref PreviousEntryEpochTime
 
+  ExportTableArn:
+    Value: !Ref ExportTableArn
+
 Resources:
   SpotifyClientID:
     Type: AWS::SSM::Parameter
