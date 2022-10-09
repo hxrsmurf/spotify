@@ -28,10 +28,12 @@ Outputs:
     Value: !Ref CallbackURL
     Export:
       Name: !Sub ${AWS::StackName}-RedirectUri
+
   Table:
     Value: !Ref DynamoDB
     Export:
       Name: !Sub ${AWS::StackName}-Table
+      
   TopicNested:
     Value:
       Fn::GetAtt:
