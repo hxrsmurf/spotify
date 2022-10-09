@@ -7,3 +7,5 @@ def handler(event, context):
     print(f'Exporting {table}')
 
     db_export()
+
+    # Run workflow
