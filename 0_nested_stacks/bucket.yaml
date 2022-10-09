@@ -3,6 +3,8 @@ Description: S3 Bucket
 Outputs:
   Bucket:
     Value: !Ref Bucket
+    Export:
+      Name: !Sub ${AWS::StackName}-Bucket
 
 Resources:
   Bucket:
