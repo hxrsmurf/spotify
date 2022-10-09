@@ -29,6 +29,7 @@ Resources:
         Variables:
           TableArn: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}
           Bucket: !Ref Bucket
+          ExportArn: !Ref ExportTableArn
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
