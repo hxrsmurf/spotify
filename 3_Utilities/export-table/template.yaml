@@ -45,8 +45,7 @@ Resources:
               - 'sns:publish'
             Resource:
               - !Ref Topic
-          - PolicyName:  SSM
-            Effect: Allow
+          - Effect: Allow
             Action:
               - 'ssm:DescribeParameters'
               - 'ssm:GetParameters'
