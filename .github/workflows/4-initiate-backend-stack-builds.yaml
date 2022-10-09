@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: 4-Initiate-Backend-Bulds
+name: 4-Initiate-Backend-Builds
 
 # Controls when the workflow will run
 on:
