@@ -11,7 +11,7 @@ Parameters:
     Description: A list of subnets for the Auto Scaling group
 
 Resources:
-  MyLaunchTemplate:
+  LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
       LaunchTemplateName: Github-Actions-CFT

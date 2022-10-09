@@ -10,6 +10,8 @@ on:
     workflows: [1-Main-Template]
     types:
       - completed
+    branch-ignore:
+      - feature/*
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
