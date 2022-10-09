@@ -6,4 +6,5 @@ def handler(event, context):
     table = os.environ['TableArn']
     print(f'Exporting {table}')
 
-    db_export()
+    result_export = db_export()
+    ssm.put(result_export['ExportArn'])
