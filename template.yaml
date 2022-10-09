@@ -27,18 +27,18 @@ Outputs:
   RedirectUri:
     Value: !Ref CallbackURL
     Export:
-      Name: RedirectUri
+      Name: !Sub ${AWS::StackName}-RedirectUri
   Table:
     Value: !Ref DynamoDB
     Export:
-      Name: Table
+      Name: !Sub ${AWS::StackName}-Table
   TopicNested:
     Value:
       Fn::GetAtt:
         - StackTopics
         - Outputs.TopicARN
     Export:
-      Name: TopicNested
+      Name: !Sub ${AWS::StackName}-TopicNested
       
 Resources:
   DynamoDB:
