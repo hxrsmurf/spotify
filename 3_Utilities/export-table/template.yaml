@@ -21,7 +21,7 @@ Resources:
       Timeout: 120
       Environment:
         Variables:
-          Table: !Ref Table
+          TableArn: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}
           Bucket: !Ref Bucket
       Policies:
         - DynamoDBCrudPolicy:
