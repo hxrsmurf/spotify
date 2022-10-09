@@ -4,7 +4,7 @@ Outputs:
   Bucket:
     Value: !Ref Bucket
     Export:
-      Name: !Sub ${AWS::StackName}-Bucket
+      Name: spotify-tracker-sam-Bucket
 
 Resources:
   Bucket:
