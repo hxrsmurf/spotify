@@ -25,11 +25,5 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
-          aws-region: us-east-1
-
       - name: Display ASG Secret
         run: echo ${{ secrets.AUTOSCALINGGROUPNAME }}
