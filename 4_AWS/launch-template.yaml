@@ -6,12 +6,14 @@ Parameters:
     Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2'
   VpcId:
     Type: AWS::EC2::VPC::Id
+    Default: None
   Subnets:
     Type: 'List<AWS::EC2::Subnet::Id>'
     Description: A list of subnets for the Auto Scaling group
+    Default: None
 
 Resources:
-  MyLaunchTemplate:
+  LaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
       LaunchTemplateName: Github-Actions-CFT
@@ -33,7 +35,7 @@ Resources:
     Properties:
       # Non-Mixed Instance Policy
       #LaunchTemplate:
-      #  LaunchTemplateId: !Ref MyLaunchTemplate
+      #  LaunchTemplateId: !Ref LaunchTemplate
       #  Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
       CapacityRebalance: false
       Cooldown: 60
@@ -45,8 +47,8 @@ Resources:
       MixedInstancesPolicy:
         LaunchTemplate:
           LaunchTemplateSpecification:
-            LaunchTemplateId: !Ref MyLaunchTemplate
-            Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+            LaunchTemplateId: !Ref LaunchTemplate
+            Version: !GetAtt LaunchTemplate.LatestVersionNumber
         InstancesDistribution:
           OnDemandAllocationStrategy: lowest-price
           OnDemandBaseCapacity: 0
