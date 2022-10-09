@@ -56,3 +56,11 @@ Resources:
       Tier: Standard
       Type: String
       Value: None
+
+  ExportTableArn:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Description: DynamoDB Current Export Arn
+      Tier: Standard
+      Type: String
+      Value: None
