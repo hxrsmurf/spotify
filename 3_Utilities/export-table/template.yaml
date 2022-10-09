@@ -30,6 +30,7 @@ Resources:
           TableArn: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${Table}
           Bucket: !Ref Bucket
           ExportArn: !Ref ExportTableArn
+          Topic: !Ref Topic
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref Table
