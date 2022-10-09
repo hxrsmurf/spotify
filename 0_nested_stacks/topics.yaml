@@ -10,7 +10,7 @@ Outputs:
   TopicARN:
     Value: !Ref Topic
     Export:
-      Name: !Sub ${AWS::StackName}-Topic
+      Name: !Sub ${AWS::StackName}-TopicArn
 
 Resources:
   Topic:
