@@ -38,4 +38,4 @@ jobs:
 
       - name: Initiate AutoScaling
         working-directory: ./0_nested_stacks
-        run: aws autoscaling set-desired-capacity --auto-scaling-group-name ${{ secrets.AUTOSCALINGGROUPNAME }} --desired-capacity 1
+        run: aws autoscaling set-desired-capacity --auto-scaling-group-name ${{ secrets.AUTOSCALINGGROUPNAME }} --desired-capacity 5
