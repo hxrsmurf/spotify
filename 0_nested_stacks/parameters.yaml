@@ -42,7 +42,7 @@ Outputs:
       Name: !Sub ${AWS::StackName}-Key
 
   EventBridgeSchedule:
-    Value:
+    Value: rate(2 minutes)
     Export:
       Name: !Sub ${AWS::StackName}-EventBridgeSchedule
 
