@@ -33,6 +33,8 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 - https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
 - https://developer.spotify.com/documentation/web-api/reference/#/operations/get-information-about-the-users-current-playback
 - https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+- https://github.com/GoogleCloudPlatform/cloud-foundation-toolkit/blob/master/dm/templates/cloud_function/
+- https://cloud.google.com/deployment-manager/docs/configuration/supported-resource-types
 
 # spotify (PowerShell)
 
