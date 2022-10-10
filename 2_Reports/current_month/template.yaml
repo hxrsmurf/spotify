@@ -26,7 +26,7 @@ Resources:
       CodeUri: code
       Timeout: 120
       Layers:
-        - !Ref PandasLayer
+        - !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-PandasLayerArn
       Environment:
         Variables:
           Bucket: !ImportValue spotify-tracker-sam-Bucket
