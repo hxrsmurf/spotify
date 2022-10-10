@@ -30,11 +30,11 @@ Resources:
       Environment:
         Variables:
           Bucket: !Ref Bucket
-          Table: !Ref Table
+          Table: !ImportValue spotify-tracker-sam-TableName
           Topic: !Ref Topic
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref Table
+            TableName: !ImportValue spotify-tracker-sam-TableName
         - S3CrudPolicy:
             BucketName: !Ref Bucket
         - Statement:
