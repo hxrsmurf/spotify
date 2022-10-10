@@ -28,12 +28,14 @@ Resources:
             Status: Enabled
             NoncurrentVersionExpiration:
               NoncurrentDays: 5
+
           - Id: Delete All AWSDynamoDB - 1 Day
             Status: Enabled
             Prefix: outputs/AWSDynamoDB/
             ExpirationInDays: 1
             NoncurrentVersionExpiration:
               NoncurrentDays: 1
+
           - Id: Delete All NowPlaying Code - 1 Day
             Status: Enabled
             Prefix: code/
