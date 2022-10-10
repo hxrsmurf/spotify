@@ -36,6 +36,11 @@ Outputs:
     Export:
       Name: !Sub ${AWS::StackName}-RequestsLayerArn
 
+  Key:
+    Value: now_playing.zip
+    Export:
+      Name: !Sub ${AWS::StackName}-Key
+
 Resources:
   SpotifyClientID:
     Type: AWS::SSM::Parameter
