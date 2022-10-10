@@ -24,13 +24,21 @@ Resources:
         Status: Enabled
       LifecycleConfiguration:
         Rules:
-          - Id: Delete Noncurrent
+          - Id: Delete Noncurrent - 5 Days
             Status: Enabled
             NoncurrentVersionExpiration:
               NoncurrentDays: 5
-          - Id: Delete All AWSDynamoDB
+
+          - Id: Delete All AWSDynamoDB - 1 Day
             Status: Enabled
             Prefix: outputs/AWSDynamoDB/
+            ExpirationInDays: 1
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 1
+
+          - Id: Delete All NowPlaying Code - 1 Day
+            Status: Enabled
+            Prefix: code/
             ExpirationInDays: 1
             NoncurrentVersionExpiration:
               NoncurrentDays: 1
