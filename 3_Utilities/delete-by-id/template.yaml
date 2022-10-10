@@ -3,14 +3,6 @@ Description: Lambda Function POC
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Serverless Lambda Function
 
-Parameters:
-  Table:
-    Type: String
-    Default: None
-  Topic:
-    Type: String
-    Default: None
-
 Resources:
   Lambda:
     Type: 'AWS::Serverless::Function'
@@ -26,6 +18,7 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !ImportValue spotify-tracker-sam-TableName
+
         - Statement:
           - Effect: Allow
             Action:
