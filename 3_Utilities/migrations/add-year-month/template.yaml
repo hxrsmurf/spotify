@@ -22,7 +22,7 @@ Resources:
       Environment:
         Variables:
           Table: !ImportValue spotify-tracker-sam-TableName
-          Topic: !Ref Topic
+          Topic: !ImportValue spotify-tracker-sam-TopicArn
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !ImportValue spotify-tracker-sam-TableName
@@ -31,4 +31,4 @@ Resources:
             Action:
               - 'sns:publish'
             Resource:
-              - !Ref Topic
+              - !ImportValue spotify-tracker-sam-TopicArn
