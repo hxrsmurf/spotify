@@ -24,6 +24,10 @@ Parameters:
     Default: now_playing.zip
 
 Outputs:
+  Email:
+    Value: !Ref Email
+    Export:
+      Name: !Sub ${AWS::StackName}-Email
   RedirectUri:
     Value: !Ref CallbackURL
     Export:
