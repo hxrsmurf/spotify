@@ -32,6 +32,11 @@ Outputs:
     Value: !Ref CallbackURL
     Export:
       Name: !Sub ${AWS::StackName}-RedirectUri
+      
+  CallbackURL:
+    Value: !Ref CallbackURL
+    Export:
+      Name: !Sub ${AWS::StackName}-CallbackURL
 
   TableName:
     Value: !Ref DynamoDB
