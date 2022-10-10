@@ -68,13 +68,13 @@ Resources:
         - !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-RequestsLayerArn
       Environment:
         Variables:
-          CallbackURL: !Ref CallbackURL
-          CurrentTrack: !Ref CurrentTrack
-          PreviousEntryEpochTime: !Ref PreviousEntryEpochTime
-          RedirectUri: !Ref CallbackURL
-          SpotifyClientID: !Ref SpotifyClientID
-          SpotifyClientSecret: !Ref SpotifyClientSecret
-          SpotifyRefreshToken: !Ref SpotifyRefreshToken
+          CallbackURL: !ImportValue spotify-tracker-sam-CallbackURL
+          CurrentTrack: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-CurrentTrack
+          PreviousEntryEpochTime: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-PreviousEntryEpochTime
+          RedirectUri: !ImportValue spotify-tracker-sam-RedirectUri
+          SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+          SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+          SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
           Table: !ImportValue spotify-tracker-sam-TableName
           Topic: !ImportValue spotify-tracker-sam-TopicArn
 
