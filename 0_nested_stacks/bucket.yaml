@@ -34,3 +34,9 @@ Resources:
             ExpirationInDays: 1
             NoncurrentVersionExpiration:
               NoncurrentDays: 1
+          - Id: Delete All NowPlaying Code - 1 Day
+            Status: Enabled
+            Prefix: code/
+            ExpirationInDays: 1
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 1
