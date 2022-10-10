@@ -33,7 +33,7 @@ Outputs:
     Value: !Ref CallbackURL
     Export:
       Name: !Sub ${AWS::StackName}-RedirectUri
-      
+
   CallbackURL:
     Value: !Ref CallbackURL
     Export:
@@ -48,7 +48,7 @@ Outputs:
     Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoDB}
     Export:
       Name: !Sub ${AWS::StackName}-TableArn
-      
+
   TopicNested:
     Value:
       Fn::GetAtt:
@@ -63,10 +63,10 @@ Outputs:
       Name: !Sub ${AWS::StackName}-VpcId
 
   Subnets:
-    Value: !Ref Subnets
+    Value: !Join [",", !Ref Subnets]
     Export:
       Name: !Sub ${AWS::StackName}-Subnets
-      
+
 Resources:
   DynamoDB:
     Type: 'AWS::Serverless::SimpleTable'
