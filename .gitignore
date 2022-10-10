@@ -32,3 +32,4 @@ manual_spotify.py
 5_gcp/.terraform/*
 5_gcp/terraform.tfstate.backup
 5_gcp/terraform.tfstate
+3_Utilities/get-recently-played/.aws-sam/*
