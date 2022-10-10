@@ -21,11 +21,11 @@ Resources:
       Timeout: 840 # 14 minutes
       Environment:
         Variables:
-          Table: !Ref Table
+          Table: !ImportValue spotify-tracker-sam-TableName
           Topic: !Ref Topic
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref Table
+            TableName: !ImportValue spotify-tracker-sam-TableName
         - Statement:
           - Effect: Allow
             Action:
