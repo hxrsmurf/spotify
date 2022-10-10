@@ -28,7 +28,7 @@ Resources:
             Status: Enabled
             NoncurrentVersionExpiration:
               NoncurrentDays: 5
-          - Id: Delete All AWSDynamoDB
+          - Id: Delete All AWSDynamoDB - 1 Day
             Status: Enabled
             Prefix: outputs/AWSDynamoDB/
             ExpirationInDays: 1
