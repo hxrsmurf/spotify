@@ -18,7 +18,7 @@ Resources:
   Subscription:
     Type: AWS::SNS::Subscription
     Properties:
-      Endpoint: !ImportValue spotify-tracker-sam-Email
+      Endpoint: !Ref Email
       Protocol: email
       TopicArn: !Ref Topic
 
@@ -27,6 +27,6 @@ Resources:
   MigrateEpochSubscription:
     Type: AWS::SNS::Subscription
     Properties:
-      Endpoint: !ImportValue spotify-tracker-sam-Email
+      Endpoint: !Ref Email
       Protocol: email
       TopicArn: !Ref MigrateEpochTopic
