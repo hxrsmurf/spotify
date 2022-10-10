@@ -1,2 +1,0 @@
-Trigger SAM build
-Trigger ZIP Build: 1m 1s
