@@ -49,7 +49,7 @@ Resources:
           SpotifyClientID: !Ref SpotifyClientID
           SpotifyClientSecret: !Ref SpotifyClientSecret
           SpotifyRefreshToken: !Ref SpotifyRefreshToken
-          Table: !Ref Table
+          Table: !ImportValue spotify-tracker-sam-TableName
           Topic: !Ref Topic
       Events:
         EventBridge:
@@ -60,7 +60,7 @@ Resources:
               Name: 'EventBridge'
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref Table
+            TableName: !ImportValue spotify-tracker-sam-TableName
         - Statement:
           - Effect: Allow
             Action:
