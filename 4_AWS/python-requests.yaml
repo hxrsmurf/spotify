@@ -5,6 +5,12 @@ Parameters:
     Type: String
     Default: None
 
+Outputs:
+  RequestsLayerArn:
+    Value: !Ref Requests
+    Export:
+      Name: !Sub ${AWS::StackName}-RequestsLayerArn
+
 Resources:
   Requests:
     Type: AWS::Lambda::LayerVersion
