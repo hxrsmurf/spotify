@@ -38,7 +38,6 @@ jobs:
 
       - id: md5
         name: md5 zip
-        working-directory: ./requests-package
         run: |
           echo "::set-output name=md5::$(md5sum python-requests.zip | awk '{ print $1 }')"
 
