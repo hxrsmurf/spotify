@@ -1,54 +1,10 @@
 Description: Spotify - Now Playing
 
 Parameters:
-  Bucket:
-    Type: String
-    Default: None
-
-  Key:
-    Type: String
-    Default: now_playing.zip
-
-  CallbackURL:
-    Type: String
-    Default: None
-  CurrentTrack:
-    Type: String
-    Default: None
-
   EventBridgeSchedule:
     Type: String
     Default: None
   EventBridgeState:
-    Type: String
-    Default: None
-
-  PreviousEntryEpochTime:
-    Type: String
-    Default: None
-  RedirectUri:
-    Type: String
-    Default: None
-
-  RequestsLayerArn:
-    Type: String
-    Default: None
-
-  SpotifyClientID:
-    Type: String
-    Default: None
-  SpotifyClientSecret:
-    Type: String
-    Default: None
-  SpotifyRefreshToken:
-    Type: String
-    Default: None
-
-  Table:
-    Type: String
-    Default: None
-
-  Topic:
     Type: String
     Default: None
 
