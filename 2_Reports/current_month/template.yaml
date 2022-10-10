@@ -29,14 +29,14 @@ Resources:
         - !Ref PandasLayer
       Environment:
         Variables:
-          Bucket: !Ref Bucket
+          Bucket: !ImportValue spotify-tracker-sam-Bucket
           Table: !ImportValue spotify-tracker-sam-TableName
           Topic: !ImportValue spotify-tracker-sam-TopicArn
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !ImportValue spotify-tracker-sam-TableName
         - S3CrudPolicy:
-            BucketName: !Ref Bucket
+            BucketName: !ImportValue spotify-tracker-sam-Bucket
         - Statement:
           - Effect: Allow
             Action:

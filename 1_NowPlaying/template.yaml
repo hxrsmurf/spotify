@@ -57,7 +57,7 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        S3Bucket: !Ref Bucket
+        S3Bucket: !ImportValue spotify-tracker-sam-Bucket
         S3Key: !Ref Key
 
       Handler: index.handler
