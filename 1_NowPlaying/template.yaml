@@ -1,12 +1,19 @@
 Description: Spotify - Now Playing
 
+Parameters:
+  Key:
+    Type: String
+    Default: None
+    Description: Key for Lambda Code (Generated from Github Actions)
+
 Resources:
   Lambda:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
         S3Bucket: !ImportValue spotify-tracker-sam-Bucket
-        S3Key: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-Key
+        #S3Key: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-Key
+        S3Key: !Ref Key
 
       Handler: index.handler
       Role: !GetAtt Role.Arn
