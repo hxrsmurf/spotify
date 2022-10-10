@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: "3.9"
 
-      - run: pip install --target ./requests-package requests
+      - run: pip install --target ./requests-package/python requests
 
       - run: zip -r ../python-requests.zip .
         working-directory: ./requests-package
