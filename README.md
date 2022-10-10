@@ -35,6 +35,7 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 - https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
 - https://github.com/GoogleCloudPlatform/cloud-foundation-toolkit/blob/master/dm/templates/cloud_function/
 - https://cloud.google.com/deployment-manager/docs/configuration/supported-resource-types
+- https://registry.terraform.io/providers/hashicorp/google/4.39.0
 
 # spotify (PowerShell)
 
