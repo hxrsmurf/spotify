@@ -15,6 +15,7 @@ Parameters:
 
   VpcId:
     Type: AWS::EC2::VPC::Id
+    
   Subnets:
     Type: 'List<AWS::EC2::Subnet::Id>'
     Description: A list of subnets for the Auto Scaling group
@@ -55,6 +56,11 @@ Outputs:
         - Outputs.TopicARN
     Export:
       Name: !Sub ${AWS::StackName}-TopicNested
+
+  VpcId:
+    Value: !Ref VpcId
+    Export:
+      Name: !Sub ${AWS::StackName}-VpcId
       
 Resources:
   DynamoDB:
