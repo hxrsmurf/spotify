@@ -32,7 +32,6 @@ Outputs:
       Name: !Sub ${AWS::StackName}-ExportTableArn
 
   RequestsLayerArn:
-    Type: String
     Value: arn:aws:lambda:us-east-1:195663387853:layer:Requests:8
     Export:
       Name: !Sub ${AWS::StackName}-RequestsLayerArn
