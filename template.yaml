@@ -142,7 +142,7 @@ Resources:
       Parameters:
         Table: !Ref DynamoDB
         Topic: !Sub ${StackTopics.Outputs.TopicARN}
-        ExportTableArn: !Sub ${StackParameters.Outputs.ExportTableArn}
+        ExportTableArn: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-ExportTableArn
 
   AutoScalingGroup:
     Type: AWS::CloudFormation::Stack
