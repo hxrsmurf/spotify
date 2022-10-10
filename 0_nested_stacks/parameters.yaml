@@ -41,6 +41,11 @@ Outputs:
     Export:
       Name: !Sub ${AWS::StackName}-Key
 
+  EventBridgeSchedule:
+    Value:
+    Export:
+      Name: !Sub ${AWS::StackName}-EventBridgeSchedule
+
 Resources:
   SpotifyClientID:
     Type: AWS::SSM::Parameter
