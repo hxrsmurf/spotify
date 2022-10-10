@@ -31,6 +31,26 @@ Outputs:
     Export:
       Name: !Sub ${AWS::StackName}-ExportTableArn
 
+  RequestsLayerArn:
+    Value: arn:aws:lambda:us-east-1:195663387853:layer:Requests:8
+    Export:
+      Name: !Sub ${AWS::StackName}-RequestsLayerArn
+
+  Key:
+    Value: now_playing.zip
+    Export:
+      Name: !Sub ${AWS::StackName}-Key
+
+  EventBridgeSchedule:
+    Value: rate(2 minutes)
+    Export:
+      Name: !Sub ${AWS::StackName}-EventBridgeSchedule
+
+  EventBridgeState:
+    Value: ENABLED
+    Export:
+      Name: !Sub ${AWS::StackName}-EventBridgeState
+
 Resources:
   SpotifyClientID:
     Type: AWS::SSM::Parameter

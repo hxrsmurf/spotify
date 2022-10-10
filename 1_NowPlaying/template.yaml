@@ -1,80 +1,28 @@
 Description: Spotify - Now Playing
 
-Parameters:
-  Bucket:
-    Type: String
-    Default: None
-
-  Key:
-    Type: String
-    Default: now_playing.zip
-
-  CallbackURL:
-    Type: String
-    Default: None
-  CurrentTrack:
-    Type: String
-    Default: None
-
-  EventBridgeSchedule:
-    Type: String
-    Default: None
-  EventBridgeState:
-    Type: String
-    Default: None
-
-  PreviousEntryEpochTime:
-    Type: String
-    Default: None
-  RedirectUri:
-    Type: String
-    Default: None
-
-  RequestsLayerArn:
-    Type: String
-    Default: None
-
-  SpotifyClientID:
-    Type: String
-    Default: None
-  SpotifyClientSecret:
-    Type: String
-    Default: None
-  SpotifyRefreshToken:
-    Type: String
-    Default: None
-
-  Table:
-    Type: String
-    Default: None
-
-  Topic:
-    Type: String
-    Default: None
-
 Resources:
   Lambda:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
         S3Bucket: !ImportValue spotify-tracker-sam-Bucket
-        S3Key: !Ref Key
+        S3Key: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-Key
 
       Handler: index.handler
       Role: !GetAtt Role.Arn
       Runtime: python3.9
       Timeout: 300
       Layers:
-        - !Ref RequestsLayerArn
+        - !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-RequestsLayerArn
       Environment:
         Variables:
-          CallbackURL: !Ref CallbackURL
-          CurrentTrack: !Ref CurrentTrack
-          PreviousEntryEpochTime: !Ref PreviousEntryEpochTime
-          RedirectUri: !Ref CallbackURL
-          SpotifyClientID: !Ref SpotifyClientID
-          SpotifyClientSecret: !Ref SpotifyClientSecret
-          SpotifyRefreshToken: !Ref SpotifyRefreshToken
+          CallbackURL: !ImportValue spotify-tracker-sam-CallbackURL
+          CurrentTrack: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-CurrentTrack
+          PreviousEntryEpochTime: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-PreviousEntryEpochTime
+          RedirectUri: !ImportValue spotify-tracker-sam-RedirectUri
+          SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+          SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+          SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
           Table: !ImportValue spotify-tracker-sam-TableName
           Topic: !ImportValue spotify-tracker-sam-TopicArn
 
@@ -137,11 +85,21 @@ Resources:
                   - 'ssm:GetParameter'
                   - 'ssm:PutParameter'
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
+                  - !Sub
+                    - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+                    - SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+                      - SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+                      - SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
+                      - CurrentTrack: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-CurrentTrack
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
+                      - PreviousEntryEpochTime: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-PreviousEntryEpochTime
         - PolicyName: EventBridge
           PolicyDocument:
             Statement:
@@ -180,8 +138,8 @@ Resources:
     Type: 'AWS::Events::Rule'
     Properties:
       Name: SpotifyNowPlaying
-      ScheduleExpression: !Ref EventBridgeSchedule
-      State: !Ref EventBridgeState
+      ScheduleExpression: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-EventBridgeSchedule
+      State: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-EventBridgeState
       Targets:
         - Arn: !GetAtt Lambda.Arn
           Id: LambdaEventBridgeLambdaTarget
