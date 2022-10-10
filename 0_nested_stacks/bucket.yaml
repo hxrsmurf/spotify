@@ -24,7 +24,7 @@ Resources:
         Status: Enabled
       LifecycleConfiguration:
         Rules:
-          - Id: Delete Noncurrent
+          - Id: Delete Noncurrent - 5 Days
             Status: Enabled
             NoncurrentVersionExpiration:
               NoncurrentDays: 5
