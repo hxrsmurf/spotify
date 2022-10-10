@@ -96,15 +96,15 @@ Resources:
       Parameters:
         Bucket: !Sub ${StackBucket.Outputs.Bucket}
         CallbackURL: !ImportValue spotify-tracker-sam-CallbackURL
-        CurrentTrack: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-CurrentTrack
+        CurrentTrack: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-CurrentTrack
         EventBridgeSchedule: rate(2 minutes)
         EventBridgeState: ENABLED #DISABLED
-        PreviousEntryEpochTime: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-PreviousEntryEpochTime
+        PreviousEntryEpochTime: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-PreviousEntryEpochTime
         RedirectUri: !ImportValue spotify-tracker-sam-RedirectUri
         RequestsLayerArn: !Ref RequestsLayerArn
-        SpotifyClientID: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-SpotifyClientID
-        SpotifyClientSecret: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-SpotifyClientSecret
-        SpotifyRefreshToken: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-SpotifyRefreshToken
+        SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+        SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+        SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
         Table: !Ref DynamoDB
         Topic: !Sub ${StackTopics.Outputs.TopicARN}
 
@@ -147,7 +147,7 @@ Resources:
       Parameters:
         Table: !Ref DynamoDB
         Topic: !Sub ${StackTopics.Outputs.TopicARN}
-        ExportTableArn: !ImportValue spotify-tracker-sam-StackParameters-HB6J0WX9EV79-ExportTableArn
+        ExportTableArn: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-ExportTableArn
 
   AutoScalingGroup:
     Type: AWS::CloudFormation::Stack
