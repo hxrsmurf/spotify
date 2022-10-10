@@ -25,3 +25,20 @@ Resources:
             TableName: !ImportValue spotify-tracker-sam-TableName
         - S3CrudPolicy:
             BucketName: !ImportValue spotify-tracker-sam-Bucket
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
+            Resource:
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+                  - SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+                  - SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+                  - SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
