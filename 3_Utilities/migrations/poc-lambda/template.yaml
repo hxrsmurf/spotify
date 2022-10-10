@@ -50,7 +50,7 @@ Resources:
           SpotifyClientSecret: !Ref SpotifyClientSecret
           SpotifyRefreshToken: !Ref SpotifyRefreshToken
           Table: !ImportValue spotify-tracker-sam-TableName
-          Topic: !Ref Topic
+          Topic: !ImportValue spotify-tracker-sam-TopicArn
       Events:
         EventBridge:
             Type: Schedule
@@ -71,7 +71,7 @@ Resources:
             Action:
               - 'sns:publish'
             Resource:
-              - !Ref Topic
+              - !ImportValue spotify-tracker-sam-TopicArn
           - Effect: Allow
             Action:
               - 'ssm:DescribeParameters'
