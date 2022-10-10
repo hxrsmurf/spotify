@@ -40,4 +40,4 @@ jobs:
 
       - name: SAM Build & Deploy 3_Utilities/delete-by-id
         working-directory: ./3_Utilities/delete-by-id
-        run: sam build && sam deploy
+        run: sam build && sam deploy --force-upload

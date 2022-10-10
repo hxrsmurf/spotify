@@ -41,4 +41,4 @@ jobs:
 
       - name: SAM Build & Deploy Reports/Current_Month
         working-directory: ./2_Reports/current_month
-        run: sam build && sam deploy
+        run: sam build && sam deploy --force-upload

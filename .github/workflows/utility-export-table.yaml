@@ -36,4 +36,4 @@ jobs:
 
       - name: SAM Build & Deploy Utilities/export-table
         working-directory: ./3_Utilities/export-table
-        run: sam build && sam deploy
+        run: sam build && sam deploy --force-upload
