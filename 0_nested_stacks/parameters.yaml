@@ -58,6 +58,7 @@ Outputs:
 
 Resources:
   SpotifyClientID:
+    DeletionPolicy: Retain
     Type: AWS::SSM::Parameter
     Properties:
       Description: Spotify Client ID
@@ -66,6 +67,7 @@ Resources:
       Value: None
 
   SpotifyClientSecret:
+    DeletionPolicy: Retain
     Type: AWS::SSM::Parameter
     Properties:
       Description: Spotify Secret
@@ -74,6 +76,7 @@ Resources:
       Value: None
 
   SpotifyRefreshToken:
+    DeletionPolicy: Retain
     Type: AWS::SSM::Parameter
     Properties:
       Description: Spotify Refresh Token
@@ -82,6 +85,7 @@ Resources:
       Value: None
 
   CurrentTrack:
+    DeletionPolicy: Retain
     Type: AWS::SSM::Parameter
     Properties:
       Description: Spotify Current Track ID
@@ -90,6 +94,7 @@ Resources:
       Value: None
 
   PreviousEntryEpochTime:
+    DeletionPolicy: Retain
     Type: AWS::SSM::Parameter
     Properties:
       Description: DynamoDB Previous Entry's EpochTime
@@ -98,6 +103,7 @@ Resources:
       Value: None
 
   ExportTableArn:
+    DeletionPolicy: Retain
     Type: AWS::SSM::Parameter
     Properties:
       Description: DynamoDB Current Export Arn

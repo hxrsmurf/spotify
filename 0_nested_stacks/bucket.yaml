@@ -8,6 +8,7 @@ Outputs:
 
 Resources:
   Bucket:
+    DeletionPolicy: Retain
     Type: 'AWS::S3::Bucket'
     Properties:
       BucketEncryption:
