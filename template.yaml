@@ -65,6 +65,7 @@ Outputs:
 
 Resources:
   DynamoDB:
+    DeletionPolicy: Retain
     Type: 'AWS::Serverless::SimpleTable'
 
   StackTopics:
