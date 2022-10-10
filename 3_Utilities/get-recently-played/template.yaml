@@ -16,6 +16,9 @@ Resources:
       Environment:
         Variables:
           Bucket: !ImportValue spotify-tracker-sam-Bucket
+          SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+          SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+          SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
           Table: !ImportValue spotify-tracker-sam-TableName
       Policies:
         - DynamoDBCrudPolicy:
