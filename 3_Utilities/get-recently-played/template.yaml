@@ -1,0 +1,24 @@
+Description: Spotify - Get Recently Played
+
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Serverless Lambda Function
+
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: code
+      Timeout: 300
+      Layers:
+        - !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-RequestsLayerArn
+      Environment:
+        Variables:
+          Bucket: !ImportValue spotify-tracker-sam-Bucket
+          Table: !ImportValue spotify-tracker-sam-TableName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !ImportValue spotify-tracker-sam-TableName
+        - S3CrudPolicy:
+            BucketName: !ImportValue spotify-tracker-sam-Bucket
