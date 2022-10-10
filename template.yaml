@@ -84,12 +84,12 @@ Resources:
       Parameters:
         Bucket: !Sub ${StackBucket.Outputs.Bucket}
         Key: !Ref NowPlayingKey
-        CallbackURL: !Ref CallbackURL
+        CallbackURL: !ImportValue spotify-tracker-sam-CallbackURL
         CurrentTrack: !Sub ${StackParameters.Outputs.CurrentTrack}
         EventBridgeSchedule: rate(2 minutes)
         EventBridgeState: ENABLED #DISABLED
         PreviousEntryEpochTime: !Sub ${StackParameters.Outputs.PreviousEntryEpochTime}
-        RedirectUri: !Ref CallbackURL
+        RedirectUri: !ImportValue spotify-tracker-sam-RedirectUri
         RequestsLayerArn: !Ref RequestsLayerArn
         SpotifyClientID: !Sub ${StackParameters.Outputs.SpotifyClientID}
         SpotifyClientSecret: !Sub ${StackParameters.Outputs.SpotifyClientSecret}
