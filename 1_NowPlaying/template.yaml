@@ -137,11 +137,21 @@ Resources:
                   - 'ssm:GetParameter'
                   - 'ssm:PutParameter'
                 Resource:
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
-                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
+                  - !Sub
+                    - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+                    - SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+                      - SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+                      - SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${CurrentTrack}
+                      - CurrentTrack: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-CurrentTrack
+                  - !Sub
+                      - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${PreviousEntryEpochTime}
+                      - PreviousEntryEpochTime: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-PreviousEntryEpochTime
         - PolicyName: EventBridge
           PolicyDocument:
             Statement:
