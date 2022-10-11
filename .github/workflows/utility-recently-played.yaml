@@ -10,8 +10,6 @@ on:
     workflows: 4-Initiate-Backend-Builds
     types:
       - completed
-  push:
-    branchs: '**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -40,6 +38,6 @@ jobs:
           role-to-assume: arn:aws:iam::195663387853:role/github-oidc-Role-8FD7L07NDB33
           aws-region: us-east-1
 
-      - name: SAM Build & Deploy Reports/Current_Month
+      - name: SAM Build & Deploy 3_Utilities/get-recently-played
         working-directory: ./3_Utilities/get-recently-played
         run: sam build && sam deploy --force-upload
