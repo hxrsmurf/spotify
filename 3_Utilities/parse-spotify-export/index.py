@@ -1,10 +1,6 @@
-import json
 import os
-
 import pandas as pd
-
 from datetime import datetime
-
 
 def current_utc_timestamp():
     return datetime.utcnow().strftime('%Y-%m-%H%M%S')
