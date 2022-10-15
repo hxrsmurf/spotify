@@ -35,3 +35,29 @@ def parse_csv():
     # Columns to skip
     df = df.drop(['conn_country', 'ms_played', 'ip_addr_decrypted', 'user_agent_decrypted', 'reason_start', 'reason_end', 'skipped','offline', 'offline_timestamp', 'incognito_mode'], axis=1)
     df.to_csv(f'parsed_{file}')
+
+def parse_year(input_year):
+    file = f'parsed_{current_utc_hour()}.csv'
+
+    df = pd.read_csv(file)
+
+    df = df[df['year'] == str(input_year)]
+
+    #print(df)
+
+    group = df.groupby(['year', 'master_metadata_track_name', 'master_metadata_album_artist_name'])['year'].count().nlargest(n=20, keep='all')
+
+    #print(group)
+
+    group.to_excel(f'{input_year}.xlsx', sheet_name=str(input_year))
+
+def create_xlsx():
+    years = range(2011,2023)
+
+    for year in years:
+        print(f'Checking year: {year}')
+        try:
+            parse_year(year)
+        except Exception as e:
+            print(f'This year has no data: {year}')
+            pass
