@@ -12,6 +12,9 @@ def current_utc_timestamp():
 def current_utc_hour():
     return datetime.utcnow().strftime('%Y-%m-%H')
 
+def current_year():
+    return datetime.utcnow().strftime('%Y')
+
 def parse(file):
     file_name = current_utc_hour()
     df = pd.read_json('endsong_0.json')
@@ -52,7 +55,9 @@ def parse_year(input_year):
     group.to_excel(f'{input_year}.xlsx', sheet_name=str(input_year))
 
 def create_xlsx():
-    years = range(2011,2023)
+    start = 2011
+    end = int(current_year()) + 1
+    years = range(start,end)
 
     for year in years:
         print(f'Checking year: {year}')
