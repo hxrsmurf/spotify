@@ -52,7 +52,8 @@ def parse_year(input_year):
 
     #print(group)
 
-    group.to_excel(f'{input_year}.xlsx', sheet_name=str(input_year))
+    with pd.ExcelWriter(f'all_data.xlsx', mode='a') as writer:
+        group.to_excel(writer, sheet_name=str(input_year))
 
 def create_xlsx():
     start = 2011
@@ -63,6 +64,10 @@ def create_xlsx():
         print(f'Checking year: {year}')
         try:
             parse_year(year)
+
         except Exception as e:
+            print(e)
             print(f'This year has no data: {year}')
             pass
+
+create_xlsx()
