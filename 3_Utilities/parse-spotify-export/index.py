@@ -65,3 +65,10 @@ def create_xlsx():
             print(e)
             print(f'This year has no data: {year}')
             pass
+
+def start():
+    parse_json()
+    parse_csv()
+    create_xlsx()
+
+start()
