@@ -32,7 +32,7 @@ def parse_csv():
     df [['hour', 'minute', 'seconds']] =  df.full_time.str.split(':', expand=True)
 
     # Columns to skip
-    df = df.drop(['conn_country', 'ms_played', 'ip_addr_decrypted', 'user_agent_decrypted', 'reason_start', 'reason_end', 'skipped','offline', 'offline_timestamp', 'incognito_mode'], axis=1)
+    df = df.drop(['conn_country', 'ms_played', 'ip_addr_decrypted', 'user_agent_decrypted', 'reason_start', 'reason_end', 'skipped','offline', 'offline_timestamp', 'incognito_mode', 'platform', 'username'], axis=1)
     df.to_csv(f'parsed_{file}')
 
 def parse_year(input_year):
