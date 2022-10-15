@@ -44,7 +44,7 @@ def parse_year(input_year):
 
     #print(df)
 
-    group = df.groupby(['year', 'master_metadata_track_name', 'master_metadata_album_artist_name'])['year'].count().nlargest(n=10000000, keep='all')
+    group = df.groupby(['year', 'master_metadata_track_name', 'master_metadata_album_artist_name', 'master_metadata_album_album_name'])['year'].count().nlargest(n=10000000, keep='all')
 
     #print(group)
 
