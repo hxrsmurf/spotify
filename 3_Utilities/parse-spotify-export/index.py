@@ -69,5 +69,3 @@ def create_xlsx():
             print(e)
             print(f'This year has no data: {year}')
             pass
-
-create_xlsx()
