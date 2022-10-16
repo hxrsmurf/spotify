@@ -120,3 +120,23 @@ def put(now_playing, table, current_track_parameter):
                 }
             }
         )
+
+def db_put_refresh_token(refresh_token):
+    client = boto3.client('dynamodb')
+    table = os.environ['TableRefreshToken']
+
+    response = client.update_item(
+        TableName=table,
+        Key={
+            'id': {
+                'S': 'timestamp'
+            }
+        },
+        AttributeUpdates={
+            'refresh_token': {
+                'Value': {
+                 'S': refresh_token
+                }
+            }
+        }
+    )
