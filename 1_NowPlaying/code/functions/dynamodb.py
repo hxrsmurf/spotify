@@ -130,7 +130,7 @@ def db_put_refresh_token(refresh_token):
         TableName=table,
         Key={
             'id': {
-                'N': str(epoch_time)
+                'S': str(epoch_time)
             }
         },
         AttributeUpdates={
