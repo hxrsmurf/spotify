@@ -16,3 +16,13 @@ def convert_to_milliseconds(string, type):
 
 def current_year_month():
     return datetime.utcnow().strftime('%Y-%m')
+
+def current_year_month_day():
+    return datetime.utcnow().strftime('%Y-%m-%d')
+
+def current_timestamp_epoch():
+    dt = datetime.utcnow()
+    timestamp = dt.strftime('%Y-%m-%d, %H:%M:%S:%f')
+    epoch_time = dt.timestamp()
+
+    return timestamp, epoch_time
