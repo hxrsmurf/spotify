@@ -3,6 +3,8 @@ from requests.auth import HTTPBasicAuth
 import json
 import functions.ssm as ssm
 
+from .dynamodb import db_put_refresh_token
+
 # This gets the URL the user has to input and returns a code.
 def get_authorization(client_id, redirect_uri):
     baseSpotifyURL = 'https://accounts.spotify.com/authorize?'
@@ -57,6 +59,8 @@ def get_refresh_token(refresh_token, client_id, client_secret, refresh_token_par
         ssm.put(refresh_token_parameter, refresh_token)
     except:
         refresh_token = refresh_token
+
+    db_put_refresh_token(refresh_token)
 
     result = {
         'access_token' : access_token,
