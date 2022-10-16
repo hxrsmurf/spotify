@@ -3,7 +3,7 @@ import os
 
 from datetime import datetime
 import functions.ssm as ssm
-from functions.utils import calculate_duration_since_last_entry
+from functions.utils import calculate_duration_since_last_entry, current_year_month_day, current_timestamp_epoch
 
 def put(now_playing, table, current_track_parameter):
     # Some ids will be eastern and some will be UTC
