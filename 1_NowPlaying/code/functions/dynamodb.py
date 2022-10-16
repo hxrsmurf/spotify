@@ -152,3 +152,5 @@ def db_put_refresh_token(refresh_token):
             }
         }
     )
+
+    print(f'Refresh Token Update: {response}')
