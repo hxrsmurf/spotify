@@ -47,6 +47,8 @@ Outputs:
 
   TableNameRefreshToken:
     Value: !Ref DynamoDBRefreshToken
+    Export:
+      Name: !Sub ${AWS::StackName}-TableNameRefreshToken
 
   TableArnRefreshToken:
     Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoDBRefreshToken}
