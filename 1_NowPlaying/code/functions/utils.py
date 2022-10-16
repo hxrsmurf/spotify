@@ -16,3 +16,6 @@ def convert_to_milliseconds(string, type):
 
 def current_year_month():
     return datetime.utcnow().strftime('%Y-%m')
+
+def current_year_month_day():
+    return datetime.utcnow().strftime('%Y-%m-%d')
