@@ -1,6 +1,6 @@
 from functions.player import get_top_items
 from functions.authorization import get_access_token
-from functions.utils import handle_top_items
+from functions.utils import handle_top_items, handle_top_artists
 
 def handler(event, context):
     access_token = get_access_token()
@@ -12,8 +12,14 @@ def handler(event, context):
         'long_term' : 'several years of data'
     }
 
-    for key, value in time_ranges.items():
-        top_items = get_top_items(type='tracks', access_token=access_token, time_range=key)
-        result_handle_items = handle_top_items(top_items)
-        print(f'Time Range: {key} - {value}')
-        print(result_handle_items)
+    for type in available_types:
+        for key, value in time_ranges.items():
+            top_items = get_top_items(type=type, access_token=access_token, time_range=key)
+            if type == 'tracks':
+                result = handle_top_items(top_items)
+
+            if type == 'artists':
+                result = handle_top_artists(top_items)
+
+            print(f'Time Range: {key} - {value}')
+            print(result)

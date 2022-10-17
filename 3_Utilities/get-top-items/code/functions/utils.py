@@ -13,3 +13,18 @@ def handle_top_items(top_items):
             }
         )
     return list_of_tracks
+
+def handle_top_artists(top_items):
+    list_of_artists = []
+    for item in top_items['items']:
+        name = item['name']
+        uri = item['uri']
+
+        list_of_artists.append(
+            {
+                'name' : name,
+                'uri': uri
+            }
+        )
+
+    return list_of_artists
