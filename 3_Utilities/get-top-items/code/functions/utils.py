@@ -1,4 +1,4 @@
-def handle_top_items(top_items):
+def handle_top_tracks(top_items):
     list_of_tracks = []
     for track in top_items['items']:
         name = track['name']
