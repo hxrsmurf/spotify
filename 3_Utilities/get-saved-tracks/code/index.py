@@ -1,14 +1,10 @@
 from functions.authorization import get_access_token
 from functions.player import get_saved_tracks
-from functions.utils import handle_saved_tracks
-from functions.playlist import create_playlist
-
-import random
+from functions.utils import handle_saved_tracks, shuffle_tracks
+from functions.playlist import create_playlist, create_shuffled_playlist
 
 def handler(event, context):
-    tracks = get_saved_tracks(get_access_token())
-    result_saved_tracks = handle_saved_tracks(tracks)
-    random.shuffle(result_saved_tracks)
-    #new_playlist_id = create_playlist(get_access_token())
-    for track in result_saved_tracks:
-        print(track)
+    access_token = get_access_token()
+    tracks = get_saved_tracks(access_token)
+    shuffled_tracks = shuffle_tracks(handle_saved_tracks(tracks))
+    create_shuffled_playlist(access_token=access_token, tracks=shuffled_tracks)
