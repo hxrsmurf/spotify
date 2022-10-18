@@ -17,6 +17,12 @@ Resources:
           SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
           SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
           SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+      Events:
+        EventBridge:
+          Type: Schedule
+          Properties:
+            Enabled: true
+            Schedule: cron(0 10 * * ? *)
       Policies:
         - Statement:
           - Effect: Allow
