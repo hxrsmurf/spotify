@@ -1,0 +1,37 @@
+Description: Spotify - Get Saved Tracks
+
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Spotify - Get Saved Tracks
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.9
+      CodeUri: code
+      Timeout: 300
+      Layers:
+        - !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-RequestsLayerArn
+      Environment:
+        Variables:
+          SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+          SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+          SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'ssm:DescribeParameters'
+              - 'ssm:GetParameters'
+              - 'ssm:GetParameter'
+              - 'ssm:PutParameter'
+            Resource:
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientID}
+                  - SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyClientSecret}
+                  - SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
+                  - SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
