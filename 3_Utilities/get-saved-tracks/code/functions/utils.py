@@ -1,3 +1,4 @@
+from datetime import datetime
 def handle_saved_tracks(all_tracks):
     list_of_tracks = []
     for tracks in all_tracks:
@@ -20,3 +21,6 @@ def handle_saved_tracks(all_tracks):
             })
 
     return list_of_tracks
+
+def current_year_month_day():
+    return datetime.utcnow().strftime('%Y-%m-%d')
