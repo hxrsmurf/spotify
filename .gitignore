@@ -34,3 +34,5 @@ manual_spotify.py
 5_gcp/terraform.tfstate
 3_Utilities/get-recently-played/.aws-sam/*
 3_Utilities/get-top-items/.aws-sam/*
+3_Utilities/get-playlists/.aws-sam/*
+3_Utilities/get-saved-tracks/.aws-sam/*
