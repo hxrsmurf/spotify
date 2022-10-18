@@ -29,7 +29,7 @@ def create_playlist(access_token):
         return response_json['id']
 
 def create_shuffled_playlist(access_token, tracks):
-    playlist_id = create_playlist()
+    playlist_id = create_playlist(access_token)
     spotify_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks'
 
     headers = {
