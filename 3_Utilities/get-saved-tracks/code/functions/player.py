@@ -32,8 +32,6 @@ def get_saved_tracks():
 
             spotify_url = (response_json['next'])
 
-            print(spotify_url)
-
             if not spotify_url:
                 break
 
