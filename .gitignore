@@ -36,3 +36,4 @@ manual_spotify.py
 3_Utilities/get-top-items/.aws-sam/*
 3_Utilities/get-playlists/.aws-sam/*
 3_Utilities/get-saved-tracks/.aws-sam/*
+3_Utilities/shuffle-liked-tracks-playlist/.aws-sam/*
