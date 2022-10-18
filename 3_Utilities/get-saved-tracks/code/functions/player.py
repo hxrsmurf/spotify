@@ -1,12 +1,10 @@
-from email import header
 import json
 import requests
-from .authorization import get_access_token
 
-def get_saved_tracks():
+def get_saved_tracks(access_token):
     spotify_url = ' https://api.spotify.com/v1/me/tracks'
     headers = {
-        'Authorization' : 'Bearer ' + str(get_access_token()),
+        'Authorization' : 'Bearer ' + str(access_token),
         'Content-Type' : 'application/json'
     }
     offset = 0
