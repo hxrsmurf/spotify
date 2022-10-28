@@ -37,3 +37,45 @@ manual_spotify.py
 3_Utilities/get-playlists/.aws-sam/*
 3_Utilities/get-saved-tracks/.aws-sam/*
 3_Utilities/shuffle-liked-tracks-playlist/.aws-sam/*
+
+
+# NodeJS/NextJS Ignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+frontend/node_modules/*
+frontend/.next/*
+frontend/out/*
