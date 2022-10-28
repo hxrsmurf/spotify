@@ -15,7 +15,8 @@ export default async function handler(req, res) {
       {
         TableName: process.env.TABLE_NAME,
         IndexName: 'year_month-id-index',
-        Limit: 100000,
+        Limit: 300,
+        ScanIndexForward: false,
         KeyConditionExpression: 'year_month = :value',
         ExpressionAttributeValues: {
           ':value': {

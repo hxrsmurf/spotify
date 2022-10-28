@@ -39,6 +39,8 @@ manual_spotify.py
 3_Utilities/shuffle-liked-tracks-playlist/.aws-sam/*
 
 
+!frontend/package.json
+
 # NodeJS/NextJS Ignore
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
