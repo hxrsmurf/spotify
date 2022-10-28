@@ -1,11 +1,14 @@
 import { Button, Checkbox, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip } from "@mui/material"
-import { useState } from "react"
+import React, { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete'
+import { useRouter } from 'next/router'
 
 export default function Home({ results }) {
 
   const [selected, setSelected] = useState([])
   const [open, setOpen] = useState(false)
+
+  const router = useRouter()
 
   const handleClick = (event, id) => {
     // https://mui.com/material-ui/react-table/
@@ -32,13 +35,28 @@ export default function Home({ results }) {
   }
 
   const handleClose = () => {
-    setSelected([])
     setOpen(false)
+  }
+
+  async function handleDBDelete(id) {
+    const res = await fetch('http://localhost:3000/api/delete?id=' + id.S)
+    const resp = await res.json()
+    console.log(resp)
+  }
+
+  const handleConfirm = () => {
+    {selected.map((select, id)=> (
+      handleDBDelete(select)
+
+    ))}
+
+    router.reload()
+
   }
 
   return (
     <>
-      <Dialog open={open} maxWidth={"md"} fullWidth="true">
+      <Dialog open={open} maxWidth={"md"} fullWidth={true}>
         <DialogTitle>Confirm delete</DialogTitle>
         <DialogContent>
           <div>
@@ -53,7 +71,7 @@ export default function Home({ results }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Confirm</Button>
+          <Button onClick={handleConfirm}>Confirm</Button>
         </DialogActions>
       </Dialog>
 
