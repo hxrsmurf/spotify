@@ -1,12 +1,11 @@
-import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip } from "@mui/material"
+import { Button, Checkbox, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip } from "@mui/material"
 import { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete'
-import ModalConfirmDelete from "../Components/ModalConfirmDelete"
 
 export default function Home({ results }) {
 
   const [selected, setSelected] = useState([])
-  const [confirmDelete, setconfirmDelete] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleClick = (event, id) => {
     // https://mui.com/material-ui/react-table/
@@ -29,25 +28,49 @@ export default function Home({ results }) {
   }
 
   const handleDelete = () => {
-    console.log(selected)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setSelected([])
+    setOpen(false)
   }
 
   return (
     <>
+      <Dialog open={open} maxWidth={"md"} fullWidth="true">
+        <DialogTitle>Confirm delete</DialogTitle>
+        <DialogContent>
+          <div>
+            Confirm you want to delete these:
+            <ul>
+              {selected.map((select, id) =>
+                (<li key={id}>{select.S}</li>)
+              )}
+            </ul>
+          </div>
+          {selected.S}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Confirm</Button>
+        </DialogActions>
+      </Dialog>
+
       <TableContainer component={Paper}>
-        <Toolbar sx={{ flex: '1 1 100%', fontSize: '2rem', fontWeight: 'bold'}} color="inherit">Recently Played</Toolbar>
+        <Toolbar sx={{ flex: '1 1 100%', fontSize: '2rem', fontWeight: 'bold' }} color="inherit">Recently Played</Toolbar>
         {selected == 0 ? <></>
-        :
-        <div style={{marginLeft: '3rem'}}>
-          {selected.length} selected
-          <Tooltip title="Delete">
-            <IconButton onClick={() => handleDelete()}>
-              <DeleteIcon/>
-            </IconButton>
-          </Tooltip>
-        </div>
+          :
+          <div style={{ marginLeft: '3rem' }}>
+            {selected.length} selected
+            <Tooltip title="Delete">
+              <IconButton onClick={() => handleDelete()}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
         }
-        <Table sx={{ minWidth: 900 }}  stickyHeader aria-label="simple table">
+        <Table sx={{ minWidth: 900 }} stickyHeader aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox"></TableCell>
@@ -62,7 +85,7 @@ export default function Home({ results }) {
           </TableHead>
           <TableBody>
             {results.map((result, id) => (
-              <TableRow hover key={id} sx={{ '&:last-child td, &:last-child th': {border: 0}}} role="checkbox" onClick={(event) => handleClick(event, result.id)}>
+              <TableRow hover key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} role="checkbox" onClick={(event) => handleClick(event, result.id)}>
                 <TableCell padding="checkbox"><Checkbox></Checkbox></TableCell>
                 <TableCell component="th" scope="row">
                   {result.id.S}
@@ -78,12 +101,11 @@ export default function Home({ results }) {
           </TableBody>
         </Table>
       </TableContainer>
-      {confirmDelete ? <ModalConfirmDelete/> : <></>}
     </>
   )
 }
 
-export async function getServerSideProps(){
+export async function getServerSideProps() {
 
   // Fetch data from external API
 
