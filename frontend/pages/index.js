@@ -1,49 +1,96 @@
+import { Checkbox, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip } from "@mui/material"
+import { useState } from "react"
+import DeleteIcon from '@mui/icons-material/Delete'
+import ModalConfirmDelete from "../Components/ModalConfirmDelete"
+
 export default function Home({ results }) {
-  console.log(results)
+
+  const [selected, setSelected] = useState([])
+  const [confirmDelete, setconfirmDelete] = useState(false)
+
+  const handleClick = (event, id) => {
+    // https://mui.com/material-ui/react-table/
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+    setSelected(newSelected);
+  }
+
+  const handleDelete = () => {
+    console.log(selected)
+  }
+
   return (
     <>
-      <div>
-        <table style={{textAlign: 'center'}}>
-          <tr>
-            <th>id</th>
-            <th>year_month</th>
-            <th>song</th>
-            <th>album</th>
-            <th>artist</th>
-          </tr>
-          {results.map((result, id) => (
-            <tr key={id}>
-              <td>
-                <div>{result.id.S}</div>
-              </td>
-              <td>
-                <div>{result.year_month.S}</div>
-              </td>
-              <td>
-                <div>{result.song.S}</div>
-              </td>
-              <td>
-                <div>{result.artist.S}</div>
-              </td>
-              <td>
-                <div>{result.album.S}</div>
-              </td>
-            </tr>
-          ))}
-        </table>
-
-      </div>
+      <TableContainer component={Paper}>
+        <Toolbar sx={{ flex: '1 1 100%', fontSize: '2rem', fontWeight: 'bold'}} color="inherit">Recently Played</Toolbar>
+        {selected == 0 ? <></>
+        :
+        <div style={{marginLeft: '3rem'}}>
+          {selected.length} selected
+          <Tooltip title="Delete">
+            <IconButton onClick={() => handleDelete()}>
+              <DeleteIcon/>
+            </IconButton>
+          </Tooltip>
+        </div>
+        }
+        <Table sx={{ minWidth: 900 }}  stickyHeader aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox"></TableCell>
+              <TableCell>id</TableCell>
+              <TableCell>year_month</TableCell>
+              <TableCell>song</TableCell>
+              <TableCell>artist</TableCell>
+              <TableCell>album</TableCell>
+              <TableCell>device</TableCell>
+              <TableCell>duplicate</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {results.map((result, id) => (
+              <TableRow hover key={id} sx={{ '&:last-child td, &:last-child th': {border: 0}}} role="checkbox" onClick={(event) => handleClick(event, result.id)}>
+                <TableCell padding="checkbox"><Checkbox></Checkbox></TableCell>
+                <TableCell component="th" scope="row">
+                  {result.id.S}
+                </TableCell>
+                <TableCell> {result.year_month.S} </TableCell>
+                <TableCell> {result.song.S} </TableCell>
+                <TableCell> {result.artist.S} </TableCell>
+                <TableCell> {result.album.S} </TableCell>
+                <TableCell> {result.deviceType.S} </TableCell>
+                <TableCell> {result.possibleDuplicate.BOOL ? 'true' : 'false'} </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {confirmDelete ? <ModalConfirmDelete/> : <></>}
     </>
   )
 }
 
-export async function getServerSideProps() {
-  const query = await fetch('http://localhost:3000/api/read')
-  const results = await query.json()
+export async function getServerSideProps(){
+
+  // Fetch data from external API
+
+  const res = await fetch('http://localhost:3000/api/read')
+  const results = await res.json()
 
   return {
-    props: {
-      results
-    }
+    props: { results }
   }
 }
