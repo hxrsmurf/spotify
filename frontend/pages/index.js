@@ -54,7 +54,10 @@ export default function Home({ results }) {
     {selected.map((select, id)=> (
       handleDBDelete(select)
     ))}
+
+    // Reset everything
     setOpen(false)
+    setcheckAllDuplicates(false)
     setSelected([])
   }
 
