@@ -1,22 +1,28 @@
-import { Button, Checkbox, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip } from "@mui/material"
+import { Button, Checkbox, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip, Container } from "@mui/material"
 import React, { useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useRouter } from 'next/router'
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 
 export default function Home({ results }) {
 
   const [selected, setSelected] = useState([])
   const [open, setOpen] = useState(false)
+  const [checkAllDuplicates, setcheckAllDuplicates] = useState(false)
 
   const router = useRouter()
 
-  const handleClick = (event, id) => {
+  const handleClick = (event, result) => {
     // https://mui.com/material-ui/react-table/
-    const selectedIndex = selected.indexOf(id);
+    const selectedIndex = selected.indexOf(result.id);
     let newSelected = [];
 
+    // Need to be able to support the original selected index, still otherwise checkbox won't show.
+    let newSelected_index = [];
+
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
+      newSelected = newSelected.concat(selected, {"id": result.id.S, "song": result.song.S, "artist": result.artist.S});
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -38,8 +44,8 @@ export default function Home({ results }) {
     setOpen(false)
   }
 
-  async function handleDBDelete(id) {
-    const res = await fetch('http://localhost:3000/api/delete?id=' + id.S)
+  async function handleDBDelete(select) {
+    const res = await fetch('http://localhost:3000/api/delete?id=' + select.id)
     const resp = await res.json()
     console.log(resp)
   }
@@ -47,12 +53,32 @@ export default function Home({ results }) {
   const handleConfirm = () => {
     {selected.map((select, id)=> (
       handleDBDelete(select)
-
     ))}
 
-    router.reload()
-
+    // Reset everything
+    setOpen(false)
+    setcheckAllDuplicates(false)
+    setSelected([])
   }
+
+  const handleSelectAllDuplicates = (event) => {
+    let newSelected = []
+    setcheckAllDuplicates(true)
+    results.map((result, id) =>
+      {result.possibleDuplicate.BOOL ?
+        newSelected.push({"id": result.id.S, "song": result.song.S, "artist": result.artist.S})
+        :
+        <></>}
+    )
+    setSelected(newSelected)
+  }
+
+  const handleDeSelectAllDuplicates = (event) => {
+    setcheckAllDuplicates(false)
+    setSelected([])
+  }
+
+  const isSelected = (id) => selected.indexOf(id) != -1
 
   return (
     <>
@@ -63,7 +89,7 @@ export default function Home({ results }) {
             Confirm you want to delete these:
             <ul>
               {selected.map((select, id) =>
-                (<li key={id}>{select.S}</li>)
+                (<li key={id}>{select.id} - {select.song} by {select.artist} </li>)
               )}
             </ul>
           </div>
@@ -77,16 +103,21 @@ export default function Home({ results }) {
 
       <TableContainer component={Paper}>
         <Toolbar sx={{ flex: '1 1 100%', fontSize: '2rem', fontWeight: 'bold' }} color="inherit">Recently Played</Toolbar>
+        <Container><Button
+          startIcon={checkAllDuplicates ? <FilterAltOffIcon/> : <FilterAltIcon/>}
+          variant='contained'
+          onClick={checkAllDuplicates ? (event) => handleDeSelectAllDuplicates(event) : (event) => handleSelectAllDuplicates(event)}
+          >{checkAllDuplicates ? "Deselect" : "Select"} All Duplicates</Button></Container>
         {selected == 0 ? <></>
           :
-          <div style={{ marginLeft: '3rem' }}>
+          <Container>
             {selected.length} selected
             <Tooltip title="Delete">
               <IconButton onClick={() => handleDelete()}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-          </div>
+          </Container>
         }
         <Table sx={{ minWidth: 900 }} stickyHeader aria-label="simple table">
           <TableHead>
@@ -103,8 +134,10 @@ export default function Home({ results }) {
           </TableHead>
           <TableBody>
             {results.map((result, id) => (
-              <TableRow hover key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} role="checkbox" onClick={(event) => handleClick(event, result.id)}>
-                <TableCell padding="checkbox"><Checkbox></Checkbox></TableCell>
+              <TableRow hover key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} role="checkbox" onClick={(event) => handleClick(event, result)}>
+              {!result.possibleDuplicate ? <></> :
+              <>
+                <TableCell padding="checkbox"><Checkbox checked={ isSelected(result.id) }></Checkbox></TableCell>
                 <TableCell component="th" scope="row">
                   {result.id.S}
                 </TableCell>
@@ -114,6 +147,8 @@ export default function Home({ results }) {
                 <TableCell> {result.album.S} </TableCell>
                 <TableCell> {result.deviceType.S} </TableCell>
                 <TableCell> {result.possibleDuplicate.BOOL ? 'true' : 'false'} </TableCell>
+              </>
+              }
               </TableRow>
             ))}
           </TableBody>
