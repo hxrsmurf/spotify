@@ -1,15 +1,23 @@
 import { Button, Checkbox, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Tooltip, Container } from "@mui/material"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useRouter } from 'next/router'
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import { useSession } from "next-auth/react";
 
 export default function Home({ results }) {
 
   const [selected, setSelected] = useState([])
   const [open, setOpen] = useState(false)
   const [checkAllDuplicates, setcheckAllDuplicates] = useState(false)
+  const {data: session} = useSession()
+
+  if (!session) {
+    return (
+      "Please login"
+    )
+  }
 
   const router = useRouter()
 

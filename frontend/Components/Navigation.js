@@ -1,11 +1,21 @@
-import { Button, Menu, MenuItem } from '@mui/material'
+import { Button, Container, Grid, Menu, MenuItem } from "@mui/material";
+import LoginButton from "./LoginButton";
 
 export default function Navigation() {
   return (
-    <div>
-        <Button>
-            Dashboard
-        </Button>
-    </div>
-  )
+    <>
+      <Grid
+        container
+        spacing={2}
+        style={{ marginTop: "1rem", marginLeft: "2rem" }}
+      >
+        <Grid item xs={8}>
+          <Button>Dashboard</Button>
+        </Grid>
+        <Grid item>
+          <LoginButton />
+        </Grid>
+      </Grid>
+    </>
+  );
 }
