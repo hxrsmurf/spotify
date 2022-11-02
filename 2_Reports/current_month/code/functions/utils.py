@@ -1,10 +1,18 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 def current_year_month():
     return datetime.utcnow().strftime('%Y-%m')
 
 def current_day_time():
     return datetime.utcnow().strftime('%Y-%m-%d-%H%M%SS')
+
+def previous_month():
+    #https://stackoverflow.com/questions/9724906/python-date-of-the-previous-month
+    now = datetime.utcnow()
+    previous = now - relativedelta(months=1)
+    print(previous)
+    return previous.strftime('%Y-%m')
 
 def parse_db(results_db_query):
     list_of_results = []
