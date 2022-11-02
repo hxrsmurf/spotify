@@ -1,7 +1,7 @@
 import boto3
 import os
 
-from .utils import current_year_month
+from .utils import current_year_month, previous_month
 
 def db_query():
     client = boto3.client('dynamodb')
@@ -15,7 +15,7 @@ def db_query():
         KeyConditionExpression = 'year_month = :value',
         ExpressionAttributeValues = {
             ':value' : {
-                'S' : current_year_month()
+                'S' : previous_month()
             }
         }
     )
