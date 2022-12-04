@@ -19,13 +19,25 @@ def get(access_token, topic, client_id, redirect_uri):
         try:
             result = requests.get(spotifyUrl, headers=headers)
             result = json.loads(result.content)
-
-            print(result['item']['album']['name'])
-
             try:
                 result_context_type = result['context']['type']
                 result_context_uri = result['context']['uri']
-            except:
+                context_uri_split = result_context_uri.split(':')[2]
+
+                # Get Playlist Name
+                spotify_playlist_url = 'https://api.spotify.com/v1/playlists/' + context_uri_split
+
+                request_playlist_info = requests.get(spotify_playlist_url, headers=headers)
+                status_code = request_playlist_info.status_code
+
+                if status_code != 200:
+                    # Have to hard code to String for DynamoDB...
+                    playlist_name = 'none'
+                else:
+                    result_playlist_info = json.loads(request_playlist_info.content)
+                    playlist_name = result_playlist_info['name']
+            except Exception as e:
+                print(e)
                 pass
 
             track_progress = result['progress_ms']
@@ -46,8 +58,10 @@ def get(access_token, topic, client_id, redirect_uri):
                 'deviceType': result['device']['type'],
                 'contextType' : result_context_type,
                 'contextUri' : result_context_uri,
-                'trackDuration' : track_total_duration
+                'trackDuration' : track_total_duration,
+                'playlist_name': playlist_name
             }
+
             return(result)
         except:
             message = 'Fatal error at player.py. New status code?'

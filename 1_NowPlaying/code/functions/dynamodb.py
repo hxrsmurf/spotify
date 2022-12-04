@@ -117,6 +117,11 @@ def put(now_playing, table, current_track_parameter):
                     'Value': {
                         'S': year_month
                     }
+                },
+                'playlist_name': {
+                    'Value': {
+                        'S': now_playing['playlist_name']
+                    }
                 }
             }
         )
