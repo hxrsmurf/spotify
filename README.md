@@ -37,6 +37,8 @@ The `spotify.py` is console based and manual. The `lambda.py` is the lambda vers
 - https://cloud.google.com/deployment-manager/docs/configuration/supported-resource-types
 - https://registry.terraform.io/providers/hashicorp/google/4.39.0
 
+## Reference
+- https://github.com/Yooooomi/your_spotify
 # spotify (PowerShell)
 
 This is a basic PowerShell to control Spotify's Player and get top track/artist report.
