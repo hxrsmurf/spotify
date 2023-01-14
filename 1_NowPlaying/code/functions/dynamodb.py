@@ -23,12 +23,15 @@ def put(now_playing, table, current_track_parameter):
     recent_track = ssm.get(current_track_parameter)
     recent_entry = ssm.get(PreviousEntryEpochTime)
 
-    duration_since_last_entry_ms = calculate_duration_since_last_entry(previous=recent_entry, current=epoch_time)
-    print(f'Duration since last: {duration_since_last_entry_ms / 1000} seconds')
+    duration_since_last_entry_ms = calculate_duration_since_last_entry(
+        previous=recent_entry, current=epoch_time)
+    print(
+        f'Duration since last: {duration_since_last_entry_ms / 1000} seconds')
 
     if now_playing_track == recent_track:
         print(f'This track may already be recorded: {now_playing["songID"]}')
-        difference_between_last_and_track_duration = (duration_since_last_entry_ms / now_playing_track_duration) * 100
+        difference_between_last_and_track_duration = (
+            duration_since_last_entry_ms / now_playing_track_duration) * 100
         possible_duplicate = True
 
     play_state = now_playing['playing']
@@ -37,7 +40,7 @@ def put(now_playing, table, current_track_parameter):
         print(f'Play state is {play_state}')
     else:
         ssm.put(parameter=current_track_parameter, value=now_playing['songID'])
-        ssm.put(parameter=PreviousEntryEpochTime,value=str(epoch_time))
+        ssm.put(parameter=PreviousEntryEpochTime, value=str(epoch_time))
 
         client = boto3.client('dynamodb')
         response = client.update_item(
@@ -108,6 +111,11 @@ def put(now_playing, table, current_track_parameter):
                         'N': str(now_playing['trackDuration'])
                     }
                 },
+                'track_percentage_played': {
+                    'Value': {
+                        'S': str(now_playing['track_percentage_played'])
+                    }
+                },
                 'possibleDuplicate': {
                     'Value': {
                         'BOOL': possible_duplicate
@@ -126,7 +134,7 @@ def put(now_playing, table, current_track_parameter):
             }
         )
 
-def db_put_refresh_token(refresh_token):
+def db_put_refresh_token(refresh_token, access_token):
     client = boto3.client('dynamodb')
     table = os.environ['TableRefreshToken']
     timestamp, epoch_time = current_timestamp_epoch()
@@ -141,17 +149,22 @@ def db_put_refresh_token(refresh_token):
         AttributeUpdates={
             'refresh_token': {
                 'Value': {
-                 'S': refresh_token
+                    'S': refresh_token
+                }
+            },
+            'access_token': {
+                'Value': {
+                    'S': access_token
                 }
             },
             'year_month_day': {
-                'Value' : {
-                    'S' : current_year_month_day()
+                'Value': {
+                    'S': current_year_month_day()
                 }
             },
             'timestamp': {
-                'Value' : {
-                    'S' : timestamp
+                'Value': {
+                    'S': timestamp
                 }
             }
         }
