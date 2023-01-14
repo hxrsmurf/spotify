@@ -27,13 +27,14 @@ def handler(event, context):
         event_body = str((base64.b64decode(event['body'])), "utf-8")
         eventbridge.update(event_body)
         return {
-            'statusCode' : 200,
-            'body' : event_body
+            'statusCode': 200,
+            'body': event_body
         }
 
     elif api_method == 'GET /':
         spotify_refresh_token_parameter = os.environ['SpotifyRefreshToken']
-        spotify_refresh_token_parameter_value = ssm.get(spotify_refresh_token_parameter)
+        spotify_refresh_token_parameter_value = ssm.get(
+            spotify_refresh_token_parameter)
 
         client_id = ssm.get(os.environ['SpotifyClientID'])
         client_secret = ssm.get(os.environ['SpotifyClientSecret'])
@@ -45,18 +46,26 @@ def handler(event, context):
         table = os.environ['Table']
         topic = os.environ['Topic']
 
-        access_token = authorization.get_refresh_token(spotify_refresh_token_parameter_value, client_id, client_secret, spotify_refresh_token_parameter)['access_token']
+        access_token, refresh_token, token_type = authorization.get_refresh_token(
+            spotify_refresh_token_parameter_value, client_id, client_secret, spotify_refresh_token_parameter)
 
-        now_playing = (player.get(access_token, topic, client_id, redirect_uri))
+        now_playing = (player.get(
+            access_token, topic, client_id, redirect_uri))
+
+        print(now_playing)
 
         if now_playing == 204:
             print('Nothing playing')
+        elif now_playing == 502:
+            message = f'502 Error'
+            notify.send_notfication(message, topic, client_id, redirect_uri)
         elif now_playing:
-           record_now_playing = dynamodb.put(now_playing, table, current_track_parameter)
-           return {
-               'statusCode' : 200,
-               'body' : json.dumps(now_playing)
-           }
+            record_now_playing = dynamodb.put(
+                now_playing, table, current_track_parameter)
+            return {
+                'statusCode': 200,
+                'body': json.dumps(now_playing)
+            }
         else:
             message = 'Fatal error at index.py. Maybe a new status code?'
             notify.send_notfication(message, topic, client_id, redirect_uri)
