@@ -26,7 +26,7 @@ def get_access_token():
         refresh_token = response_json['refresh_token']
         if not ssm_refresh_token == refresh_token:
             print(f'Updating Refresh Token')
-            put_parameter(refresh_token)
+            parameter_SpotifyRefreshToken = os.environ['SpotifyRefreshToken']
+            put_parameter(parameter=parameter_SpotifyRefreshToken,value=refresh_token)
 
     return access_token
-
