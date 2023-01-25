@@ -66,3 +66,14 @@ def unfollow_playlist(access_token, playlist_id):
     response = requests.delete(spotify_url)
     # Getting 401 unauthorized even though the token is fine.
     print(response)
+
+def check_user_follows_playlist(access_token, playlist_id):
+    spotify_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/contains'
+
+    headers = {
+        'Authorization' : 'Bearer ' + str(access_token),
+        'Content-Type' : 'application/json'
+    }
+
+    response = requests.get(spotify_url)
+    print(response)
