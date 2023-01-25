@@ -6,6 +6,15 @@ Resources:
   Table:
     Type: AWS::Serverless::SimpleTable
     Properties: {}
+
+  Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Value: example
+      Description: Spotify Latest Shuffled Liked Playlist ID
+      Tier: Standard
+
   Lambda:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -21,6 +30,7 @@ Resources:
           SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
           SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
           TableName: !Ref Table
+          Parameter: !Ref Parameter
       Events:
         EventBridge:
           Type: Schedule
@@ -47,3 +57,6 @@ Resources:
               - !Sub
                   - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
                   - SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Parameter}
+                  - Parameter: !Ref Parameter
