@@ -12,6 +12,6 @@ def put_parameter(parameter, value):
     client.put_parameter(
         Name = parameter,
         Value = value,
-        Type = 'Standard',
+        Type = 'String',
         Overwrite = True
     )
