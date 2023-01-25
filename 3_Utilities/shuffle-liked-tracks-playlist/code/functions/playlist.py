@@ -53,3 +53,16 @@ def create_shuffled_playlist(access_token, tracks):
         response_json = json.loads(response.content)
         print(response_json)
         return playlist_id
+
+# https://developer.spotify.com/documentation/general/guides/working-with-playlists/#following-and-unfollowing-a-playlist
+def unfollow_playlist(access_token, playlist_id):
+    spotify_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/followers'
+
+    headers = {
+        'Authorization' : 'Bearer ' + str(access_token),
+        'Content-Type' : 'application/json'
+    }
+
+    response = requests.delete(spotify_url)
+    # Getting 401 unauthorized even though the token is fine.
+    print(response)
