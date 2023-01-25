@@ -30,7 +30,7 @@ Resources:
           SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
           SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
           TableName: !Ref Table
-          Parameter: !Ref Parameter
+          ShuffledLikedPlaylistId: !Ref Parameter
       Events:
         EventBridge:
           Type: Schedule
