@@ -27,6 +27,8 @@ Resources:
             Enabled: true
             Schedule: cron(0 10 * * ? *)
       Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Table
         - Statement:
           - Effect: Allow
             Action:
