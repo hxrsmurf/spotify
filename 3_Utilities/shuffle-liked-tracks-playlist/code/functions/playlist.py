@@ -1,6 +1,7 @@
 import json
 import requests
 
+from .dynamodb import put_item
 from .utils import current_year_month_day
 
 def create_playlist(access_token):
@@ -26,6 +27,7 @@ def create_playlist(access_token):
         print(f'Player Content: {response.content}')
     else:
         response_json = json.loads(response.content)
+        put_item(playlist_information=response_json)
         return response_json['id']
 
 def create_shuffled_playlist(access_token, tracks):
