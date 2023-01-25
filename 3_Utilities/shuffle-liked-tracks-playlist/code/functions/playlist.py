@@ -52,3 +52,4 @@ def create_shuffled_playlist(access_token, tracks):
     else:
         response_json = json.loads(response.content)
         print(response_json)
+        return playlist_id
