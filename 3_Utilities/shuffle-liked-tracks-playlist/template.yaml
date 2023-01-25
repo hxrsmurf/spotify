@@ -20,6 +20,7 @@ Resources:
           SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
           SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
           SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+          TableName: !Ref Table
       Events:
         EventBridge:
           Type: Schedule
