@@ -8,11 +8,10 @@ def get_parameter(parameter):
         Name=parameter
     )['Parameter']['Value']
 
-def put_parameter(value):
-    parameter = os.environ['SpotifyRefreshToken']
+def put_parameter(parameter, value):
     client.put_parameter(
         Name = parameter,
         Value = value,
-        Type = 'Standard',
+        Type = 'String',
         Overwrite = True
     )

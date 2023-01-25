@@ -3,6 +3,18 @@ Description: Spotify - Get Saved Tracks
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Spotify - Get Saved Tracks
 Resources:
+  Table:
+    Type: AWS::Serverless::SimpleTable
+    Properties: {}
+
+  Parameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Value: example
+      Description: Spotify Latest Shuffled Liked Playlist ID
+      Tier: Standard
+
   Lambda:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -17,6 +29,8 @@ Resources:
           SpotifyClientID: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientID
           SpotifyClientSecret: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyClientSecret
           SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+          TableName: !Ref Table
+          ShuffledLikedPlaylistId: !Ref Parameter
       Events:
         EventBridge:
           Type: Schedule
@@ -24,6 +38,8 @@ Resources:
             Enabled: true
             Schedule: cron(0 10 * * ? *)
       Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Table
         - Statement:
           - Effect: Allow
             Action:
@@ -41,3 +57,6 @@ Resources:
               - !Sub
                   - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${SpotifyRefreshToken}
                   - SpotifyRefreshToken: !ImportValue spotify-tracker-sam-Parameters-1VQDTTBKRD7WJ-SpotifyRefreshToken
+              - !Sub
+                  - arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${Parameter}
+                  - Parameter: !Ref Parameter

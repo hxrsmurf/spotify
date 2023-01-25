@@ -1,6 +1,7 @@
 import json
 import requests
 
+from .dynamodb import put_item
 from .utils import current_year_month_day
 
 def create_playlist(access_token):
@@ -26,6 +27,7 @@ def create_playlist(access_token):
         print(f'Player Content: {response.content}')
     else:
         response_json = json.loads(response.content)
+        put_item(playlist_information=response_json)
         return response_json['id']
 
 def create_shuffled_playlist(access_token, tracks):
@@ -50,3 +52,28 @@ def create_shuffled_playlist(access_token, tracks):
     else:
         response_json = json.loads(response.content)
         print(response_json)
+        return playlist_id
+
+# https://developer.spotify.com/documentation/general/guides/working-with-playlists/#following-and-unfollowing-a-playlist
+def unfollow_playlist(access_token, playlist_id):
+    spotify_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/followers'
+
+    headers = {
+        'Authorization' : 'Bearer ' + str(access_token),
+        'Content-Type' : 'application/json'
+    }
+
+    response = requests.delete(spotify_url)
+    # Getting 401 unauthorized even though the token is fine.
+    print(response)
+
+def check_user_follows_playlist(access_token, playlist_id):
+    spotify_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/contains'
+
+    headers = {
+        'Authorization' : 'Bearer ' + str(access_token),
+        'Content-Type' : 'application/json'
+    }
+
+    response = requests.get(spotify_url)
+    print(response)
