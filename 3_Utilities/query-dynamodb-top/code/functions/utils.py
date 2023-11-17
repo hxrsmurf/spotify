@@ -1,3 +1,11 @@
+from datetime import datetime
+def get_current_year_month():
+    current_date = datetime.now()
+    current_year = current_date.year
+    current_month = current_date.month
+    formatted_date = f"{current_year}-{current_month:02d}"
+    return formatted_date
+
 def parse_items(items):
     list_items = []
 
@@ -25,7 +33,7 @@ def parse_items(items):
     return list_items
 
 def parse_query_string_parameters(event):
-    year_month, query_type = '2023-10', 'songs'
+    year_month, query_type = get_current_year_month(), 'songs'
     parameters = event['queryStringParameters']
 
     try:
