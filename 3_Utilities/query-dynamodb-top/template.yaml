@@ -1,0 +1,18 @@
+Description: Spotify SAM Tracker - Query DynamoDB for Top
+
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+  Lambda:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: python3.10
+      CodeUri: code
+      Timeout: 900
+      Environment:
+        Variables:
+          Table: !ImportValue spotify-tracker-sam-TableName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !ImportValue spotify-tracker-sam-TableName
