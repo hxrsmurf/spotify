@@ -7,7 +7,10 @@ client = boto3.client('dynamodb', region_name='us-east-1')
 index = 'year_month-id-index'
 
 def query(year_month):
-    response = client.query(
+    list_items = []
+
+    paginator = client.get_paginator('query')
+    response = paginator.paginate(
         TableName=table,
         IndexName=index,
         KeyConditionExpression='year_month = :year_month',
@@ -22,4 +25,9 @@ def query(year_month):
         }
     )
 
-    return response['Items']
+
+    for page in response:
+        for item in page['Items']:
+            list_items.append(item)
+    
+    return list_items
