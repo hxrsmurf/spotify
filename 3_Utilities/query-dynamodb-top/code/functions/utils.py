@@ -54,5 +54,4 @@ def create_pandas_data_frame(items):
     df = pd.DataFrame(items)
     df["combined"] = df["song"].str.cat(df[["artist"]].astype(str), sep=" - ")
     song_counts = df['combined'].value_counts()
-    print(song_counts)
-    return df
+    return song_counts.head(20).to_json()

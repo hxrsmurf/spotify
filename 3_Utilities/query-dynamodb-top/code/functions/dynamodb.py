@@ -10,7 +10,6 @@ def query(year_month):
     response = client.query(
         TableName=table,
         IndexName=index,
-        Limit=10,
         KeyConditionExpression='year_month = :year_month',
         FilterExpression='possibleDuplicate = :duplicate',
         ExpressionAttributeValues={
