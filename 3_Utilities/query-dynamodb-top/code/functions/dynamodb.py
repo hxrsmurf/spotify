@@ -12,9 +12,13 @@ def query(year_month):
         IndexName=index,
         Limit=10,
         KeyConditionExpression='year_month = :year_month',
+        FilterExpression='possibleDuplicate = :duplicate',
         ExpressionAttributeValues={
             ':year_month': {
                 'S': year_month,
+            },
+            ':duplicate': {
+                'BOOL': False
             }
         }
     )
