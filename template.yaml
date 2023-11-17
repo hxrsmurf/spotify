@@ -55,6 +55,16 @@ Outputs:
     Export:
       Name: !Sub ${AWS::StackName}-TableArnRefreshToken
 
+  TableNameTop:
+    Value: !Ref DynamoDBTop
+    Export:
+      Name: !Sub ${AWS::StackName}-TableNameTop
+
+  TableArnTop:
+    Value: !Sub arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${DynamoDBTop}
+    Export:
+      Name: !Sub ${AWS::StackName}-TableArnTop
+
   TopicNested:
     Value:
       Fn::GetAtt:
@@ -79,6 +89,10 @@ Resources:
     Type: 'AWS::Serverless::SimpleTable'
 
   DynamoDBRefreshToken:
+    DeletionPolicy: Retain
+    Type: 'AWS::Serverless::SimpleTable'
+
+  DynamoDBTop:
     DeletionPolicy: Retain
     Type: 'AWS::Serverless::SimpleTable'
 
