@@ -50,10 +50,17 @@ def parse_query_string_parameters(event):
     
     return year_month, query_type
 
-def create_pandas_data_frame(items):
+def create_pandas_data_frame(items, query_type='artist'):
     df = pd.DataFrame(items)
     df.pop('id')
-    df['count'] = df.groupby('song')['song'].transform('count')
+    df['count'] = df.groupby(query_type)[query_type].transform('count')
     df.sort_values(by='count', ascending=False, inplace=True)
-    new_df = df[['artist', 'song', 'songID', 'year_month', 'count']].drop_duplicates()
+
+    if query_type == 'song':
+        new_df = df[['artist', 'song', 'songID', 'album', 'year_month', 'count']].drop_duplicates()
+
+    if query_type == 'artist':
+        new_df = df[['artist', 'year_month', 'count']].drop_duplicates()
+    
+    print(new_df)
     return new_df.head(20).to_json(orient='records')
