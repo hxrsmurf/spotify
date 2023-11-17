@@ -72,5 +72,6 @@ def create_pandas_data_frame(items, query_type='song'):
     if query_type == 'device':
         new_df = df[['device', 'year_month', 'count']].drop_duplicates()
     
+    print(query_type)
     print(new_df)
     return json.loads(new_df.head(20).to_json(orient='records'))
