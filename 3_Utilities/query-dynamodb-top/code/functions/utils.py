@@ -52,6 +52,8 @@ def parse_query_string_parameters(event):
 
 def create_pandas_data_frame(items):
     df = pd.DataFrame(items)
-    df["combined"] = df["song"].str.cat(df[["artist"]].astype(str), sep=" - ")
-    song_counts = df['combined'].value_counts()
-    return song_counts.head(20).to_json()
+    df.pop('id')
+    df['count'] = df.groupby('song')['song'].transform('count')
+    df.sort_values(by='count', ascending=False, inplace=True)
+    new_df = df[['artist', 'song', 'songID', 'year_month', 'count']].drop_duplicates()
+    return new_df.head(20).to_json(orient='records')

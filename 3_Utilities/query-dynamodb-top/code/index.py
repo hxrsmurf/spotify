@@ -18,6 +18,7 @@ def handler(event, context):
     if len(items) != 0:
         parsed_items = parse_items(items)
         df = create_pandas_data_frame(parsed_items)
+        print(df)
 
         return {
             "year_month": year_month,
