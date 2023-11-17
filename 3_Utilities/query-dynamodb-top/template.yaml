@@ -9,6 +9,7 @@ Resources:
       Handler: index.handler
       Runtime: python3.10
       CodeUri: code
+      MemorySize: 256
       Timeout: 900
       Environment:
         Variables:
