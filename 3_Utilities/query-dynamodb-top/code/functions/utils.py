@@ -52,6 +52,7 @@ def parse_query_string_parameters(event):
 
 def create_pandas_data_frame(items):
     df = pd.DataFrame(items)
-    song_counts = df['song'].value_counts()
+    df["combined"] = df["song"].str.cat(df[["artist"]].astype(str), sep=" - ")
+    song_counts = df['combined'].value_counts()
     print(song_counts)
     return df
