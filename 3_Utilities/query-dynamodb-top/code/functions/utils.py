@@ -1,5 +1,6 @@
 from datetime import datetime
 import pandas as pd
+import json
 
 def get_current_year_month():
     current_date = datetime.now()
@@ -72,4 +73,4 @@ def create_pandas_data_frame(items, query_type='song'):
         new_df = df[['device', 'year_month', 'count']].drop_duplicates()
     
     print(new_df)
-    return new_df.head(20).to_json(orient='records')
+    return json.loads(new_df.head(20).to_json(orient='records'))
