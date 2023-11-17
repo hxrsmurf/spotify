@@ -11,6 +11,11 @@ Resources:
       Runtime: python3.10
       CodeUri: code
       Timeout: 120
+      Events:
+        ScheduleEvent:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: "rate(30 days)"
       Environment:
         Variables:
           TableArn: !Sub
