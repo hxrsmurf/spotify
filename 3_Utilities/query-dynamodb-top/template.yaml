@@ -13,6 +13,12 @@ Resources:
       Environment:
         Variables:
           Table: !ImportValue spotify-tracker-sam-TableName
+      Events:
+        HttpApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: GET
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !ImportValue spotify-tracker-sam-TableName

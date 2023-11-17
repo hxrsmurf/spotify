@@ -23,3 +23,19 @@ def parse_items(items):
         list_items.append(parsed)
 
     return list_items
+
+def parse_query_string_parameters(event):
+    year_month, query_type = '2023-10', 'songs'
+    parameters = event['queryStringParameters']
+
+    try:
+        year_month = parameters['year_month']
+    except:
+        pass
+
+    try:
+        query_type = parameters['query_type']
+    except:
+        pass
+    
+    return year_month, query_type
