@@ -25,7 +25,7 @@ def handler(event, context):
             "top_artists": create_pandas_data_frame(parsed_items, "artist"),
             "top_albums": create_pandas_data_frame(parsed_items, "album"),
             "top_playlists": create_pandas_data_frame(parsed_items, "playlist_name"),
-            # "items": parsed_items
+            "items": parsed_items
         }
     else:
         return {"result": "No results for that month."}
