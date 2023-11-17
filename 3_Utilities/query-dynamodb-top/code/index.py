@@ -8,7 +8,7 @@ def handler(event, context):
     year_month = get_current_year_month()
     # If no query parameters
     try:
-        year_month, query_Type = parse_query_string_parameters(event)
+        year_month, query_type = parse_query_string_parameters(event)
     except:
         pass
 
