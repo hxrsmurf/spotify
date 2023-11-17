@@ -1,4 +1,6 @@
 from datetime import datetime
+import pandas as pd
+
 def get_current_year_month():
     current_date = datetime.now()
     current_year = current_date.year
@@ -47,3 +49,7 @@ def parse_query_string_parameters(event):
         pass
     
     return year_month, query_type
+
+def create_pandas_data_frame(items):
+    df = pd.DataFrame(items)
+    return df
