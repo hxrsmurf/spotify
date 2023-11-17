@@ -57,7 +57,7 @@ def create_pandas_data_frame(items, query_type='song'):
     df.sort_values(by='count', ascending=False, inplace=True)
 
     if query_type == 'song':
-        new_df = df[['artist', 'song', 'songID', 'album', 'year_month', 'count']].drop_duplicates()
+        new_df = df[['artist', 'song', 'album', 'year_month', 'count']].drop_duplicates()
 
     if query_type == 'artist':
         new_df = df[['artist', 'year_month', 'count']].drop_duplicates()
