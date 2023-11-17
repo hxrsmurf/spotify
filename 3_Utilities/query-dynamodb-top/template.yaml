@@ -11,9 +11,12 @@ Resources:
       CodeUri: code
       MemorySize: 256
       Timeout: 900
+      Layers:
+       - arn:aws:lambda:us-east-1:336392948345:layer:AWSSDKPandas-Python310:6
       Environment:
         Variables:
           Table: !ImportValue spotify-tracker-sam-TableName
+          Top: !ImportValue spotify-tracker-sam-TableNameTop
       Events:
         HttpApiEvent:
           Type: HttpApi
@@ -23,3 +26,5 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !ImportValue spotify-tracker-sam-TableName
+        - DynamoDBCrudPolicy:
+            TableName: !ImportValue spotify-tracker-sam-TableNameTop
