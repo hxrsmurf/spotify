@@ -48,8 +48,14 @@ def parse_query_string_parameters(event):
         query_type = parameters['query_type']
     except:
         pass
+
+    try:
+        limit = parameters['limit']
+    except:
+        limit = None
+        pass
     
-    return year_month, query_type
+    return year_month, query_type, limit
 
 def create_pandas_data_frame(items, query_type='song', limit=10):
     df = pd.DataFrame(items)

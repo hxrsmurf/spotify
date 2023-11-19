@@ -20,11 +20,11 @@ def handler(event, context):
 
     # If no query parameters
     try:
-        year_month, query_type = parse_query_string_parameters(event)
+        year_month, query_type, limit = parse_query_string_parameters(event)
     except:
         pass
 
-    print(year_month)
+    print(year_month, query_type, limit)
     exists_top_year_month = get(year_month)
     if exists_top_year_month and not year_month == get_current_year_month():
         return exists_top_year_month
