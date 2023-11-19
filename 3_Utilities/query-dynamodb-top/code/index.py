@@ -1,11 +1,23 @@
 import os
 import json
 
-from functions.dynamodb import query, put, get
+from functions.dynamodb import query, put, get, get_artist_id
 from functions.utils import parse_items, parse_query_string_parameters, get_current_year_month, create_pandas_data_frame
 
 def handler(event, context):
     year_month = get_current_year_month()
+
+    # Handle artist lookup. Don't feel like doing a separate API...
+    try:
+        artist = event['queryStringParameters']['artist']
+        artist_id = get_artist_id(artist)
+        print(artist, artist_id)
+        return {
+            'artist_id': artist_id
+        }
+    except:
+        pass
+
     # If no query parameters
     try:
         year_month, query_type = parse_query_string_parameters(event)

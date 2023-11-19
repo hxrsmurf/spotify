@@ -6,6 +6,8 @@ from .utils import get_current_year_month
 # table = os.environ['Table']
 table = 'spotify-tracker-sam-DynamoDB-153V5770W5PY5'
 table_top ='spotify-tracker-sam-DynamoDBTop-1VWZP135CNFSV'
+table_artist ='spotify-tracker-sam-artist-id'
+
 client = boto3.client('dynamodb', region_name='us-east-1')
 index = 'year_month-id-index'
 
@@ -83,3 +85,18 @@ def put(year_month, data):
                 },
             }
         )
+
+def get_artist_id(artist):
+    response = client.get_item(
+        TableName=table_artist,
+        Key={
+            'artist': {
+                'S': artist,
+            }
+        }
+    )
+
+    if 'Item' in response:
+        return response['Item']['id']['S']
+    else:
+        return None
