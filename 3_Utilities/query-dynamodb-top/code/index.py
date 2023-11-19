@@ -34,11 +34,11 @@ def handler(event, context):
     if len(items) != 0:
         parsed_items = parse_items(items)
 
-        top_devices = create_pandas_data_frame(parsed_items, "device")
-        top_songs = create_pandas_data_frame(parsed_items, "song")
-        top_artists = create_pandas_data_frame(parsed_items, "artist")
-        top_albums = create_pandas_data_frame(parsed_items, "album")
-        top_playlists = create_pandas_data_frame(parsed_items, "playlist_name")
+        top_devices = create_pandas_data_frame(parsed_items, "device", 10)
+        top_songs = create_pandas_data_frame(parsed_items, "song", 20)
+        top_artists = create_pandas_data_frame(parsed_items, "artist", 10)
+        top_albums = create_pandas_data_frame(parsed_items, "album", 10)
+        top_playlists = create_pandas_data_frame(parsed_items, "playlist_name", 10)
 
         top_table_data = {
             "year_month": year_month,
