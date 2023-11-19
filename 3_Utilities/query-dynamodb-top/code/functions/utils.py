@@ -81,6 +81,6 @@ def create_pandas_data_frame(items, query_type='song', limit=10, year=None):
         new_df = df[['device', 'count']].drop_duplicates()
     
     print(query_type)
-    with pd.option_context('display.min_rows', 30):
-        print(new_df)
-    return json.loads(new_df.head(limit).to_json(orient='records'))
+    # with pd.option_context('display.min_rows', 30):
+    #     print(new_df)
+    return json.loads(new_df.head(10).to_json(orient='records'))

@@ -80,8 +80,15 @@ def handler(event, context):
             "items": parsed_items
         }
 
-        put(year_month, top_table_data)
-        return top_table_data
+        if year:
+            put(year, top_table_data)
+            if __name__ == "__main__":
+                with open("file.json", "w") as fp:
+                    json.dump(top_table_data , fp) 
+            return {'message': f'Successfully generated year report: {year}'}
+        else:
+            put(year_month, top_table_data)
+            return top_table_data
     else:
         return {"result": "No results for that month."}
 
