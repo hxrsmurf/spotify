@@ -30,7 +30,6 @@ def query(year_month):
         }
     )
 
-
     for page in response:
         for item in page['Items']:
             list_items.append(item)

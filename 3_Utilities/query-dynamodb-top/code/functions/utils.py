@@ -48,10 +48,16 @@ def parse_query_string_parameters(event):
         query_type = parameters['query_type']
     except:
         pass
-    
-    return year_month, query_type
 
-def create_pandas_data_frame(items, query_type='song'):
+    try:
+        limit = parameters['limit']
+    except:
+        limit = None
+        pass
+    
+    return year_month, query_type, limit
+
+def create_pandas_data_frame(items, query_type='song', limit=10):
     df = pd.DataFrame(items)
     df.pop('id')
     df['count'] = df.groupby(query_type)[query_type].transform('size')
@@ -77,4 +83,4 @@ def create_pandas_data_frame(items, query_type='song'):
     print(query_type)
     # with pd.option_context('display.min_rows', 20):
     #     print(new_df)
-    return json.loads(new_df.head(20).to_json(orient='records'))
+    return json.loads(new_df.head(limit).to_json(orient='records'))
