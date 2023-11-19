@@ -29,18 +29,36 @@ def handler(event, context):
     except:
         pass
 
-    # If no query parameters
+    # Year Handling..
+    year = False
     try:
-        year_month, query_type, limit = parse_query_string_parameters(event)
+        year = event['queryStringParameters']['year']
+        list_monthly_items = []
+        for i in range(1, 13): # 13
+            year_month = '{}-{:02d}'.format(year, i)
+            items = query(year_month)
+            if len(items) != 0:
+                list_monthly_items.append(items)
     except:
         pass
 
-    print(year_month, query_type, limit)
-    exists_top_year_month = get(year_month)
-    if exists_top_year_month and not year_month == get_current_year_month():
-        return exists_top_year_month
+    if not year:
+        # If no query parameters
+        try:
+            year_month, query_type, limit = parse_query_string_parameters(event)
+        except:
+            pass
 
-    items = query(year_month)
+        print(year_month, query_type, limit)
+        exists_top_year_month = get(year_month)
+        if exists_top_year_month and not year_month == get_current_year_month():
+            return exists_top_year_month
+
+        items = query(year_month)
+    elif year:
+        items = list_monthly_items[0]
+    else:
+        return { "error": "Error"}
 
     if len(items) != 0:
         parsed_items = parse_items(items)
@@ -61,13 +79,14 @@ def handler(event, context):
             "items": parsed_items
         }
 
-        put(year_month, top_table_data)
+        # put(year_month, top_table_data)
         return top_table_data
     else:
         return {"result": "No results for that month."}
 
 if __name__ == "__main__":
-    for i in range(1, 13):
-        year_month = '2023-{:02d}'.format(i)
-        event = {'queryStringParameters': {'year_month': year_month}}
-        items = handler(event, None)
+    year_month = '2023-10'
+    year = '2023'
+    # event = {'queryStringParameters': {'year_month': year_month}}
+    event = {'queryStringParameters': {'year': year }}
+    items = handler(event, None)
