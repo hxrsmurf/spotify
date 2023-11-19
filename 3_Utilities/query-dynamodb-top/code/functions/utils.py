@@ -84,3 +84,34 @@ def create_pandas_data_frame(items, query_type='song', limit=10):
     # with pd.option_context('display.min_rows', 20):
     #     print(new_df)
     return json.loads(new_df.head(limit).to_json(orient='records'))
+
+def create_year_pandas_data_frame(items, query_type='song', limit=10):
+    df = pd.DataFrame(items)
+    df.pop('id')
+    df['count'] = df.groupby(query_type)[query_type].transform('size')
+    df.sort_values(by='count', ascending=False, inplace=True)
+
+    if query_type == 'songID':
+        new_df = df[['artist', 'song', 'songID', 'album', 'count']].drop_duplicates()
+        new_df = new_df.groupby(['song']).first().reset_index()
+        new_df.pop('songID')
+        new_df = new_df.sort_values(by='count', ascending=False)
+
+    if query_type == 'artist':
+        new_df = df[['artist', 'count']].drop_duplicates()
+
+    if query_type == 'album':
+        new_df = df[['album', 'albumID', 'count']].drop_duplicates()
+        new_df = new_df.groupby(['album']).first().reset_index()
+        new_df = new_df.sort_values(by='count', ascending=False)
+
+    if query_type == 'playlist_name':
+        new_df = df[['playlist_name', 'count']].drop_duplicates()
+
+    if query_type == 'device':
+        new_df = df[['device', 'count']].drop_duplicates()
+    
+    print(query_type)
+    with pd.option_context('display.min_rows', 100):
+        print(new_df)
+    return json.loads(new_df.head(limit).to_json(orient='records'))
