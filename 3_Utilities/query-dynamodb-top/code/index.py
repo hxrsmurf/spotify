@@ -83,6 +83,8 @@ def handler(event, context):
         if year:
             put(year, top_table_data)
             if __name__ == "__main__":
+                # Have to save to local file because 6 MB Lambda limit. 
+                # May do S3 pre-signed URL later
                 with open("file.json", "w") as fp:
                     json.dump(top_table_data , fp) 
             return {'message': f'Successfully generated year report: {year}'}
