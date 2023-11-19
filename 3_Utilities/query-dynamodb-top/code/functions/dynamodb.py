@@ -107,7 +107,7 @@ def get_album_id(album_id):
         TableName=table_artist,
         Key={
             'artist': {
-                'S': artist,
+                'S': album_id,
             }
         }
     )
