@@ -6,6 +6,15 @@ from functions.utils import parse_items, parse_query_string_parameters, get_curr
 
 def handler(event, context):
     year_month = get_current_year_month()
+
+    # Handle artist lookup. Don't feel like doing a separate API...
+    try:
+        artist = event['queryStringParameters']['artist']
+        artist_id = get_artist_id(artist)
+        return artist_id
+    except:
+        pass
+
     # If no query parameters
     try:
         year_month, query_type = parse_query_string_parameters(event)
