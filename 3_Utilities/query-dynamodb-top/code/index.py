@@ -2,7 +2,7 @@ import os
 import json
 
 from functions.dynamodb import query, put, get, get_artist_id, get_album_id
-from functions.utils import parse_items, parse_query_string_parameters, get_current_year_month, create_pandas_data_frame, create_year_pandas_data_frame
+from functions.utils import parse_items, parse_query_string_parameters, get_current_year_month, create_pandas_data_frame
 
 def handler(event, context):
     year_month = get_current_year_month()
@@ -63,18 +63,11 @@ def handler(event, context):
     if len(items) != 0:
         parsed_items = parse_items(items)
 
-        if not year:
-            top_devices = create_pandas_data_frame(parsed_items, "device", 10)
-            top_songs = create_pandas_data_frame(parsed_items, "song", 20)
-            top_artists = create_pandas_data_frame(parsed_items, "artist", 10)
-            top_albums = create_pandas_data_frame(parsed_items, "album", 10)
-            top_playlists = create_pandas_data_frame(parsed_items, "playlist_name", 10)
-        else:
-            top_devices = create_year_pandas_data_frame(parsed_items, "device", 10)
-            top_songs = create_year_pandas_data_frame(parsed_items, "songID", 20)
-            top_artists = create_year_pandas_data_frame(parsed_items, "artist", 10)
-            top_albums = create_year_pandas_data_frame(parsed_items, "album", 10)
-            top_playlists = create_year_pandas_data_frame(parsed_items, "playlist_name", 10)
+        top_devices = create_pandas_data_frame(parsed_items, "device", 10, year)
+        top_songs = create_pandas_data_frame(parsed_items, "song", 20, year)
+        top_artists = create_pandas_data_frame(parsed_items, "artist", 10, year)
+        top_albums = create_pandas_data_frame(parsed_items, "album", 10, year)
+        top_playlists = create_pandas_data_frame(parsed_items, "playlist_name", 10, year)
 
         top_table_data = {
             "year_month": year_month,
