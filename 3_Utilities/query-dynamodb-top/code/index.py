@@ -42,7 +42,9 @@ def handler(event, context):
     except:
         pass
 
-    if not year:
+    if year:
+        items = list_monthly_items[0]
+    else:
         # If no query parameters
         try:
             year_month, query_type, limit = parse_query_string_parameters(event)
@@ -55,10 +57,6 @@ def handler(event, context):
             return exists_top_year_month
 
         items = query(year_month)
-    elif year:
-        items = list_monthly_items[0]
-    else:
-        return { "error": "Error"}
 
     if len(items) != 0:
         parsed_items = parse_items(items)
