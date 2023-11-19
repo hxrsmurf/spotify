@@ -1,7 +1,7 @@
 import os
 import json
 
-from functions.dynamodb import query, put, get, get_artist_id
+from functions.dynamodb import query, put, get, get_artist_id, get_album_id
 from functions.utils import parse_items, parse_query_string_parameters, get_current_year_month, create_pandas_data_frame
 
 def handler(event, context):
@@ -14,6 +14,17 @@ def handler(event, context):
         print(artist, artist_image)
         return {
             'artist_image': artist_image
+        }
+    except:
+        pass
+
+    # Handle album lookup. Don't feel like doing a separate API...
+    try:
+        album_id = event['queryStringParameters']['album_id']
+        album_image = get_album_id(album_id)
+        print(album_id, album_image)
+        return {
+            'album_image': album_image
         }
     except:
         pass
