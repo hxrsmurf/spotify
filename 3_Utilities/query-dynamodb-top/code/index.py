@@ -29,27 +29,46 @@ def handler(event, context):
     except:
         pass
 
-    # If no query parameters
+    # Year Handling..
+    year = False
     try:
-        year_month, query_type, limit = parse_query_string_parameters(event)
+        year = event['queryStringParameters']['year']
+        list_monthly_items = []
+        for i in range(1, 13): # 13
+            year_month = '{}-{:02d}'.format(year, i)
+            items = query(year_month)
+            if len(items) != 0:
+                list_monthly_items.append(items)
     except:
         pass
 
-    print(year_month, query_type, limit)
-    exists_top_year_month = get(year_month)
-    if exists_top_year_month and not year_month == get_current_year_month():
-        return exists_top_year_month
+    if year:
+        items = []
+        for monthly_items in list_monthly_items:
+            for i in monthly_items:
+                items.append(i)
+    else:
+        # If no query parameters
+        try:
+            year_month, query_type, limit = parse_query_string_parameters(event)
+        except:
+            pass
 
-    items = query(year_month)
+        print(year_month, query_type, limit)
+        exists_top_year_month = get(year_month)
+        if exists_top_year_month and not year_month == get_current_year_month():
+            return exists_top_year_month
+
+        items = query(year_month)
 
     if len(items) != 0:
         parsed_items = parse_items(items)
 
-        top_devices = create_pandas_data_frame(parsed_items, "device", 10)
-        top_songs = create_pandas_data_frame(parsed_items, "song", 20)
-        top_artists = create_pandas_data_frame(parsed_items, "artist", 10)
-        top_albums = create_pandas_data_frame(parsed_items, "album", 10)
-        top_playlists = create_pandas_data_frame(parsed_items, "playlist_name", 10)
+        top_devices = create_pandas_data_frame(parsed_items, "device", 10, year)
+        top_songs = create_pandas_data_frame(parsed_items, "songID", 20, year)
+        top_artists = create_pandas_data_frame(parsed_items, "artist", 10, year)
+        top_albums = create_pandas_data_frame(parsed_items, "album", 10, year)
+        top_playlists = create_pandas_data_frame(parsed_items, "playlist_name", 10, year)
 
         top_table_data = {
             "year_month": year_month,
@@ -61,13 +80,30 @@ def handler(event, context):
             "items": parsed_items
         }
 
-        put(year_month, top_table_data)
-        return top_table_data
+        if year:
+            put(year, top_table_data)
+            if __name__ == "__main__":
+                # Have to save to local file because 6 MB Lambda limit. 
+                # May do S3 pre-signed URL later
+                with open("file.json", "w") as fp:
+                    json.dump(top_table_data , fp) 
+            return {'message': f'Successfully generated year report: {year}'}
+        else:
+            put(year_month, top_table_data)
+            return top_table_data
     else:
         return {"result": "No results for that month."}
 
 if __name__ == "__main__":
-    for i in range(1, 13):
-        year_month = '2023-{:02d}'.format(i)
-        event = {'queryStringParameters': {'year_month': year_month}}
+    loop = False
+    if loop:
+        for i in range(1, 13): 
+            year_month = '2023-{:02d}'.format(i)
+            event = {'queryStringParameters': {'year_month': year_month}}
+            items = handler(event, None)
+    else:
+        year_month = '2023-10'
+        year = '2023'
+        # event = {'queryStringParameters': {'year_month': year_month}}
+        event = {'queryStringParameters': {'year': year }}
         items = handler(event, None)
