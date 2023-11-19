@@ -43,7 +43,10 @@ def handler(event, context):
         pass
 
     if year:
-        items = list_monthly_items[0]
+        items = []
+        for monthly_items in list_monthly_items:
+            for i in monthly_items:
+                items.append(i)
     else:
         # If no query parameters
         try:
@@ -62,7 +65,7 @@ def handler(event, context):
         parsed_items = parse_items(items)
 
         top_devices = create_pandas_data_frame(parsed_items, "device", 10, year)
-        top_songs = create_pandas_data_frame(parsed_items, "song", 20, year)
+        top_songs = create_pandas_data_frame(parsed_items, "songID", 20, year)
         top_artists = create_pandas_data_frame(parsed_items, "artist", 10, year)
         top_albums = create_pandas_data_frame(parsed_items, "album", 10, year)
         top_playlists = create_pandas_data_frame(parsed_items, "playlist_name", 10, year)
