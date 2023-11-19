@@ -17,7 +17,7 @@ Resources:
         Variables:
           Table: !ImportValue spotify-tracker-sam-TableName
           Top: !ImportValue spotify-tracker-sam-TableNameTop
-          Artist: !ImportValue spotify-tracker-sam-artist-id
+          Artist: spotify-tracker-sam-artist-id
       Events:
         HttpApiEvent:
           Type: HttpApi
@@ -30,4 +30,4 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !ImportValue spotify-tracker-sam-TableNameTop
         - DynamoDBCrudPolicy:
-            TableName: !ImportValue spotify-tracker-sam-artist-id
+            TableName: spotify-tracker-sam-artist-id
