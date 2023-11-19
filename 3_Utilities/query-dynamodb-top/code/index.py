@@ -80,14 +80,21 @@ def handler(event, context):
             "items": parsed_items
         }
 
-        # put(year_month, top_table_data)
+        put(year_month, top_table_data)
         return top_table_data
     else:
         return {"result": "No results for that month."}
 
 if __name__ == "__main__":
-    year_month = '2023-10'
-    year = '2023'
-    # event = {'queryStringParameters': {'year_month': year_month}}
-    event = {'queryStringParameters': {'year': year }}
-    items = handler(event, None)
+    loop = False
+    if loop:
+        for i in range(1, 13): 
+            year_month = '2023-{:02d}'.format(i)
+            event = {'queryStringParameters': {'year_month': year_month}}
+            items = handler(event, None)
+    else:
+        year_month = '2023-10'
+        year = '2023'
+        event = {'queryStringParameters': {'year_month': year_month}}
+        # event = {'queryStringParameters': {'year': year }}
+        items = handler(event, None)
