@@ -97,6 +97,6 @@ def get_artist_id(artist):
     )
 
     if 'Item' in response:
-        return response['Item']['id']['S']
+        return response['Item']['artist_image']['S']
     else:
         return None

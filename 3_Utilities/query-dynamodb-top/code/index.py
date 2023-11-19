@@ -10,10 +10,10 @@ def handler(event, context):
     # Handle artist lookup. Don't feel like doing a separate API...
     try:
         artist = event['queryStringParameters']['artist']
-        artist_id = get_artist_id(artist)
-        print(artist, artist_id)
+        artist_image = get_artist_id(artist)
+        print(artist, artist_image)
         return {
-            'artist_id': artist_id
+            'artist_image': artist_image
         }
     except:
         pass
