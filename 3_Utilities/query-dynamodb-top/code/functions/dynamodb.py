@@ -99,3 +99,20 @@ def get_artist_id(artist):
         return response['Item']['artist_image']['S']
     else:
         return None
+
+
+
+def get_album_id(album_id):
+    response = client.get_item(
+        TableName=table_artist,
+        Key={
+            'artist': {
+                'S': artist,
+            }
+        }
+    )
+
+    if 'Item' in response:
+        return response['Item']['album_image']['S']
+    else:
+        return None
