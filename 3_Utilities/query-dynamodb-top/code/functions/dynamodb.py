@@ -95,4 +95,8 @@ def get_artist_id(artist):
             }
         }
     )
-    return response['Item']['id']['S']
+
+    if 'Item' in response:
+        return response['Item']['id']['S']
+    else:
+        return None

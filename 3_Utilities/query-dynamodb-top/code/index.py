@@ -1,7 +1,7 @@
 import os
 import json
 
-from functions.dynamodb import query, put, get
+from functions.dynamodb import query, put, get, get_artist_id
 from functions.utils import parse_items, parse_query_string_parameters, get_current_year_month, create_pandas_data_frame
 
 def handler(event, context):
@@ -11,7 +11,10 @@ def handler(event, context):
     try:
         artist = event['queryStringParameters']['artist']
         artist_id = get_artist_id(artist)
-        return artist_id
+        print(artist, artist_id)
+        return {
+            'artist_id': artist_id
+        }
     except:
         pass
 
