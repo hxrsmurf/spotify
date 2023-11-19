@@ -95,6 +95,6 @@ if __name__ == "__main__":
     else:
         year_month = '2023-10'
         year = '2023'
-        event = {'queryStringParameters': {'year_month': year_month}}
-        # event = {'queryStringParameters': {'year': year }}
+        # event = {'queryStringParameters': {'year_month': year_month}}
+        event = {'queryStringParameters': {'year': year }}
         items = handler(event, None)
