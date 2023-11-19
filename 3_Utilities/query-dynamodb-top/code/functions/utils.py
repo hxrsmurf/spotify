@@ -59,19 +59,12 @@ def parse_query_string_parameters(event):
 
 def create_pandas_data_frame(items, query_type='song', limit=10, year=None):
     df = pd.DataFrame(items)
-    df.pop('id')
-    df['count'] = df.groupby(query_type)[query_type].transform('size')
+
+    df['count'] = df.groupby(query_type)[query_type].transform('count')
     df.sort_values(by='count', ascending=False, inplace=True)
 
-    if query_type == 'song':
-        new_df = df[['artist', 'song', 'songID', 'album', 'count']].drop_duplicates()
-        if year:
-            temp_df = new_df.groupby(['song', 'artist', 'count'])['count'].sum().reset_index(name = "total")
-            temp_df.sort_values(by="total", ascending=False, inplace=True)
-            new_df = pd.merge(new_df, temp_df, how='left', left_on=['artist', 'song'], right_on = ['artist', 'song'])
-            new_df = new_df[['artist', 'song', 'total']].drop_duplicates()
-            new_df.rename(columns={'total': 'count'}, inplace=True)
-
+    if query_type == 'songID':
+        new_df = df[['artist', 'song', 'album', 'count']].drop_duplicates()
 
     if query_type == 'artist':
         new_df = df[['artist', 'year_month', 'count']].drop_duplicates()
