@@ -65,6 +65,8 @@ def create_pandas_data_frame(items, query_type='song'):
 
     if query_type == 'album':
         new_df = df[['album', 'albumID', 'year_month', 'count']].drop_duplicates()
+        new_df = new_df.groupby(['album']).first().reset_index()
+        new_df = new_df.sort_values(by='count', ascending=False)
 
     if query_type == 'playlist_name':
         new_df = df[['playlist_name', 'year_month', 'count']].drop_duplicates()
@@ -73,5 +75,6 @@ def create_pandas_data_frame(items, query_type='song'):
         new_df = df[['device', 'year_month', 'count']].drop_duplicates()
     
     print(query_type)
-    # print(new_df)
+    # with pd.option_context('display.min_rows', 20):
+    #     print(new_df)
     return json.loads(new_df.head(20).to_json(orient='records'))
